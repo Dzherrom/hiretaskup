@@ -1,1 +1,18 @@
-<h1> this is the home</h1>
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <link  rel="stylesheet" type="text/css" href="https://bootswatch.com/5/zephyr/bootstrap.min.css"/>
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    </head>
+    <body>
+        <h1>Welcome to the Home Page</h1>
+        <p>This is a simple home page.</p>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>
+
