@@ -7,12 +7,119 @@
         <link rel="stylesheet" href="{% static 'css/home.css' %}">
     </head>
     <body>
-        <h1>Welcome to the Home Page</h1>
-        <p>This is a simple home page.</p>
-        <main>
-            {% block content %}
-            {% endblock %}
-        </main>
+        <header>
+            <div class="header-container">
+                <div class="logo">
+                    <a href="#">
+                        <img src="{% static 'img/logo.png' %}" alt="HireTaskUp">
+                    </a>
+                </div>
+                <div class="mode-toggle">
+                    <img src="{% static 'img/moon.svg' %}" alt="Modo oscuro" id="mode-toggle-btn">
+                </div>
+                <nav>
+                    <ul class="menu">
+                        <li><a href="#">Use Case</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Enterprise Plans</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="main-container">
+            <div class="flex-container">
+                <div>
+                    <h1>Welcome to HireTaskUp</h1>
+                    <p>Your one-stop solution for all your virtual assistant needs.</p>
+                    <button class="btn btn-primary">Get Started</button>
+                </div>
+                <div>
+                    <image src="{% static 'img/hero.jpg' %}" alt="Hero Image" class="hero-image"></image>
+                </div>
+            </div>
+
+            <div class="trusted-container">
+                <div class="trusted">
+                    <h2>Trusted by:</h2>
+                    <img src="#" alt="Trusted 1" class="trusted-image">
+                    <img src="#" alt="Trusted 2" class="trusted-image">
+                    <img src="#" alt="Trusted 3" class="trusted-image">
+                </div>
+                <div class="trusted">
+                    <h2>Trusted by:</h2>
+                    <img src="#" alt="Trusted 4" class="trusted-image">
+                    <img src="#" alt="Trusted 5" class="trusted-image">
+                    <img src="#" alt="Trusted 6" class="trusted-image">
+            </div>
+            <div class="info-container">
+                <div class="info">
+                    <h2>Information</h2>
+                    <p>This is some information about the website.</p>
+                </div>
+                <div class="info">
+                    <h2>Information</h2>
+                    <p>This is some information about the website.</p>
+                </div>
+            </div>
+            <div class="assistant-container">
+                <div class="assistant">
+                    <h2>Assistant</h2>
+                    <p>This is some information about the assistant.</p>
+                </div>
+                <div class="assistant">
+                    <h2>Assistant</h2>
+                    <p>This is some information about the assistant.</p>
+                </div>
+            </div>
+            <div class="testimonies-container">
+                <div class="testimonies">
+                    <h2>Testimonies</h2>
+                    <p>This is some information about the testimonies.</p>
+                </div>
+                <div class="testimonies">
+                    <h2>Testimonies</h2>
+                    <p>This is some information about the testimonies.</p>
+                </div>
+            </div>
+            <div class="choose-container">
+                <div class="choose">
+                    <h2>Choose</h2>
+                    <p>This is some information about why you choose us.</p>
+                </div>
+            </div>
+            <div class="information-container">
+                <div class="information">
+                    <h2>Information</h2>
+                    <p>This is some information about the services we provide.</p>
+                </div>
+            </div>
+            <div class="reviews">
+                <h2>Reviews</h2>
+                <p>This is some information about the reviews.</p>
+            </div>
+            <div class="subscriptions">
+                <h2>Subscriptions</h2>
+                <p>This is some information about the subscriptions.</p>
+            </div>
+            <div class="more-virtual-assistant">
+                <h2>More Virtual Assistant</h2>
+                <p>This is some information about the virtual assistant services.</p>
+            </div>
+            <div class="faqs">
+                <h2>FAQs</h2>
+                <p>This is some information about the frequently asked questions.</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 My Website</p>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+
+        </div>
     </body>
 </html>
 

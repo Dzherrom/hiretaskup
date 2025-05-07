@@ -1,9 +1,70 @@
+header {
+    background-color: #696969;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: rgb(192, 255, 255);
+    background-color: rgb(215, 215, 215);
     display: flex; /* Hacemos el body un flex container */
     flex-direction: column; /* Ordenamos los elementos de arriba hacia abajo */
     min-height: 100vh; /* Asegura que la altura del body sea al menos la altura de la viewport */
+}
+
+nav {
+    display: flex; /* Use flexbox for the nav */ /* Align items to the right */
+    width: 100%; /* Ensure nav takes full width */
+}
+
+nav ul {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: left;
+    text-align: center;
+    list-style: none;
+    margin: 0;
+}
+
+nav ul li {
+    margin-right: 20px;
+    align-content: center; /* Space between items */
+}
+
+.logo img {
+    width: 5vh;
+}
+
+.mode-toggle img {
+    width: 3vh;
+    margin-left: 20px;
+}
+
+.menu {
+    position: relative;
+}
+
+.header-container {
+
+    display: flex; /* Asegura que los elementos dentro del contenedor también usen flexbox */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center; /* Centra verticalmente */
+}
+
+/*primer flex container*/
+
+.flex-container {
+    display: flex; /* Activa Flexbox */
+    flex-direction: row; /* Alinea los elementos en una fila (horizontalmente) */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center; /* Centra los elementos verticalmente */
+    gap: 20px; /* Espaciado entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    padding: 20px; /* Opcional: agrega espacio interno */
 }
