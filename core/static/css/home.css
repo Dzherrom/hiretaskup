@@ -117,3 +117,98 @@ nav ul li a {
     gap: 10px; /* Espaciado entre la imagen y el h5 */
     text-align: center; /* Centra el texto dentro del div */
 }
+
+/*testiomnios */
+
+.testimonies-container {
+    display: flex; /* Activa Flexbox */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    gap: 20px; /* Espaciado entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    padding: 20px; /* Espaciado interno opcional */
+}
+
+.testimonies {
+    display: flex; /* Activa Flexbox */
+    flex-direction: row; /* Alinea los elementos en una fila (horizontalmente) */
+    justify-content: space-between; /* Espacio entre el h2 y el general-card */
+    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+    gap: 20px; /* Espaciado entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.general-card {
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Alinea los elementos en una columna inicialmente */
+    gap: 10px; /* Espaciado entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.general-card img {
+    width: 50px; /* Ajusta el tamaño de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+    flex-shrink: 0; /* Evita que la imagen se reduzca */
+}
+
+.general-card p:first-of-type {
+    display: flex; /* Activa Flexbox */
+    align-items: center; /* Centra verticalmente la imagen y el texto */
+    gap: 10px; /* Espaciado entre la imagen y el texto */
+}
+
+.general-card h6,
+.general-card p:last-of-type {
+    display: inline-block; /* Muestra los elementos uno al lado del otro */
+    margin: 0 10px; /* Espaciado entre el h6 y el párrafo */
+}
+
+/* CSS para la tabla de por que deberias escogernos  */
+/* Contenedor principal que contiene las tablas */
+/* Contenedor principal que contiene las tablas */
+.assistant-container {
+    display: grid; /* Activa CSS Grid */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Crea columnas dinámicas */
+    gap: 20px; /* Espaciado entre las columnas y filas */
+    padding: 20px; /* Espaciado interno opcional */
+}
+
+/* Cada table-container */
+.table-container {
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Alinea los elementos dentro de cada table-container en una columna */
+    gap: 15px; /* Espaciado entre los elementos dentro de cada table-container */
+    background-color: #f9f9f9; /* Fondo opcional */
+    border: 1px solid #ddd; /* Borde opcional */
+    border-radius: 5px; /* Esquinas redondeadas opcionales */
+    padding: 10px; /* Espaciado interno */
+}
+
+/* Cada elemento dentro de table-container */
+.assistant {
+    display: flex; /* Activa Flexbox */
+    flex-direction: row; /* Alinea la imagen y el texto en una fila */
+    align-items: center; /* Centra los elementos verticalmente */
+    gap: 10px; /* Espaciado entre la imagen y el texto */
+    background-color: #fff; /* Fondo opcional */
+    border: 1px solid #ddd; /* Borde opcional */
+    border-radius: 5px; /* Esquinas redondeadas opcionales */
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.assistant img {
+    width: 50px; /* Ajusta el tamaño de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+    flex-shrink: 0; /* Evita que la imagen se reduzca */
+}
+
+.assistant h5 {
+    margin: 0; /* Elimina márgenes adicionales */
+    font-size: 1.2em; /* Ajusta el tamaño del título */
+}
+
+.assistant p {
+    margin: 5px 0 0; /* Espaciado entre el título y el párrafo */
+    line-height: 1.5; /* Mejora la legibilidad del texto */
+}
