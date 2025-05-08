@@ -36,6 +36,14 @@ nav ul li {
     align-content: center; /* Space between items */
 }
 
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
 .logo img {
     width: 5vh;
 }
@@ -62,9 +70,50 @@ nav ul li {
 .flex-container {
     display: flex; /* Activa Flexbox */
     flex-direction: row; /* Alinea los elementos en una fila (horizontalmente) */
-    justify-content: space-between; /* Espacio entre los elementos */
+    justify-content: center; /* Espacio entre los elementos */
     align-items: center; /* Centra los elementos verticalmente */
     gap: 20px; /* Espaciado entre los elementos */
     width: 100%; /* Asegura que ocupe todo el ancho */
     padding: 20px; /* Opcional: agrega espacio interno */
+}
+
+.main-container {
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Alinea los elementos en una columna (verticalmente) */
+    justify-content: center; /* Centra los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+    gap: 20px; /* Espaciado entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    padding: 20px; /* Espaciado interno opcional */
+    min-height: 100vh; /* Asegura que ocupe al menos la altura de la ventana */
+}
+
+.info-container {
+    display: flex; /* Activa Flexbox */
+    justify-content: space-between; /* Espacio entre info-text e info-icons */
+    align-items: center; /* Centra verticalmente los elementos */
+    gap: 20px; /* Espaciado entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    padding: 20px; /* Espaciado interno opcional */
+}
+
+.info-text {
+    flex: 1; /* Ocupa el espacio disponible a la izquierda */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.info-icons {
+    display: flex; /* Activa Flexbox */
+    flex-direction: row; /* Alinea los divs padres uno al lado del otro */
+    gap: 20px; /* Espaciado entre los divs padres */
+    flex: 1; /* Ocupa el espacio disponible a la derecha */
+    justify-content: center; /* Centra los divs padres horizontalmente */
+}
+
+.info-icons > div {
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Alinea los hijos (imagen y h5) en columna */
+    align-items: center; /* Centra los hijos horizontalmente */
+    gap: 10px; /* Espaciado entre la imagen y el h5 */
+    text-align: center; /* Centra el texto dentro del div */
 }

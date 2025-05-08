@@ -1,6 +1,9 @@
 #virtual env
 venv
+
 #cache files
 hiretaskup/__pycache__
 core/migrations/
 core/__pycache__
+
+stripe.txt
