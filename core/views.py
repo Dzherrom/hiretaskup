@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Crud
+from django.http import Http404
 
 # Create your views here.
 
@@ -26,6 +27,30 @@ def register(request):
         address=address,
         password=password
     )
+    return redirect('/crud/')
+
+def edit(request, id):
+    crud = Crud.objects.get(id=id)
+    return render(request, 'edit.html', {'crud': crud})
+
+def update(request):
+    id = request.POST['id']
+    last_name = request.POST['last_name']
+    first_name = request.POST['first_name']
+    email = request.POST['email']
+    phone = request.POST['phone']
+    address = request.POST['address']
+    password = request.POST['password']
+
+    crud = Crud.objects.get(id=id)
+    crud.last_name = last_name
+    crud.first_name = first_name
+    crud.email = email
+    crud.phone = phone
+    crud.address = address
+    crud.password = password
+    crud.save()
+
     return redirect('/crud/')
 
 def delete(request, id):

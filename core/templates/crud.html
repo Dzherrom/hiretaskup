@@ -31,7 +31,7 @@
                         <input type="text" name="password" class="form-control" placeholder="Password" required>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        <button type="submit" class="btn btn-success mt-2">Submit</button>
                     </div>
                 </form>
             </div>
@@ -64,7 +64,7 @@
                         <td class="px-4">{{ c.phone }}</td>
                         <td class="px-4">{{ c.address }}</td>
                         <td class="px-4">{{ c.password }}</td>
-                        <td><a href="edit/{{c.email}}" class="btn btn-info">Edit</a></td>
+                        <td><a href="{% url 'edit' c.id %}" class="btn btn-primary">Edit</a></td>
                         <td><a href="{% url 'delete' c.id %}" class="btn btn-danger">Delete</a></td>
                     </tr>
                     {% endfor %}
