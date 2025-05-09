@@ -333,3 +333,83 @@ nav ul li a {
 .accordion-header.active .accordion-arrow {
     transform: rotate(180deg); /* Gira la flecha hacia arriba */
 }
+
+/* ESTILOS PARA REVIEWS */
+.reviews-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.reviews-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.reviews-slider {
+    display: flex;
+    gap: 20px; /* Espaciado entre las tarjetas */
+    overflow-x: auto; /* Habilita el desplazamiento horizontal */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    padding: 10px;
+    cursor: grab;
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+    max-width: 1200px; /* Ajusta el ancho máximo para mostrar 4 elementos */
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+.reviews-slider:active {
+    cursor: grabbing;
+}
+
+.review-card {
+    flex: 0 0 calc(25% - 20px); /* Cada tarjeta ocupa el 25% del ancho menos el gap */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: #f5c518;
+    font-size: 1.2rem;
+}
+
+.platform {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.review-footer {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.review-footer img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.review-footer h6 {
+    font-size: 1rem;
+    margin: 0;
+    color: #333;
+}
+
+.review-footer p {
+    font-size: 0.8rem;
+    color: #777;
+    margin: 0;
+}

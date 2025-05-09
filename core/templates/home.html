@@ -232,15 +232,109 @@
                     </div>
                 </div>
             </div>
-            <div class="information-container">
-                <div class="information">
-                    <h2>Information</h2>
-                    <p>This is some information about the services we provide.</p>
+            <div class="reviews-container">
+                <h2>Hundreds of Stellar Client Reviews</h2>
+                <p>TaskUp has been recognized as a top virtual assistant service provider by Clutch, Google, and other platforms.</p>
+                <div class="reviews-slider">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="stars">★★★★★</span>
+                            <span class="platform">Clutch</span>
+                        </div>
+                        <p>Overall, I have been very pleased with each aspect of hiring my Wing VA...</p>
+                        <div class="review-footer">
+                            <img src="{% static 'img/user.png' %}" alt="Christine Mulvey">
+                            <div>
+                                <h6>Christine Mulvey</h6>
+                                <p>Director of Marketing<br>charlesgate.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="stars">★★★★★</span>
+                            <span class="platform">Google</span>
+                        </div>
+                        <p>Amazing service! Excellent customer support and the work done by my assistant...</p>
+                        <div class="review-footer">
+                            <img src="{% static 'img/user.png' %}" alt="Chris Mullaly">
+                            <div>
+                                <h6>Chris Mullaly</h6>
+                                <p>Founder and Managing Partner<br>spiruscapitalpartners.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="stars">★★★★★</span>
+                            <span class="platform">Google</span>
+                        </div>
+                        <p>Wing provides exceptional Virtual Assistant services and an accompanying productivity platform...</p>
+                        <div class="review-footer">
+                            <img src="{% static 'img/user.png' %}" alt="Dylan Schiemann">
+                            <div>
+                                <h6>Dylan Schiemann</h6>
+                                <p>Co-Founder & CEO<br>livingspec.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                    <div class="review-header">
+                        <span class="stars">★★★★★</span>
+                        <span class="platform">Trustpilot</span>
+                    </div>
+                    <p>TaskUp has been a game-changer for our business. Their assistants are professional, reliable, and always go the extra mile.</p>
+                    <div class="review-footer">
+                        <img src="{% static 'img/user.png' %}" alt="Alex Johnson">
+                        <div>
+                            <h6>Alex Johnson</h6>
+                            <p>CEO<br>innovatech.com</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="reviews">
-                <h2>Reviews</h2>
-                <p>This is some information about the reviews.</p>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="stars">★★★★☆</span>
+                        <span class="platform">Yelp</span>
+                    </div>
+                    <p>Great service! The assistant helped me organize my schedule and manage my emails efficiently. Highly recommend!</p>
+                    <div class="review-footer">
+                        <img src="{% static 'img/user.png' %}" alt="Sophia Lee">
+                        <div>
+                            <h6>Sophia Lee</h6>
+                            <p>Marketing Manager<br>brightideas.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="stars">★★★★★</span>
+                        <span class="platform">Facebook</span>
+                    </div>
+                    <p>Exceptional service! My assistant has been instrumental in streamlining our operations and improving productivity.</p>
+                    <div class="review-footer">
+                        <img src="{% static 'img/user.png' %}" alt="Michael Brown">
+                        <div>
+                            <h6>Michael Brown</h6>
+                            <p>Operations Director<br>streamlinecorp.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="stars">★★★★☆</span>
+                        <span class="platform">Google</span>
+                    </div>
+                    <p>Very satisfied with the service. The assistant is proactive and always ready to help with any task I need.</p>
+                    <div class="review-footer">
+                        <img src="{% static 'img/user.png' %}" alt="Emily Davis">
+                        <div>
+                            <h6>Emily Davis</h6>
+                            <p>Freelancer<br>emilydavis.com</p>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
             <div class="subscriptions">
                 <h2>Subscriptions</h2>
@@ -263,28 +357,9 @@
                 <li><a href="#">Contact Us</a></li>
             </ul>
         </div>
-        <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const accordionHeaders = document.querySelectorAll(".accordion-header");
-
-    accordionHeaders.forEach(header => {
-        header.addEventListener("click", function () {
-            const content = this.nextElementSibling;
-
-            // Alternar la clase "active" para la flecha
-            this.classList.toggle("active");
-
-            // Alternar la altura máxima del contenido
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null; // Cierra el contenido
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px"; // Abre el contenido
-            }
-        });
-    });
-});
-        </script>
-    </body>
+        <script src="{% static 'js/reviews-slider.js' %}"></script>
+        <script src="{% static 'js/accordion.js' %}"></script>
+</body>
 </html>
 
 
