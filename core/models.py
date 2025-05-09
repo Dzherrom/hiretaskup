@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Crud(models.Model):
+    id = models.AutoField(primary_key=True)
     last_name = models.CharField(max_length=100, default="No Last Name")
     first_name = models.CharField(max_length=100, default="No First Name")
     email = models.EmailField(unique=True, default="No Email")

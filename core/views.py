@@ -28,7 +28,11 @@ def register(request):
     )
     return redirect('/crud/')
 
-def delete(request, email):
-    crud = Crud.objects.get(email=email)
-    crud.delete()
+def delete(request, id):
+    try:    
+        crud = Crud.objects.get(id=id)
+        crud.delete()
+    except Crud.DoesNotExist:
+        raise Http404("Object not found")
+    
     return redirect('/crud/')
