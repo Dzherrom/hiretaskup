@@ -6,7 +6,7 @@ class Crud(models.Model):
     last_name = models.CharField(max_length=100, default="No Last Name")
     first_name = models.CharField(max_length=100, default="No First Name")
     email = models.EmailField(unique=True, default="No Email")
-    phone = models.CharField(max_length=9, unique=True, default="No Phone")
+    phone = models.CharField(max_length=10, unique=True, default="No Phone")
     address = models.TextField(default="No Address")
     password = models.CharField(max_length=128, default="No Password")
     
