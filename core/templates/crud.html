@@ -47,6 +47,7 @@
                         <th class="px-4">Phone</th>
                         <th class="px-4">Address</th>
                         <th class="px-4">Password</th>
+                        <th colspan="2">Options</th>
                     </tr> 
                 </thead>
                 <tbody>
@@ -58,6 +59,8 @@
                         <td class="px-4">{{ c.phone }}</td>
                         <td class="px-4">{{ c.address }}</td>
                         <td class="px-4">{{ c.password }}</td>
+                        <td><a href="edit/{{c.email}}" class="btn btn-info">Edit</a></td>
+                        <td><a href="delete/{{c.email}}" class="btn btn-danger">Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
