@@ -270,3 +270,66 @@ nav ul li a {
     gap: 20px; /* Espaciado entre los elementos */
     padding: 20px; /* Espaciado interno opcional */
 }
+
+/* Estilo para el acordeon */
+/* Estilo general del accordion */
+.accordion {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Estilo para cada elemento del accordion */
+.accordion-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para el contenido del acordeón */
+.accordion-content {
+    max-height: 0; /* Oculta el contenido inicialmente */
+    overflow: hidden; /* Oculta el contenido que excede el contenedor */
+    transition: max-height 0.3s ease-out; /* Transición suave */
+    padding: 0 15px; /* Espaciado interno */
+    background-color: #fff;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Estilo para el botón del encabezado */
+.accordion-header {
+    display: flex;
+    justify-content: space-between; /* Espacio entre el texto y la flecha */
+    align-items: center;
+    width: 100%;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+    background-color: #eaeaea;
+}
+
+/* Estilo para la flecha */
+.accordion-arrow {
+    transition: transform 0.3s ease; /* Transición suave para la rotación */
+}
+
+/* Rotación de la flecha cuando el acordeón está abierto */
+.accordion-header.active .accordion-arrow {
+    transform: rotate(180deg); /* Gira la flecha hacia arriba */
+}
