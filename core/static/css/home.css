@@ -10,7 +10,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: rgb(215, 215, 215);
+    background-color: rgb(255, 255, 255);
     display: flex; /* Hacemos el body un flex container */
     flex-direction: column; /* Ordenamos los elementos de arriba hacia abajo */
     min-height: 100vh; /* Asegura que la altura del body sea al menos la altura de la viewport */
@@ -178,8 +178,8 @@ nav ul li a {
     display: flex; /* Activa Flexbox */
     flex-direction: column; /* Alinea los elementos dentro de cada table-container en una columna */
     gap: 15px; /* Espaciado entre los elementos dentro de cada table-container */
-    background-color: #f9f9f9; /* Fondo opcional */
-    border: 1px solid #ddd; /* Borde opcional */
+    background-color: #f9f9f900; /* Fondo opcional */
+    border: 1px solid #dddddd00; /* Borde opcional */
     border-radius: 5px; /* Esquinas redondeadas opcionales */
     padding: 10px; /* Espaciado interno */
 }
@@ -190,7 +190,7 @@ nav ul li a {
     flex-direction: row; /* Alinea la imagen y el texto en una fila */
     align-items: center; /* Centra los elementos verticalmente */
     gap: 10px; /* Espaciado entre la imagen y el texto */
-    background-color: #fff; /* Fondo opcional */
+    background-color: #ffffff00; /* Fondo opcional */
     border: 1px solid #ddd; /* Borde opcional */
     border-radius: 5px; /* Esquinas redondeadas opcionales */
     padding: 10px; /* Espaciado interno */
@@ -211,4 +211,62 @@ nav ul li a {
 .assistant p {
     margin: 5px 0 0; /* Espaciado entre el título y el párrafo */
     line-height: 1.5; /* Mejora la legibilidad del texto */
+}
+
+/*testimonios */
+/* Estilo para el contenedor de la tarjeta de testimonio */
+.testimony-card {
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Alinea los elementos en una columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    background-color: #f9f9f9; /* Fondo claro */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 10px; /* Esquinas redondeadas */
+    padding: 20px; /* Espaciado interno */
+    max-width: 400px; /* Ancho máximo */
+    margin: 0 auto; /* Centra la tarjeta horizontalmente */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    text-align: center; /* Centra el texto */
+}
+
+/* Estilo para la imagen de comillas */
+.testimony-card img {
+    width: 40px; /* Tamaño de la imagen */
+    height: auto; /* Mantiene la proporción */
+    margin-bottom: 15px; /* Espaciado debajo de la imagen */
+}
+
+/* Estilo para el texto del testimonio */
+.testimony-card p {
+    font-size: 1rem; /* Tamaño de fuente */
+    line-height: 1.5; /* Altura de línea para mejor legibilidad */
+    color: #333; /* Color del texto */
+    margin-bottom: 15px; /* Espaciado debajo del texto */
+}
+
+/* Estilo para el nombre del cliente */
+.testimony-card h6 {
+    font-size: 1.1rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    color: #555; /* Color del texto */
+    margin-bottom: 5px; /* Espaciado debajo del nombre */
+}
+
+/* Estilo para el cargo y empresa */
+.testimony-card p:last-of-type {
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+    color: #777777; /* Color gris claro */
+    margin: 0; /* Sin margen adicional */
+}
+
+/* estilo para la seccion de choose us */
+.choose-container {
+    text-align: center; /* Centra el texto horizontalmente */
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Alinea los elementos en una columna */
+    justify-content: center; /* Centra los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+    gap: 20px; /* Espaciado entre los elementos */
+    padding: 20px; /* Espaciado interno opcional */
 }
