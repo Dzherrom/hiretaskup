@@ -8,23 +8,23 @@
     </head>
     <body>
         <header>
-            <div class="header-container">
-                <div class="logo">
-                    <a href="#">
-                        <img src="{% static 'img/logo.png' %}" alt="HireTaskUp">
+             <div class="header-container">
+                <div class="left-section">
+                    <a href="#" class="logo">
+                        <img src="{% static 'img/logo.png' %}" alt="TaskUp">
                     </a>
+                    <nav>
+                        <ul class="menu">
+                            <li><a href="#">Inicio</a></li>
+                            <li><a href="#">Servicios</a></li>
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Contacto</a></li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="mode-toggle">
-                    <img src="{% static 'img/moon.svg' %}" alt="Modo oscuro" id="mode-toggle-btn">
+                <div class="right-section">
+                    <button class="btn btn-primary">Log In</button>
                 </div>
-                <nav>
-                    <ul class="menu">
-                        <li><a href="#">Use Case</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Enterprise Plans</a></li>
-                    </ul>
-                </nav>
             </div>
         </header>
         <div class="main-container">
@@ -337,16 +337,112 @@
                 </div>
             </div>
             <div class="subscriptions">
-                <h2>Subscriptions</h2>
-                <p>This is some information about the subscriptions.</p>
+                <div class="subscriptions-container">
+                    <div class="help-section">
+                        <h3>Need help?</h3>
+                        <div class="help-option">
+                            <img src="{% static 'img/calendar-icon.png' %}" alt="Book a Meeting">
+                            <div>
+                                <h5>Book a Meeting</h5>
+                                <p>Book anytime, today, or this week</p>
+                            </div>
+                        </div>
+                        <div class="help-option">
+                            <img src="{% static 'img/chat-icon.png' %}" alt="Live Chat">
+                            <div>
+                                <h5>Live Chat</h5>
+                                <p>Available between 6 to 9 PM PST weekdays</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plans-section">
+                        <div class="plan-card">
+                            <h4>GVA Full-Time</h4>
+                            <span class="badge">16% SAVINGS</span>
+                            <h2>$1099/Month</h2>
+                            <button class="btn btn-primary">Sign Up</button>
+                            <ul>
+                                <li>160 Hours per month</li>
+                                <li>Dedicated Virtual Assistant</li>
+                                <li>Free replacement</li>
+                                <li>Customer Success Manager</li>
+                                <li>Rigorous quality control and supervision</li>
+                                <li>Wing Workspace App</li>
+                                <li>Your timezone - Any hours you want</li>
+                                <li>Share with colleagues</li>
+                                <li>Unlimited file sharing/storage</li>
+                            </ul>
+                        </div>
+                        <div class="plan-card">
+                            <h4>GVA Part-Time</h4>
+                            <h2>$699/Month</h2>
+                            <button class="btn btn-primary">Sign Up</button>
+                            <ul>
+                                <li>80 Hours per month</li>
+                                <li>Dedicated Virtual Assistant</li>
+                                <li>Free replacement</li>
+                                <li>Customer Success Manager</li>
+                                <li>Rigorous quality control and supervision</li>
+                                <li>Wing Workspace App</li>
+                                <li>Your timezone - Choose from designated slots</li>
+                                <li>Sharing is limited</li>
+                                <li>10 GB file sharing/storage limit</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="more-virtual-assistant">
-                <h2>More Virtual Assistant</h2>
-                <p>This is some information about the virtual assistant services.</p>
+            <div class="virtual-assistant">
             </div>
             <div class="faqs">
-                <h2>FAQs</h2>
-                <p>This is some information about the frequently asked questions.</p>
+                <div class="faqs-container">
+                    <h2>Popular Questions:</h2>
+                    <div class="faq">
+                        <button class="faq-header">
+                            <span class="faq-icon">+</span>
+                            Is my Wing Assistant dedicated?
+                        </button>
+                        <div class="faq-content">
+                            <p>Yes, your Wing Assistant only works on your tasks during the agreed-upon hours.</p>
+                        </div>
+                    </div>
+                    <div class="faq">
+                        <button class="faq-header">
+                            <span class="faq-icon">+</span>
+                            What hours will my assistant work?
+                        </button>
+                        <div class="faq-content">
+                            <p>Your assistant will work during the hours you specify when setting up your plan.</p>
+                        </div>
+                    </div>
+                    <div class="faq">
+                        <button class="faq-header">
+                            <span class="faq-icon">+</span>
+                            Can I access Wing Assistant worldwide?
+                        </button>
+                        <div class="faq-content">
+                            <p>Yes, Wing Assistants are available globally and can work remotely from anywhere.</p>
+                        </div>
+                    </div>
+                    <div class="faq">
+                        <button class="faq-header">
+                            <span class="faq-icon">+</span>
+                            What does "unlimited work" mean?
+                        </button>
+                        <div class="faq-content">
+                            <p>Unlimited work means you can assign as many tasks as you want, within the agreed-upon hours.</p>
+                        </div>
+                    </div>
+                    <div class="faq">
+                        <button class="faq-header">
+                            <span class="faq-icon">+</span>
+                            Do you provide 24/7 coverage?
+                        </button>
+                        <div class="faq-content">
+                            <p>Yes, we offer 24/7 coverage with assistants working in shifts to meet your needs.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -359,6 +455,7 @@
         </div>
         <script src="{% static 'js/reviews-slider.js' %}"></script>
         <script src="{% static 'js/accordion.js' %}"></script>
+        <script src="{% static 'js/faqs.js' %}"></script>
 </body>
 </html>
 

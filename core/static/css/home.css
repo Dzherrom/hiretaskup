@@ -1,9 +1,88 @@
+/* Header */
 header {
-    background-color: #696969;
+    background-color: #f9f9f9;
     padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Sección izquierda: Logo y menú */
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo img {
+    width: 120px; /* Ajusta el tamaño del logo */
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #3c3c3c;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #007bff; /* Cambia el color al pasar el mouse */
+}
+
+/* Sección derecha: Botón de Log In */
+.right-section {
+    display: flex;
+    align-items: center;
+}
+
+.right-section .btn {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.right-section .btn:hover {
+    background-color: #0056b3;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #007bff; /* Cambia el color al pasar el mouse */
 }
 
 body {
@@ -14,34 +93,6 @@ body {
     display: flex; /* Hacemos el body un flex container */
     flex-direction: column; /* Ordenamos los elementos de arriba hacia abajo */
     min-height: 100vh; /* Asegura que la altura del body sea al menos la altura de la viewport */
-}
-
-nav {
-    display: flex; /* Use flexbox for the nav */ /* Align items to the right */
-    width: 100%; /* Ensure nav takes full width */
-}
-
-nav ul {
-    display: flex;
-    flex: 1;
-    width: 100%;
-    justify-content: left;
-    text-align: center;
-    list-style: none;
-    margin: 0;
-}
-
-nav ul li {
-    margin-right: 20px;
-    align-content: center; /* Space between items */
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
 .logo img {
@@ -412,4 +463,234 @@ nav ul li a {
     font-size: 0.8rem;
     color: #777;
     margin: 0;
+}
+
+/* Subscriptions */
+/* Contenedor principal */
+.subscriptions-container {
+    display: flex;
+    gap: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de ayuda */
+.help-section {
+    flex: 1;
+    background-color: #eaf3ff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+}
+
+.help-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.help-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.help-option img {
+    width: 40px;
+    height: 40px;
+}
+
+.help-option h5 {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.help-option p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Sección de planes */
+.plans-section {
+    flex: 2;
+    display: flex;
+    gap: 20px;
+}
+
+.plan-card {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.plan-card h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.plan-card .badge {
+    display: inline-block;
+    background-color: #eaf3ff;
+    color: #007bff;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.plan-card h2 {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.plan-card button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.plan-card button:hover {
+    background-color: #0056b3;
+}
+
+.plan-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.plan-card ul li {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.plan-card ul li::before {
+    content: "✔";
+    color: #007bff;
+    margin-right: 10px;
+}
+
+/* FAQ */
+/* Contenedor principal de FAQ */
+.faqs-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.faqs-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Estilo para cada FAQ */
+.faq {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón del encabezado */
+.faq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-header:hover {
+    background-color: #eaeaea;
+}
+
+/* Ícono dinámico */
+.faq-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+/* Contenido del FAQ */
+.faq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding: 0 15px;
+    background-color: #fff;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.faq-content p {
+    margin: 10px 0;
+}
+
+/* Rotación del ícono cuando está abierto */
+.faq-header.active .faq-icon {
+    transform: rotate(45deg); /* Cambia el "+" a "x" */
+}
+
+/* Footer */
+.footer {
+    background-color: #f9f9f9;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+    color: #0056b3;
 }
