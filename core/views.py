@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Crud
 from django.http import Http404
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -19,13 +20,15 @@ def register(request):
     address = request.POST['address']
     password = request.POST['password']
 
+    hashed_password = make_password(password)
+
     crud = Crud.objects.create(
         last_name=last_name,
         first_name=first_name,
         email=email,
         phone=phone,
         address=address,
-        password=password
+        password=hashed_password
     )
     return redirect('/crud/')
 
@@ -48,7 +51,7 @@ def update(request):
     crud.email = email
     crud.phone = phone
     crud.address = address
-    crud.password = password
+    crud.password = make_password(password)
     crud.save()
 
     return redirect('/crud/')
