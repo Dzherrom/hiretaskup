@@ -22,9 +22,18 @@
                         </ul>
                     </nav>
                 </div>
+                {% if request.user.is_authenticated %}
                 <div class="right-section">
-                    <button class="btn btn-primary">Log In</button>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Log Out</button>
+                    </form>
                 </div>
+                {% else %}
+                <div class="right-section">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
+                </div>
+                {% endif %}
             </div>
         </header>
         <div class="main-container">
