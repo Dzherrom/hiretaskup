@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html', {'user_is_authenticated': request.user.is_authenticated})
+    return render(request, 'home/home.html', {'user_is_authenticated': request.user.is_authenticated})
 
 def register_view(request):
     if request.method == 'POST':
@@ -17,7 +17,7 @@ def register_view(request):
             return redirect('home')  # Redirige a la página principal
     else:
         form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'auth/register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -28,9 +28,9 @@ def login_view(request):
             return redirect('home')  # Redirige a la página principal
     else:
         form = CustomAuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'auth/login.html', {'form': form})
 
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirige al inicio de sesión
+    return redirect('login')  # Redirige al inicio de sesión 

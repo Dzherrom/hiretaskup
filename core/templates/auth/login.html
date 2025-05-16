@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock extra_css %}
+{% block content %}
+<div class="login-main-container">
+    <div class="login-form-wrapper">
+        <div class="login-card">
+            <h2 class="login-title">Iniciar Sesión</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            <div class="login-register-link">
+                <span>¿No tienes cuenta?</span>
+                <a href="{% url 'register' %}">Regístrate</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

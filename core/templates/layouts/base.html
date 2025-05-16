@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hire TaskUp</title>
+        <link  rel="stylesheet" type="text/css" href="https://bootswatch.com/5/zephyr/bootstrap.min.css"/>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% block extra_css %}{% endblock extra_css %}
+    </head>
+    <body>
+        <header>
+             <div class="header-container">
+                <div class="left-section">
+                    <a href="#" class="logo">
+                        <img src="{% static 'img/logo.png' %}" alt="TaskUp">
+                    </a>
+                    <nav>
+                        <ul class="menu">
+                            <li><a href="#">Inicio</a></li>
+                            <li><a href="#">Servicios</a></li>
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Contacto</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="right-section">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Log Out</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="right-section">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+        {% block content %}
+        {% endblock content %}
+        <div class="footer">
+            <p>&copy; 2025 My Website</p>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+        <script src="{% static 'js/reviews-slider.js' %}"></script>
+        <script src="{% static 'js/accordion.js' %}"></script>
+        <script src="{% static 'js/faqs.js' %}"></script>
+</body>
+</html>

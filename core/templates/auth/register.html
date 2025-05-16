@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<div class="register-main-container">
+    <div class="register-form-wrapper">
+        <div class="register-card">
+            <h2 class="register-title">Registrarse</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="register-btn">Registrar</button>
+            </form>
+            <div class="register-login-link">
+                <span>¿Ya tienes cuenta?</span>
+                <a href="{% url 'login' %}">Inicia sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
