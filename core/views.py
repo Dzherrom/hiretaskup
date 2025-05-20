@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.http import HttpResponseRedirect
+from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
-from .models import Crud
+from .models import CustomUser
 from django.http import Http404
 from django.contrib.auth.hashers import make_password
 
@@ -40,59 +41,72 @@ def logout_view(request):
     logout(request)
     return redirect('login')  # Redirige al inicio de sesión 
 
-def crud(request):
-    list = Crud.objects.all()
-    return render(request, 'crud.html', {'list': list})
+### CustomUser CUSTOM USER ###
+@login_required
+def user_profile(request):
+    if request.method == 'POST':
+        user = request.user
+        user.last_name = request.POST['last_name']
+        user.first_name = request.POST['first_name']
+        user.email = request.POST['email']
+        user.phone_number = request.POST['phone_number']
+        user.address = request.POST['address']
+        password = make_password(request.POST['password'])
+        if password:
+            user.password = make_password(password)
+        user.save()
+        return redirect('user_profile')
+    return render(request, 'user/user_profile.html', {'user': request.user})
 
-def register(request):
-    last_name = request.POST['last_name']
-    first_name = request.POST['first_name']
-    email = request.POST['email']
-    phone = request.POST['phone']
-    address = request.POST['address']
-    password = request.POST['password']
+@login_required
+def user_list(request):
+    list = CustomUser.objects.all()
+    return render(request, 'user/custom_user.html', {'list': list})
 
-    hashed_password = make_password(password)
+@login_required
+def user_create(request):
+    if request.method == 'POST':
+        last_name = request.POST['last_name']
+        first_name = request.POST['first_name']
+        email = request.POST['email']
+        phone_number = request.POST['phone_number']
+        address = request.POST['address']
+        password = request.POST['password']
 
-    crud = Crud.objects.create(
-        last_name=last_name,
-        first_name=first_name,
-        email=email,
-        phone=phone,
-        address=address,
-        password=hashed_password
-    )
-    return redirect('/crud/')
+        hashed_password = make_password(password)
 
-def edit(request, id):
-    crud = Crud.objects.get(id=id)
-    return render(request, 'edit.html', {'crud': crud})
+        CustomUser = CustomUser.objects.create(
+            last_name=last_name,
+            first_name=first_name,
+            email=email,
+            phone_number=phone_number,
+            address=address,
+            password=hashed_password
+        )
+        return redirect('user_list')
+    return(request, 'user/user_create.html', {'custom_user': CustomUser})
 
-def update(request):
-    id = request.POST['id']
-    last_name = request.POST['last_name']
-    first_name = request.POST['first_name']
-    email = request.POST['email']
-    phone = request.POST['phone']
-    address = request.POST['address']
-    password = request.POST['password']
+@login_required
+def user_edit(request, id):
+    user = get_object_or_404(CustomUser, id=id)
+    if request.method == 'POST':
+        user.last_name = request.POST['last_name']
+        user.first_name = request.POST['first_name']
+        user.email = request.POST['email']
+        user.phone_number = request.POST['phone_number']
+        user.address = request.POST['address']
+        password = make_password(request.POST['password'])
+        if password:
+            user.password = make_password(password)
+        user.save()
+        return redirect('user_profile')
+    return render(request, 'user/user_edit.html', {'user': user})
 
-    crud = Crud.objects.get(id=id)
-    crud.last_name = last_name
-    crud.first_name = first_name
-    crud.email = email
-    crud.phone = phone
-    crud.address = address
-    crud.password = make_password(password)
-    crud.save()
+@login_required
+def user_delete(request, id):
+    user = get_object_or_404(CustomUser, id=id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('user_list')
+    return render(request, 'user/user_delete.html', {'user': user})
 
-    return redirect('/crud/')
-
-def delete(request, id):
-    try:    
-        crud = Crud.objects.get(id=id)
-        crud.delete()
-    except Crud.DoesNotExist:
-        raise Http404("Object not found")
-    
-    return redirect('/crud/')

@@ -1,0 +1,37 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+<div class="main-container">
+    <div class="container"> 
+        <div class="card-general" id="confirm-delete-modal">
+            <div class="body-dialog">
+                <div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmación de borrado</h4>
+                    </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de que desea borrar el usuario <strong>{{ user.username }}</strong>?</p>
+                </div>
+                <div class="form-group">
+                    <form method="POST" style="justify-items: center;">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="password">Confirma tu contraseña:</label>
+                            <input type="password" name="password" id="password" class="form-control" required>
+                        </div>
+                        {% if error %}
+                        <div style="margin: 15px; color: red;">
+                            {{ error }}
+                        </div>
+                        {% endif %}
+                        <div style="justify-items: center; display: flex; gap: 10px; margin-top: 20px;">
+                            <button type="submit" class="btn btn-danger" name="confirm_delete" value="yes">Borrar</button>
+                            <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

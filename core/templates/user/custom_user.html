@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Datos de tu usuario</h2>
+    <table class="table table-bordered table-striped mt-4">
+        <tbody>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <th>Apellido</th>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Correo electrónico</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td>{{ user.phone_number }}</td>
+            </tr>
+            <tr>
+                <th>Dirección</th>
+                <td>{{ user.address }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de usuario</th>
+                <td>{{ user.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
