@@ -92,12 +92,13 @@ def user_edit(request, id):
     if request.method == 'POST':
         user.last_name = request.POST['last_name']
         user.first_name = request.POST['first_name']
+        user.username = request.POST['username']
         user.email = request.POST['email']
         user.phone_number = request.POST['phone_number']
         user.address = request.POST['address']
-        password = make_password(request.POST['password'])
-        if password:
-            user.password = make_password(password)
+        new_password = request.POST['password']
+        if new_password:
+            user.password = make_password(new_password)
         user.save()
         return redirect('user_profile')
     return render(request, 'user/user_edit.html', {'user': user})
