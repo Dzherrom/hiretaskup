@@ -1,5 +1,113 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
+<div class="about-hero">
+    <div class="container">
+        <h5>VIRTUAL ASSISTANT SERVICES</h5>
+        <h1>No matter what you need,<br>we’ve got a plan</h1>
+        <p>
+            We offer 25+ distinct plans covering most functional areas of a business. All of our plans include a dedicated Part-time or Full-time Assistant, a dedicated customer success manager (CSM), and complimentary access to the Wing Workspace App.
+        </p>
+    </div>
+</div>
+
+<div class="about-main">
+    <!-- Talent Categories Accordion -->
+    <div class="about-categories" id="categoriesAccordion">
+        <h6>Talent Categories:</h6>
+        <div>
+            <div class="accordion-category active" data-category="productivity">Personal Productivity</div>
+            <div class="accordion-panel open">
+                Maximize your efficiency with dedicated assistants who manage personal tasks, scheduling, and executive support.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="hr">HR, Admin and Finance</div>
+            <div class="accordion-panel">
+                Streamline HR and finance operations with expert assistants for payroll, onboarding, and admin tasks.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="sales">Sales Development</div>
+            <div class="accordion-panel">
+                Boost your sales pipeline with assistants skilled in lead generation, outreach, and CRM management.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="marketing">Marketing</div>
+            <div class="accordion-panel">
+                Drive marketing success with assistants who manage content creation, campaign execution, and performance analysis—keeping your brand ahead of the curve.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="customer">Customer Service</div>
+            <div class="accordion-panel">
+                Enhance customer satisfaction with dedicated support for inquiries, complaints, and feedback.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="us">US-Based Talents</div>
+            <div class="accordion-panel">
+                Access top-tier US-based professionals for specialized business needs and compliance.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="healthcare">Healthcare</div>
+            <div class="accordion-panel">
+                Support your healthcare practice with assistants for appointment scheduling, billing, and patient follow-up.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="software">Software Developers</div>
+            <div class="accordion-panel">
+                Accelerate your tech projects with skilled software developers for web, mobile, and backend solutions.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="industry">Industry-specific Plans</div>
+            <div class="accordion-panel">
+                Find tailored solutions for your industry, from legal to logistics and everything in between.
+            </div>
+        </div>
+        <div>
+            <div class="accordion-category" data-category="realestate">Real Estate</div>
+            <div class="accordion-panel">
+                Manage listings, client communications, and paperwork with real estate virtual assistants.
+            </div>
+        </div>
+    </div>
+    <!-- Plans in selected category -->
+    <div class="about-plans" id="plansContent">
+        <!-- Default: Personal Productivity -->
+        <h6>Plans in selected category:</h6>
+        <ul>
+            <li>
+                <strong>General Virtual Assistant</strong>
+                <span>Manages complex personal and team calendars, and coordinate times for team meetings.</span>
+            </li>
+            <li>
+                <strong>Personal Assistant</strong>
+                <span>Manages your calendar both at work and outside of it.</span>
+            </li>
+        </ul>
+    </div>
+    <div class="about-fit" style="flex: 1; min-width: 260px;">
+        <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 8px;">
+            Worried about fit?<br>Speak with an Expert
+        </div>
+        <div style="color: #222; font-size: 1rem; margin-bottom: 18px;">
+            Our team is available 24/7 to learn about your business and guide you to the right solution.
+        </div>
+        <a href="#" style="color: #2196f3; font-weight: 600; text-decoration: none; font-size: 1.05em;">
+            Free Consultation &nbsp; &rarr;
+        </a>
+    </div>
+</div>
+
+<script src="{% static 'js/about.js' %}"></script>
 {% endblock content %}
