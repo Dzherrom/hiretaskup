@@ -111,3 +111,7 @@ def user_delete(request, id):
         return redirect('user_list')
     return render(request, 'user/user_delete.html', {'user': user})
 
+### ABOUT ###
+@login_required
+def about(request):
+    return render(request, 'home/about.html', {'user_is_authenticated': request.user.is_authenticated})
