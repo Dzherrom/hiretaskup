@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProfileForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
@@ -44,19 +44,19 @@ def logout_view(request):
 ### CustomUser CUSTOM USER ###
 @login_required
 def user_profile(request):
+    user = request.user
     if request.method == 'POST':
-        user = request.user
-        user.last_name = request.POST['last_name']
-        user.first_name = request.POST['first_name']
-        user.email = request.POST['email']
-        user.phone_number = request.POST['phone_number']
-        user.address = request.POST['address']
-        password = make_password(request.POST['password'])
-        if password:
-            user.password = make_password(password)
-        user.save()
-        return redirect('user_profile')
-    return render(request, 'user/user_profile.html', {'user': request.user})
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data.get('password')
+            if password:
+                user.set_password(password)
+            user.save()
+            return redirect('user_profile')
+    else:
+        form = ProfileForm(instance=user)
+    return render(request, 'user/user_profile.html', {'form': form, 'user': user})
 
 @login_required
 def user_list(request):
