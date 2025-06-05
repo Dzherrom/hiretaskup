@@ -22,7 +22,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = [
-            'username', 'email', 'phone_number', 'first_name', 'last_name', 'address','photo', 'password', 'verify_password'
+            'username', 'email', 'phone_number', 'first_name', 'last_name', 'address','website', 'photo', 'password', 'verify_password'
         ]
         widgets = {
             'address': forms.TextInput(),

@@ -52,8 +52,6 @@ def user_profile(request):
             password = form.cleaned_data.get('password')
             if password:
                 user.set_password(password)
-            if 'photo' in request.FILES:
-                user.photo = request.FILES['photo']
             user.save()
             return redirect('user_profile')
     else:

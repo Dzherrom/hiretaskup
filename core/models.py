@@ -10,6 +10,7 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(max_length=100, default="No First Name")
     address = models.TextField(default="No Address")
     photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    website = models.URLField(blank=True, null=True, default="https://example.com")
     
     def __str__(self):
         return self.first_name
