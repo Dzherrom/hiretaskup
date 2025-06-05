@@ -1,11 +1,21 @@
 {% extends "layouts/base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container" style="max-width:900px; margin:40px auto;">
     <div class="row">
         <div class="col-md-4">
             <div style="text-align:center;">
-                <img src="static/img/profile-icon-9.png" class="img-thumbnail" width="120" alt="Profile Photo">
+                {% if user.photo %}
+                    <img src="{{ user.photo.url }}" class="img-thumbnail" width="120" alt="Profile Photo">
+                {% else %}
+                    <img src="{% static 'img/profile-icon-9.png' %}" class="img-thumbnail" width="120" alt="Profile Photo">
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.photo }}
+                    <button type="submit" class="btn btn-primary btn-sm mt-2">Change Photo</button>
+                </form>
                 <h3>{{ user.first_name }} {{ user.last_name }}</h3>
                 <input type="file" name="photo" class="form-control mt-2" disabled>
                 <div class="mt-3">

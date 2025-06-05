@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=100, default="No Last Name")
     first_name = models.CharField(max_length=100, default="No First Name")
     address = models.TextField(default="No Address")
+    photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     
     def __str__(self):
         return self.first_name
