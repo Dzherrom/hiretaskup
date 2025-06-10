@@ -2,6 +2,10 @@
 {% load static %}
 {% load widget_tweaks %}
 
+{% block extra_js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="profile-container">
     <div class="profile-card">
@@ -31,48 +35,53 @@
         <div class="profile-main">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="profile-row">
-                    <div>
-                        <label>First name</label>
-                        {{ form.first_name|add_class:"profile-input" }}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="id_first_name">First name</label>
+                        {{ form.first_name|add_class:"form-control" }}
                     </div>
-                    <div>
-                        <label>Last name</label>
-                        {{ form.last_name|add_class:"profile-input" }}
-                    </div>
-                </div>
-                <div class="profile-row">
-                    <div>
-                        <label>Phone</label>
-                        {{ form.phone_number|add_class:"profile-input" }}
-                    </div>
-                    <div>
-                        <label>Email</label>
-                        {{ form.email|add_class:"profile-input" }}
+                    <div class="col-md-6">
+                        <label for="id_last_name">Last name</label>
+                        {{ form.last_name|add_class:"form-control" }}
                     </div>
                 </div>
-                <div class="profile-row">
-                    <div>
-                        <label>Address</label>
-                        {{ form.address|add_class:"profile-input" }}
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="id_country">Country</label>
+                        {{ form.country|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="id_phone_number">Phone</label>
+                        {{ form.phone_number|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="id_email">Email</label>
+                        {{ form.email|add_class:"form-control" }}
                     </div>
                 </div>
-                <div class="profile-row">
-                    <div>
-                        <label>Password</label>
-                        {{ form.password|add_class:"profile-input" }}
-                    </div>
-                    <div>
-                        <label>Verify</label>
-                        {{ form.verify_password|add_class:"profile-input" }}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="id_address">Address</label>
+                        {{ form.address|add_class:"form-control" }}
                     </div>
                 </div>
-                <div class="profile-actions">
-                    <button type="submit" class="btn-save">Save</button>
-                    <a href="{% url 'user_profile' %}" class="btn-reset">Reset</a>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="id_password">Password</label>
+                        {{ form.password|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_verify_password">Verify</label>
+                        {{ form.verify_password|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a href="{% url 'user_profile' %}" class="btn btn-secondary">Reset</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 {% endblock %}
