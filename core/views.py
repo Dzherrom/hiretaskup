@@ -14,6 +14,7 @@ from django.contrib.auth.hashers import make_password
 def home(request):
     return render(request, 'home/home.html', {'user_is_authenticated': request.user.is_authenticated})
 
+## AUTHENTICATION VIEWS ##
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -115,3 +116,9 @@ def user_delete(request, id):
 @login_required
 def about(request):
     return render(request, 'home/about.html', {'user_is_authenticated': request.user.is_authenticated})
+
+### PLANS ###
+@login_required
+def plans(request):
+    return render(request, 'plans/plans.html', {'user_is_authenticated': request.user.is_authenticated})
+    

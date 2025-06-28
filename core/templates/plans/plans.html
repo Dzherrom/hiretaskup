@@ -1,5 +1,102 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/plans.css' %}">
+{% endblock extra_css %}
 {% block content %}
+<div class="plans-container">
+    <div class="plans-header">
+        <h1>General Virtual Assistant</h1>
+        <a href="#" class="choose-plan">Choose Another Plan<span>&#9660;</span></a>
+    </div>
+    <div class="plans-cards">
+    <div class="plans-side">
+      <h3>Have Question?</h3>
+      <div class="plans-contact-card">
+        <img src="{% static 'img/schedule.png' %}" alt="Call" class="plans-icon">
+        <div>
+          <strong>Schedule a call</strong>
+          <p>Book anytime, today, or this week.</p>
+        </div>
+      </div>
+      <div class="plans-contact-card">
+        <img src="{% static 'img/live-chat.png' %}" alt="Chat" class="plans-icon">
+        <div>
+          <strong>Live Chat</strong>
+          <p>We are available between 6 AM to 9 PM weekdays.</p>
+        </div>
+      </div>
+    </div>
+    <div class="plans-main-card">
+      <div class="plans-type">Full-Time Assistant <span class="recommended">RECOMMENDED</span></div>
+      <div class="plans-price">$1099<span>/Month</span></div>
+      <button class="plans-btn primary">Get Your Assistant</button>
+      <ul>
+        <li>160 Hours per month</li>
+        <li>Dedicated Assistant</li>
+        <li>Customer Success Manager</li>
+        <li>Free training and onboarding</li>
+        <li>Rigorous quality control and supervision</li>
+        <li>Wing Task Management App</li>
+      </ul>
+    </div>
+    <div class="plans-main-card">
+      <div class="plans-type">Part-Time Assistant</div>
+      <div class="plans-price">$699<span>/Month</span></div>
+      <button class="plans-btn">Get Your Assistant</button>
+      <ul>
+        <li>80 Hours per month</li>
+        <li>Dedicated Assistant</li>
+        <li>Customer Success Manager</li>
+        <li>Free training and onboarding</li>
+        <li>Rigorous quality control and supervision</li>
+        <li>Wing Task Management App</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Testimonios -->
+<div class="testimonials-section">
+    <h2>Onboarding is smooth and easy</h2>
+    <div class="testimonials-cards">
+        <div class="testimonial-card">
+            <div class="testimonial-rating">
+                <span>★★★★★</span>
+            </div>
+            <p class="testimonial-text">
+                Overall, I have been very pleased with each aspect of hiring my Wing VA. We were looking at a variety of virtual assistant programs; what made us choose Wing was the fact that their talent had specific marketing experience... Working with Wing is seamless. They have a robust platform that makes communicating with our VA incredibly easy. It also helps that they act quickly and are incredibly responsive...
+            </p>
+            <div class="testimonial-footer">
+                <div class="testimonial-user">
+                    <img src="{% static 'img/user.png' %}" alt="Christine Mulvey">
+                    <div>
+                        <strong>Christine Mulvey</strong><br>
+                        <span>Director of Marketing, Charlesgate Real Estate</span>
+                    </div>
+                </div>
+                <a href="https://www.charlesgaterealty.com/" target="_blank">https://www.charlesgaterealty.com/</a>
+                <span class="testimonial-source">Clutch</span>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-rating">
+                <span>★★★★★</span>
+            </div>
+            <p class="testimonial-text">
+                Wing provides exceptional Virtual Assistant services and an accompanying productivity platform. Using Wing has been incredibly beneficial for our business, allowing us to explore some things in far more depth, or scale up some operations more effectively. Some of the benefits far exceed what you might expect from a virtual assistant in terms of capabilities and outside traditional administrative work.
+            </p>
+            <div class="testimonial-footer">
+                <div class="testimonial-user">
+                    <img src="{% static 'img/user.png' %}" alt="Dylan Schiemann">
+                    <div>
+                        <strong>Dylan Schiemann</strong><br>
+                        <span>Co-Founder &amp; CEO<br>Living Spec</span>
+                    </div>
+                </div>
+                <a href="https://www.livingspec.com/" target="_blank">https://www.livingspec.com/</a>
+                <span class="testimonial-source">Google</span>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

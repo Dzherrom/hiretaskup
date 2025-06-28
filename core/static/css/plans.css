@@ -1,0 +1,257 @@
+.plans-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #f8fbff;
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.plans-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.plans-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.choose-plan {
+  color: #2d9cfa;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.plans-cards {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.plans-side {
+  flex: 1;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  min-width: 220px;
+  max-width: 260px;
+}
+
+.plans-side h3 {
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.plans-contact-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f3f7fb;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.plans-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.plans-main-card {
+  flex: 1.2;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  margin: 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.plans-type {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.recommended {
+  background: #e6f4ff;
+  color: #2d9cfa;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 10px;
+  margin-left: 8px;
+}
+
+.plans-price {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2d9cfa;
+  margin-bottom: 8px;
+}
+
+.plans-price span {
+  font-size: 1rem;
+  color: #888;
+  font-weight: 400;
+}
+
+.plans-btn {
+  background: #fff;
+  color: #2d9cfa;
+  border: 2px solid #2d9cfa;
+  border-radius: 24px;
+  padding: 10px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.plans-btn.primary {
+  background: #2d9cfa;
+  color: #fff;
+}
+
+.plans-btn:hover {
+  background: #2d9cfa;
+  color: #fff;
+}
+
+.plans-btn.primary:hover {
+  background: #1769aa;
+  color: #fff;
+}
+
+.plans-main-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.plans-main-card ul li {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+  padding-left: 22px;
+  position: relative;
+}
+
+.plans-main-card ul li::before {
+  content: "✔";
+  color: #2d9cfa;
+  position: absolute;
+  left: 0;
+  font-size: 1.1rem;
+  top: 0;
+}
+.testimonials-section {
+    max-width: 1100px;
+    margin: 48px auto 0 auto;
+    padding: 0 24px 48px 24px;
+    text-align: center;
+}
+
+.testimonials-section h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: #222;
+}
+
+.testimonials-cards {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    padding: 32px 28px 24px 28px;
+    max-width: 480px;
+    min-width: 320px;
+    flex: 1 1 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+}
+
+.testimonial-rating span {
+    color: #f7b500;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.testimonial-text {
+    color: #444;
+    font-size: 1.05rem;
+    margin: 18px 0 28px 0;
+    text-align: left;
+}
+
+.testimonial-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.testimonial-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.testimonial-user img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e6e6e6;
+}
+
+.testimonial-user strong {
+    font-size: 1rem;
+    color: #222;
+}
+
+.testimonial-user span {
+    font-size: 0.92rem;
+    color: #888;
+}
+
+.testimonial-footer a {
+    color: #2d9cfa;
+    font-size: 0.97rem;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.testimonial-source {
+    font-weight: 700;
+    color: #888;
+    font-size: 1.05rem;
+    margin-left: 8px;
+}
