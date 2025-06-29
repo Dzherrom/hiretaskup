@@ -7,54 +7,92 @@
 <div class="plans-container">
     <div class="plans-header">
         <h1>General Virtual Assistant</h1>
-        <a href="#" class="choose-plan">Choose Another Plan<span>&#9660;</span></a>
+        <div class="choose-plan-dropdown-wrapper">
+            <a type="button" class="choose-plan" id="choosePlanBtn">
+                Choose Another Plan<span>&#9660;</span>
+            </a>
+        </div>
+    </div>
+    <div class="choose-plan-dropdown" id="choosePlanDropdown">
+        <button class="dropdown-plan-btn ">Full-Time 2X - Get Your Team</button>
+        <button class="dropdown-plan-btn ">Full-Time - Get Your Assistant</button>
+        <button class="dropdown-plan-btn ">Part-Time - Get Your Assistant</button>
     </div>
     <div class="plans-cards">
-    <div class="plans-side">
-      <h3>Have Question?</h3>
-      <div class="plans-contact-card">
-        <img src="{% static 'img/schedule.png' %}" alt="Call" class="plans-icon">
-        <div>
-          <strong>Schedule a call</strong>
-          <p>Book anytime, today, or this week.</p>
+        <div class="plans-side">
+            <h3>Have Question?</h3>
+            <div class="plans-contact-card">
+                <img src="{% static 'img/schedule.png' %}" alt="Call" class="plans-icon">
+                <div>
+                <strong>Schedule a call</strong>
+                <p>Book anytime, today, or this week.</p>
+                </div>
+            </div>
+            <div class="plans-contact-card">
+                <img src="{% static 'img/live-chat.png' %}" alt="Chat" class="plans-icon">
+                <div>
+                <strong>Live Chat</strong>
+                <p>We are available between 6 AM to 9 PM weekdays.</p>
+                </div>
         </div>
-      </div>
-      <div class="plans-contact-card">
-        <img src="{% static 'img/live-chat.png' %}" alt="Chat" class="plans-icon">
-        <div>
-          <strong>Live Chat</strong>
-          <p>We are available between 6 AM to 9 PM weekdays.</p>
-        </div>
-      </div>
     </div>
     <div class="plans-main-card">
-      <div class="plans-type">Full-Time Assistant <span class="recommended">RECOMMENDED</span></div>
-      <div class="plans-price">$1099<span>/Month</span></div>
-      <button class="plans-btn primary">Get Your Assistant</button>
-      <ul>
-        <li>160 Hours per month</li>
-        <li>Dedicated Assistant</li>
-        <li>Customer Success Manager</li>
-        <li>Free training and onboarding</li>
-        <li>Rigorous quality control and supervision</li>
-        <li>Wing Task Management App</li>
-      </ul>
+            <div class="plans-type">Full-Time 2X - Dedicated Team <span class="recommended">PREMIUM</span></div>
+            <div class="plans-price">$1,899<span>/Month</span></div>
+            <button class="plans-btn primary">Get Your Team</button>
+            <ul>
+                <li>80+ hours per week (2 dedicated assistants)</li>
+                <li>Fully customized schedule for your business</li>
+                <li>Everything in the Full-Time Plan, plus:</li>
+                <li>Exclusive team dedicated to your company</li>
+                <li>Complete management of specific projects</li>
+                <li>Training tailored to your requirements</li>
+                <li>Priority 24/7 support</li>
+                <li>Access to advanced productivity tools</li>
+            </ul>
+        </div>
+        <!-- Full-Time Plan -->
+        <div class="plans-main-card">
+            <div class="plans-type">Full-Time Assistant <span class="recommended">RECOMMENDED</span></div>
+            <div class="plans-price">$1,199<span>/Month</span></div>
+            <button class="plans-btn primary">Get Your Assistant</button>
+            <ul>
+                <li>40 hours per week (full-time)</li>
+                <li>Personalized schedule to your convenience</li>
+                <li>Everything in the Part-Time Plan, plus:</li>
+                <li>Customer support via phone</li>
+                <li>Advanced email management</li>
+                <li>Comprehensive social media management (posting, interaction)</li>
+                <li>Meeting organization and coordination</li>
+                <li>Additional executive support (reports, presentations, etc.)</li>
+                <li>Detailed daily reports</li>
+            </ul>
+        </div>
+        <!-- Part-Time Plan -->
+        <div class="plans-main-card">
+            <div class="plans-type">Part-Time Assistant</div>
+            <div class="plans-price">$799<span>/Month</span></div>
+            <button class="plans-btn">Get Your Assistant</button>
+            <ul>
+                <li>20 hours per week (part-time)</li>
+                <li>Flexible or fixed schedule as needed</li>
+                <li>Dedicated virtual assistant</li>
+                <li>Basic administrative assistance</li>
+                <li>Customer support via email and chat</li>
+                <li>Calendar and schedule management</li>
+                <li>Basic social media support</li>
+                <li>Weekly activity reports</li>
+            </ul>
+        </div>
     </div>
-    <div class="plans-main-card">
-      <div class="plans-type">Part-Time Assistant</div>
-      <div class="plans-price">$699<span>/Month</span></div>
-      <button class="plans-btn">Get Your Assistant</button>
-      <ul>
-        <li>80 Hours per month</li>
-        <li>Dedicated Assistant</li>
-        <li>Customer Success Manager</li>
-        <li>Free training and onboarding</li>
-        <li>Rigorous quality control and supervision</li>
-        <li>Wing Task Management App</li>
-      </ul>
-    </div>
-  </div>
 </div>
+<!-- BENEFICIOS -->
+ Beneficios Incluidos en Todos los Planes:
+Asistentes altamente capacitados y bilingües (Español-Inglés)
+Comunicación directa vía Slack, WhatsApp, Email o plataforma preferida
+Reemplazo inmediato si es necesario
+Facturación sencilla y transparente mediante Stripe
+Posibilidad de escalar el servicio según crecimiento de la empresa
 <!-- Testimonios -->
 <div class="testimonials-section">
     <h2>Onboarding is smooth and easy</h2>
@@ -94,9 +132,10 @@
                     </div>
                 </div>
                 <a href="https://www.livingspec.com/" target="_blank">https://www.livingspec.com/</a>
-                <span class="testimonial-source">Google</span>
+                <span class="testimonial-source">Fake Enterprise</span>
             </div>
         </div>
     </div>
 </div>
+<script src="{% static 'js/plans.js' %}"></script>
 {% endblock content %}
