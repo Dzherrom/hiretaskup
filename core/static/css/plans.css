@@ -1,5 +1,5 @@
 .plans-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 40px auto;
   background: #f8fbff;
   border-radius: 24px;
@@ -215,7 +215,7 @@
     max-width: 1100px;
     margin: 48px auto 0 auto;
     padding: 0 24px 48px 24px;
-    text-align: center;
+    text-align: center; 
 }
 
 .testimonials-section h2 {
@@ -224,7 +224,7 @@
     margin-bottom: 32px;
     color: #222;
 }
-
+ 
 .testimonials-cards {
     display: flex;
     gap: 32px;
