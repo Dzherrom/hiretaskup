@@ -84,6 +84,7 @@
 .plans-cards {
   display: flex;
   justify-content: space-between;
+  gap: 24px;
 }
 
 .plans-side {

@@ -122,3 +122,7 @@ def about(request):
 def plans(request):
     return render(request, 'plans/plans.html', {'user_is_authenticated': request.user.is_authenticated})
     
+### CONTACT ###
+@login_required
+def contact(request):
+    return render(request, 'home/contact.html', {'user_is_authenticated': request.user.is_authenticated})   

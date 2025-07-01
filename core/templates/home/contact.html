@@ -1,5 +1,275 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock extra_css %}
+
 {% block content %}
+<div class="consultation-banner">
+    Book a Consultation Today and Save $200. Ends June 30.
+</div>
+<div class="consultation-container">
+    <div class="consultation-left">
+        <div class="consultation-card">
+            <img src="{% static 'img/hero.png' %}" alt="TaskUp" class="consultation-logo">
+            <h2>TaskUp Specialists Are<br>Available 24/7<br>for Personalized Consultation</h2>
+            <p>Schedule a meeting and:</p>
+            <ul class="consultation-features">
+                <li>Tell us about your project</li>
+                <li>Learn about our recruitment process</li>
+                <li>Discover the TaskUp Workspace app</li>
+            </ul>
+            <div class="consultation-testimonial">
+                <div class="testimonial-header">
+                    <div>
+                        <strong>Dylan Schiemann</strong><br>
+                        <span>Co-founder &amp; CEO<br>livingspec.com</span>
+                    </div>
+                    <span class="testimonial-stars">★★★★★</span>
+                </div>
+                <p>
+                    TaskUp provides exceptional Virtual Assistant services and an accompanying productivity platform. Using TaskUp has been incredibly beneficial for our business, allowing us to explore some things in far more depth, or scale up some operations more effectively. Some of the benefits far exceed what you might expect from a virtual assistant in terms of capabilities and outside traditional administrative work.
+                </p>
+            </div>
+            <div class="consultation-rating">
+                Rated <span>★★★★★</span> on
+                <img src="{% static 'img/google.png' %}" alt="Google">
+                <img src="{% static 'img/goodfirms.png' %}" alt="GoodFirms">
+                <img src="{% static 'img/clutch.png' %}" alt="Clutch">
+                <img src="{% static 'img/producthunt.png' %}" alt="Product Hunt">
+            </div>
+        </div>
+    </div>
+    <div class="consultation-right">
+        <div class="calendar-card">
+            <h3>Select a Day</h3>
+            <input type="text" id="calendar" class="calendar-input" readonly>
+            <div class="timezone">
+                <span>Time zone</span>
+                <select id="timezone-select">
+                    <option value="America/Mexico_City">Mexico City Time ({{ now|date:"H:i" }})</option>
+                    <option value="America/New_York">New York</option>
+                    <option value="America/Los_Angeles">Los Angeles</option>
+                    <option value="Europe/Madrid">Madrid</option>
+                </select>
+            </div>
+        </div>
+        <div class="time-selection-card" id="timeSelectionCard" style="display:none;">
+            <button type="button" id="backToCalendar" class="back-btn">&#8592;</button>
+            <div class="selected-date-info">
+                <div class="selected-day" id="selectedDay"></div>
+                <div class="selected-date" id="selectedDate"></div>
+                <div class="selected-timezone">
+                    <span>Time zone</span>
+                    <span id="selectedTimezone"></span>
+                </div>
+            </div>
+            <hr>
+            <h3>Select a Time</h3>
+            <div class="duration">Duration: 20 min</div>
+            <div class="time-slots" id="timeSlots"></div>
+        </div>  
+        <div class="confirmation-form-card" id="confirmationFormCard" style="display:none;">
+    <button type="button" id="backToTimeSelection" class="back-btn">&#8592;</button>
+    <div class="confirmation-summary">
+        <h2>Chat with TaskUp Team</h2>
+        <div class="summary-details">
+            <div><span><img src="{% static 'img/clock.png' %}"></span> 20 min</div>
+            <div><span><img src="{% static 'img/calendar.png' %}"></span> <span id="summaryTime"></span></div>
+            <div><span><img src="{% static 'img/timezone.png' %}"></span> <span id="summaryTimezone"></span></div>
+        </div>
+        <div class="summary-description">
+            <button type="button" class="desc-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                <span style="font-size:1.2em;">&#9660;</span> Description
+            </button>
+            <div class="desc-content">
+                Welcome to TaskUp! We can get you started in just a few days! Looking forward to meeting you on our Google Meet call!
+            </div>
+        </div>
+    </div>
+    <form class="confirmation-form">
+        <h3>Enter Details</h3>
+        <label>Name *</label>
+        <input type="text" name="name" required>
+        <div class="error-msg" style="display:none;">Can't be blank.</div>
+        <label>Email *</label>
+        <input type="email" name="email" required>
+        <div class="error-msg" style="display:none;">Can't be blank.</div>
+        <button type="button" class="add-guests-btn" id="addGuestsBtn">Add Guests</button>
+        <div class="guests-field" id="guestsField" style="display:none;">
+            <label>Guest Email(s)</label>
+            <textarea name="guests" rows="2" maxlength="500"></textarea>
+            <div class="guests-hint">Notify up to 10 additional guests of the scheduled event.</div>
+        </div>
+        <label>What is one of the most important things that your TaskUp assistant will do for you?</label>
+        <textarea name="important" required></textarea>
+        <div class="error-msg" style="display:none;">Can't be blank.</div>
+        <label>What is your phone number? *</label>
+        <div class="phone-input">
+            <span class="flag">🇨🇴</span>
+            <input type="tel" name="phone" required>
+        </div>
+        <div class="error-msg" style="display:none;">Can't be blank.</div>
+        <label>Send text messages to</label>
+        <div class="phone-input">
+            <span class="flag">🇨🇴</span>
+            <input type="tel" name="sms">
+        </div>
+        <div class="form-terms">
+            By proceeding, you confirm that you have read and agree to <a href="#">Calendly's Terms of Use</a> and <a href="#">Privacy Notice</a>.
+        </div>
+        <button type="submit" class="schedule-btn">Schedule Event</button>
+    </form>
+</div>
+    
+
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializa flatpickr
+    flatpickr("#calendar", {
+        inline: true,
+        minDate: "today",
+        locale: { firstDayOfWeek: 1 },
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length > 0) {
+                showTimeSelection(selectedDates[0]);
+            }
+        }
+    });
+
+    const calendarCard = document.querySelector('.calendar-card');
+    const timeSelectionCard = document.getElementById('timeSelectionCard');
+    const backBtn = document.getElementById('backToCalendar');
+    const timezoneSelect = document.getElementById('timezone-select');
+
+    function showTimeSelection(dateObj) {
+        // Oculta el calendario y muestra la selección de hora
+        calendarCard.style.display = 'none';
+        timeSelectionCard.style.display = 'block';
+
+        // Muestra el día y la fecha seleccionada
+        const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        document.getElementById('selectedDay').textContent = dayNames[dateObj.getDay()];
+        document.getElementById('selectedDate').textContent = dateObj.toLocaleDateString(undefined, {
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        // Muestra el timezone seleccionado
+        document.getElementById('selectedTimezone').textContent = timezoneSelect.options[timezoneSelect.selectedIndex].text;
+
+        // Genera los horarios de 14:00 a 23:45 cada 15 minutos
+        const slotsContainer = document.getElementById('timeSlots');
+        slotsContainer.innerHTML = '';
+        let start = new Date(dateObj);
+        start.setHours(14,0,0,0);
+        for(let h=14; h<=23; h++) {
+            for(let m=0; m<60; m+=15) {
+                if(h === 23 && m > 45) break;
+                let slot = new Date(dateObj);
+                slot.setHours(h, m, 0, 0);
+                let label = slot.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
+                let btn = document.createElement('button');
+                btn.className = 'time-slot-btn';
+                btn.textContent = label;
+                slotsContainer.appendChild(btn);
+            }
+        }
+        let selectedSlot = null;
+        function renderTimeSlots(selectedLabel = null) {
+            slotsContainer.innerHTML = '';
+            for(let h=14; h<=23; h++) {
+                for(let m=0; m<60; m+=15) {
+                    if(h === 23 && m > 45) break;
+                    let slot = new Date(dateObj);
+                    slot.setHours(h, m, 0, 0);
+                    let label = slot.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
+
+                    let slotWrapper = document.createElement('div');
+                    slotWrapper.style.display = 'flex';
+                    slotWrapper.style.gap = '8px';
+                    slotWrapper.style.justifyContent = 'center';
+
+                    let btn = document.createElement('button');
+                    btn.className = 'time-slot-btn';
+                    btn.textContent = label;
+
+                    if (selectedLabel === label) {
+                        btn.classList.add('selected');
+                        btn.style.background = '#666';
+                        btn.style.color = '#fff';
+                        btn.style.flex = '1';
+                        // Botón Next
+                        let nextBtn = document.createElement('button');
+                        nextBtn.className = 'next-btn';
+                        nextBtn.textContent = 'Next';
+                        nextBtn.style.flex = '1';
+                        nextBtn.onclick = function() {
+                            // Mostrar formulario de confirmación
+                            document.getElementById('timeSelectionCard').style.display = 'none';
+                            document.getElementById('confirmationFormCard').style.display = 'block';
+                            // Rellenar resumen
+                            document.getElementById('summaryTime').textContent =
+                                label + ' - ' +
+                                addMinutesToLabel(label, 20) + ', ' +
+                                document.getElementById('selectedDay').textContent + ', ' +
+                                document.getElementById('selectedDate').textContent;
+                            document.getElementById('summaryTimezone').textContent =
+                                document.getElementById('selectedTimezone').textContent;
+                        };
+                        slotWrapper.appendChild(btn);
+                        slotWrapper.appendChild(nextBtn);
+                    } else {
+                        btn.onclick = function() {
+                            selectedSlot = label;
+                            renderTimeSlots(label);
+                        };
+                        btn.style.flex = '2';
+                        slotWrapper.appendChild(btn);
+                    }
+                    slotsContainer.appendChild(slotWrapper);
+                }
+            }
+            document.getElementById('backToTimeSelection').onclick = function() {
+        document.getElementById('confirmationFormCard').style.display = 'none';
+        document.getElementById('timeSelectionCard').style.display = 'block';
+    };
+    }
+
+        // Renderiza los horarios
+        renderTimeSlots();
+    }
+
+// Función auxiliar para sumar minutos a la hora seleccionada
+function addMinutesToLabel(label, minutes) {
+    let [h, m] = label.split(':').map(Number);
+    let d = new Date();
+    d.setHours(h, m + minutes, 0, 0);
+    return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
+}
+
+    // Volver al calendario
+    backBtn.addEventListener('click', function() {
+        timeSelectionCard.style.display = 'none';
+        calendarCard.style.display = 'block';
+    });
+
+    // Si cambia el timezone, actualiza el texto en la vista de hora si está visible
+    timezoneSelect.addEventListener('change', function() {
+        if(timeSelectionCard.style.display === 'block') {
+            document.getElementById('selectedTimezone').textContent = timezoneSelect.options[timezoneSelect.selectedIndex].text;
+        }
+    });
+
+    // Mostrar campo de invitados al hacer click en Add Guests
+    document.getElementById('addGuestsBtn').onclick = function() {
+        document.getElementById('guestsField').style.display = 'block';
+        this.style.display = 'none';
+    };
+
+});
+</script>
 {% endblock content %}
