@@ -108,15 +108,9 @@
         <div class="error-msg" style="display:none;">Can't be blank.</div>
         <label>What is your phone number? *</label>
         <div class="phone-input">
-            <span class="flag">🇨🇴</span>
-            <input type="tel" name="phone" required>
+            <input type="tel" id="phoneInput" name="phone" required>
         </div>
         <div class="error-msg" style="display:none;">Can't be blank.</div>
-        <label>Send text messages to</label>
-        <div class="phone-input">
-            <span class="flag">🇨🇴</span>
-            <input type="tel" name="sms">
-        </div>
         <div class="form-terms">
             By proceeding, you confirm that you have read and agree to <a href="#">Calendly's Terms of Use</a> and <a href="#">Privacy Notice</a>.
         </div>
@@ -125,7 +119,8 @@
 </div>
     
 
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -133,18 +128,55 @@ document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#calendar", {
         inline: true,
         minDate: "today",
+        maxDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000), // 21 días desde hoy
         locale: { firstDayOfWeek: 1 },
+        monthSelectorType: "static",
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length > 0) {
                 showTimeSelection(selectedDates[0]);
             }
+        },
+        onReady: function(selectedDates, dateStr, instance) {
+            showYearAsText(instance);
+        },
+        onMonthChange: function(selectedDates, dateStr, instance) {
+            showYearAsText(instance);
         }
     });
+
+function showYearAsText(instance) {
+    const monthContainer = instance.calendarContainer.querySelector('.flatpickr-current-month');
+    if (!monthContainer) return;
+    // Elimina cualquier año plano previo
+    const prev = monthContainer.querySelector('.year-plain');
+    if (prev) prev.remove();
+    // Obtiene el año actual
+    const year = instance.currentYear;
+    // Crea el span de año plano
+    const yearSpan = document.createElement('span');
+    yearSpan.className = 'year-plain';
+    yearSpan.textContent = ' ' + year;
+    yearSpan.style.fontSize = '1.1rem';
+    yearSpan.style.fontWeight = '600';
+    yearSpan.style.color = '#006aff';
+    yearSpan.style.marginLeft = '2px';
+    // Inserta después del mes
+    const curMonth = monthContainer.querySelector('.cur-month');
+    if (curMonth) curMonth.after(yearSpan);
+}
 
     const calendarCard = document.querySelector('.calendar-card');
     const timeSelectionCard = document.getElementById('timeSelectionCard');
     const backBtn = document.getElementById('backToCalendar');
     const timezoneSelect = document.getElementById('timezone-select');
+
+    const phoneInput = document.querySelector("#phoneInput");
+    const itiPhone = window.intlTelInput(phoneInput, {
+        initialCountry: "auto",
+        preferredCountries: ["us", "gb", "co", "mx"],
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+    });
+
 
     function showTimeSelection(dateObj) {
         // Oculta el calendario y muestra la selección de hora
