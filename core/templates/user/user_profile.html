@@ -17,7 +17,14 @@
             {% endif %}
             <form method="post" enctype="multipart/form-data" class="photo-form">
                 {% csrf_token %}
-                {{ form.photo|add_class:"profile-photo-input" }}
+                <div class="mb-3" text-center>
+                    {% if user.photo %}
+                        <img src="{{ user.photo.url}}" class="profile-photo-preview" alt="Current Photo">
+                    {% else %}
+                        <img src="{% static 'img/profile-icon-9.png' %}" class="profile-photo-preview" alt="Current Photo">
+                    {% endif %}
+                    {{ form.photo|add_class:"profile-photo-input" }}
+                </div>
                 <button type="submit" class="btn-change-photo">Change Photo</button>
             </form>
             <h5 class="profile-name">{{ user.first_name }} {{ user.last_name }}</h5>
