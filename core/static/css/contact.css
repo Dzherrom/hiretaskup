@@ -320,14 +320,11 @@
     margin-bottom: 4px;
 }
 .desc-content {
-    display: none;
-    font-size: 0.97rem;
-    color: #444;
-    margin-top: 4px;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    max-height: 0;
 }
-.desc-content.open {
-    display: block;
-}
+
 .confirmation-form {
     display: flex;
     flex-direction: column;

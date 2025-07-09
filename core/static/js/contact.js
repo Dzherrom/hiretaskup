@@ -230,5 +230,37 @@ function addMinutesToLabel(label, minutes) {
         document.getElementById('guestsField').style.display = 'block';
         this.style.display = 'none';
     };
-});
 
+const descToggle = document.querySelector('.desc-toggle');
+const descContent = document.querySelector('.desc-content');
+
+if (descToggle && descContent) {
+    // Inicializa cerrado
+    descContent.style.overflow = "hidden";
+    descContent.style.transition = "max-height 0.4s ease";
+    descContent.style.maxHeight = null;
+
+    descToggle.addEventListener('click', function() {
+        if (descContent.classList.contains('open')) {
+            // Cerrar: primero fija la altura actual, luego colapsa
+            descContent.style.maxHeight = descContent.scrollHeight + "px";
+            // Forzar repaint y luego colapsar
+            setTimeout(() => {
+                descContent.style.maxHeight = null;
+                descContent.classList.remove('open');
+            }, 10);
+        } else {
+            // Abrir: fija la altura y luego, al terminar la transición, la deja en 'none'
+            descContent.classList.add('open');
+            descContent.style.maxHeight = descContent.scrollHeight + "px";
+        }
+    });
+
+    // Limpia max-height al terminar la transición para que el contenido se adapte si cambia de tamaño
+    descContent.addEventListener('transitionend', function() {
+        if (descContent.classList.contains('open')) {
+            descContent.style.maxHeight = 'none';
+        }
+    });
+}
+});
