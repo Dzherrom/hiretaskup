@@ -287,7 +287,7 @@ if (addGuestsBtn && guestsField) {
     });
 }
 
-document.getElementById('hiddenDate').value = selectedDate;
+document.getElementById('hiddenDate').value = document.getElementById('selectedDate').textContent;
 document.getElementById('hiddenTime').value = selectedTime;
 document.getElementById('hiddenTimezone').value = selectedTimezone;
 });

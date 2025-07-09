@@ -139,8 +139,13 @@ def contact(request):
                 })
             except IntegrityError:
                 form.add_error(None, "This meeting already exists.")
-        else:
-            form = MeetingForm()
+
+    else:
+        form = MeetingForm()
         return render(request, 'home/contact.html', {
             'form': form,
+            'user_is_authenticated': request.user.is_authenticated})
+    return render(request, 'home/contact.html', {
+            'form': form,
+            'error': "This meeting already exists",
             'user_is_authenticated': request.user.is_authenticated})

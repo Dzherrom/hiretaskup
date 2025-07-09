@@ -16,13 +16,14 @@
     max-width: 1100px;
     margin: 40px auto 0 auto;
     padding: 0 16px 32px 16px;
+    margin-bottom: 120px; /* Ajusta según la altura de tu footer */
 }
 
 .consultation-left, .consultation-right {
     flex: 1 1 420px;
     max-width: 480px;
     min-width: 320px;
-    height: 650px; /* Ajusta según tu diseño */
+    height: 750px; /* Ajusta según tu diseño */
     display: flex;
     flex-direction: column;
 }

@@ -777,6 +777,7 @@ body {
     text-align: center;
     padding: 20px;
     border-top: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 .footer p {
