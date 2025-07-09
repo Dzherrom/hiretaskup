@@ -1,4 +1,54 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Lista de zonas horarias comunes (puedes ajustar según tus necesidades)
+const commonTimezones = [
+    "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+    "America/Mexico_City", "America/Bogota", "America/Lima", "America/Sao_Paulo",
+    "America/Buenos_Aires", "Europe/London", "Europe/Madrid", "Europe/Paris",
+    "Europe/Berlin", "Europe/Rome", "Europe/Moscow", "Europe/Istanbul",
+    "Asia/Dubai", "Asia/Kolkata", "Asia/Bangkok", "Asia/Singapore",
+    "Asia/Tokyo", "Asia/Shanghai", "Asia/Hong_Kong", "Australia/Sydney",
+    "Pacific/Auckland"
+];
+
+const timezoneSelect = document.getElementById('timezone-select');
+if (timezoneSelect) {
+    // Limpia opciones previas
+    timezoneSelect.innerHTML = '';
+    // Agrupa por continente
+    const groups = {};
+    commonTimezones.forEach(tz => {
+        const group = tz.split('/')[0];
+        if (!groups[group]) {
+            groups[group] = [];
+        }
+        groups[group].push(tz);
+    });
+    Object.keys(groups).forEach(group => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = group;
+        groups[group].forEach(tz => {
+            const option = document.createElement('option');
+            option.value = tz;
+            option.text = tz.replace(/_/g, ' ');
+            optgroup.appendChild(option);
+        });
+        timezoneSelect.appendChild(optgroup);
+    });
+
+    // Inicializa Select2
+    $('#timezone-select').select2({
+        placeholder: "Select a time zone",
+        allowClear: true,
+        width: 'resolve'
+    });
+
+    // Selecciona automáticamente la zona horaria local del usuario si está en la lista
+    const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (commonTimezones.includes(localTz)) {
+        $('#timezone-select').val(localTz).trigger('change');
+    }
+}
+
     // Inicializa flatpickr
     flatpickr("#calendar", {
         inline: true,
@@ -43,7 +93,6 @@ function showYearAsText(instance) {
     const calendarCard = document.querySelector('.calendar-card');
     const timeSelectionCard = document.getElementById('timeSelectionCard');
     const backBtn = document.getElementById('backToCalendar');
-    const timezoneSelect = document.getElementById('timezone-select');
 
     const phoneInput = document.querySelector("#phoneInput");
     const itiPhone = window.intlTelInput(phoneInput, {
@@ -129,7 +178,7 @@ function showYearAsText(instance) {
                                 addMinutesToLabel(label, 20) + ', ' +
                                 document.getElementById('selectedDay').textContent + ', ' +
                                 document.getElementById('selectedDate').textContent;
-                            document.getElementById('summaryTimezone').textContent =
+                                document.getElementById('summaryTimezone').textContent =
                                 document.getElementById('selectedTimezone').textContent;
                         };
                         slotWrapper.appendChild(btn);
@@ -181,6 +230,5 @@ function addMinutesToLabel(label, minutes) {
         document.getElementById('guestsField').style.display = 'block';
         this.style.display = 'none';
     };
-
 });
 
