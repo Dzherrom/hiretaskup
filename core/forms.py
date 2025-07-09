@@ -15,7 +15,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         model = User
         fields = ['username', 'password'] 
         
-class MeetingForm(forms.ModelFOrm):
+class MeetingForm(forms.ModelForm):
     class Meta:
         model = Meeting
         fields = ['name', 'email', 'guests', 'important', 'phone', 'date', 'time', 'timezone']

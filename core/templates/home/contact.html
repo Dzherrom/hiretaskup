@@ -111,6 +111,13 @@
         <div class="form-terms">
             By proceeding, you confirm that you have read and agree to <a href="#">Calendly's Terms of Use</a> and <a href="#">Privacy Notice</a>.
         </div>
+        <!-- inputs ocultos -->
+        <input type="hidden" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
+        <input type="hidden" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'' }}">
+        <input type="hidden" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
+
+
+
         <button type="submit" class="schedule-btn">Schedule Event</button>
     </form>
 </div>

@@ -14,12 +14,12 @@ class CustomUser(AbstractUser):
         return self.first_name
         return self.last_name
     
-class Metting(models.Model):
+class Meeting(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     guests = models.TextField(blank=True, null=True)
     important = models.TextField()
-    phone = models.CharField(max_lenght=30)
+    phone = models.IntegerField()
     date = models.DateField()
     time = models.TimeField()
     timezone = models.CharField(max_length=50, default="UTC")
