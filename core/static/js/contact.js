@@ -115,7 +115,7 @@ function showYearAsText(instance) {
         // Muestra el día y la fecha seleccionada
         const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
         document.getElementById('selectedDay').textContent = dayNames[dateObj.getDay()];
-        document.getElementById('selectedDate').textContent = dateObj.toLocaleDateString(undefined, {
+        document.getElementById('selectedDate').textContent = dateObj.toLocaleDateString('en-US', {
             year: 'numeric', month: 'long', day: 'numeric'
         });
 
