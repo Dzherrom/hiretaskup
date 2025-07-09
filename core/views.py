@@ -5,9 +5,11 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
-from .models import CustomUser
+from .models import CustomUser, Meeting
+from .forms import MeetingForm
 from django.http import Http404
 from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
 
 # Create your views here.
 
@@ -125,4 +127,20 @@ def plans(request):
 ### CONTACT ###
 @login_required
 def contact(request):
-    return render(request, 'home/contact.html', {'user_is_authenticated': request.user.is_authenticated})   
+    if request.method == 'POST':
+        form = MeetingForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return render(request, 'home/contact.html', {
+                    'form': MeetingForm(),
+                    'success': True, 
+                    'user_is_authenticated': request.user.is_authenticated
+                })
+            except IntegrityError:
+                form.add_error(None, "This meeting already exists.")
+        else:
+            form = MeetingForm()
+        return render(request, 'home/contact.html', {
+            'form': form,
+            'user_is_authenticated': request.user.is_authenticated})
