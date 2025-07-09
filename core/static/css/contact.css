@@ -394,8 +394,12 @@
     margin-bottom: 2px;
 }
 .guests-field {
-    margin: 10px 0 0 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    max-height: 0;
+    display: block; /* Asegúrate de que no sea display: none */
 }
+
 .guests-field label {
     font-weight: 500;
     margin-bottom: 4px;

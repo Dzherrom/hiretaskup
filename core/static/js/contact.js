@@ -263,4 +263,27 @@ if (descToggle && descContent) {
         }
     });
 }
+
+const addGuestsBtn = document.getElementById('addGuestsBtn');
+const guestsField = document.getElementById('guestsField');
+
+if (addGuestsBtn && guestsField) {
+    // Inicializa cerrado
+    guestsField.style.maxHeight = null;
+    guestsField.style.overflow = "hidden";
+    guestsField.style.transition = "max-height 0.4s ease";
+
+    addGuestsBtn.onclick = function() {
+        addGuestsBtn.style.display = 'none';
+        guestsField.style.display = 'block';
+        guestsField.style.maxHeight = guestsField.scrollHeight + "px";
+        guestsField.classList.add('open');
+    };
+
+    guestsField.addEventListener('transitionend', function() {
+        if (guestsField.classList.contains('open')) {
+            guestsField.style.maxHeight = 'none';
+        }
+    });
+}
 });
