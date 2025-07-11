@@ -128,6 +128,7 @@ def plans(request):
 @login_required
 def contact(request):
     if request.method == 'POST':
+        print(request.POST)
         form = MeetingForm(request.POST)
         if form.is_valid():
             try:
