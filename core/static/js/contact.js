@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    let selectedDateValue = "";
+    let selectedTimeValue = "";
+    let selectedTimezoneValue = "";
     // Lista de zonas horarias comunes (puedes ajustar según tus necesidades)
 const commonTimezones = [
     "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
@@ -169,17 +173,28 @@ function showYearAsText(instance) {
                         nextBtn.textContent = 'Next';
                         nextBtn.style.flex = '1';
                         nextBtn.onclick = function() {
-                            // Mostrar formulario de confirmación
+                            console.log("Next button clicked");
                             document.getElementById('timeSelectionCard').style.display = 'none';
                             document.getElementById('confirmationFormCard').style.display = 'block';
-                            // Rellenar resumen
                             document.getElementById('summaryTime').textContent =
-                                label + ' - ' +
-                                addMinutesToLabel(label, 20) + ', ' +
+                                label + ' - ' + addMinutesToLabel(label, 20) + ', ' +
                                 document.getElementById('selectedDay').textContent + ', ' +
-                                document.getElementById('selectedDate').textContent;
-                                document.getElementById('summaryTimezone').textContent =
+                                document.getElementById('selectedDate').value;
+                            document.getElementById('summaryTimezone').textContent =
                                 document.getElementById('selectedTimezone').textContent;
+
+                            // --- ACTUALIZA LOS CAMPOS OCULTOS AQUÍ ---
+                            
+                            let selectedDateValue = SelectedDate.value // YYYY-MM-DD
+                            let selectedTimeValue = label; // HH:MM
+                            let selectedTimezoneValue = timezoneSelect.value; // Ej: "America/New_York"
+                            document.getElementById('hiddenDate').value = selectedDateValue;
+                            document.getElementById('hiddenTime').value = selectedTimeValue;
+                            document.getElementById('hiddenTimezone').value = selectedTimezoneValue;
+                            // También puedes actualizar los inputs visibles si quieres mostrar el valor al usuario
+                            document.getElementById('visibleDate').value = selectedDateValue;
+                            document.getElementById('visibleTime').value = label;
+                            document.getElementById('visibleTimezone').value = document.getElementById('selectedTimezone').value;
                         };
                         slotWrapper.appendChild(btn);
                         slotWrapper.appendChild(nextBtn);
@@ -286,8 +301,4 @@ if (addGuestsBtn && guestsField) {
         }
     });
 }
-
-document.getElementById('hiddenDate').value = document.getElementById('selectedDate').textContent;
-document.getElementById('hiddenTime').value = selectedTime;
-document.getElementById('hiddenTimezone').value = selectedTimezone;
 });

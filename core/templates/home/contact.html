@@ -92,6 +92,17 @@
             <form class="confirmation-form" method="post" action="{% url 'contact' %}">
                 {% csrf_token %}
 
+                <div class="form-summary-fields">
+                    <label for="visibleDate">Date</label>
+                    <input type="text" id="visibleDate" value="{{ form.date.value|default_if_none:'' }}" required>
+
+                    <label for="visibleTime">Time</label>
+                    <input type="text" id="visibleTime" value="{{ form.time.value|default_if_none:'' }}" required>
+
+                    <label for="visibleTimezone">Timezone</label>
+                    <input type="text" id="visibleTimezone" value="{{ form.timezone.value|default_if_none:'' }}" required>
+                </div>
+
                 {% if form.non_field_errors %}
                     <div class="error-msg">{{ form.non_field_errors.0 }}</div>
                 {% endif %}
