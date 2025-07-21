@@ -146,12 +146,15 @@ function showYearAsText(instance) {
         let selectedSlot = null;
         function renderTimeSlots(selectedLabel = null) {
             slotsContainer.innerHTML = '';
-            for(let h=14; h<=23; h++) {
-                for(let m=0; m<60; m+=15) {
-                    if(h === 23 && m > 45) break;
+            for(let h=14; h<=23; h++) { // 14 = 2 PM, 23 = 11 PM
+                for(let m=0; m<60; m+=30) { // Intervalos de 30 minutos
                     let slot = new Date(dateObj);
                     slot.setHours(h, m, 0, 0);
-                    let label = slot.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
+
+                    // Formato 12 horas
+                    let hour12 = h % 12 === 0 ? 12 : h % 12;
+                    let ampm = h < 12 ? 'AM' : 'PM';
+                    let label = `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
 
                     let slotWrapper = document.createElement('div');
                     slotWrapper.style.display = 'flex';
@@ -173,28 +176,26 @@ function showYearAsText(instance) {
                         nextBtn.textContent = 'Next';
                         nextBtn.style.flex = '1';
                         nextBtn.onclick = function() {
-                            console.log("Next button clicked");
                             document.getElementById('timeSelectionCard').style.display = 'none';
                             document.getElementById('confirmationFormCard').style.display = 'block';
                             document.getElementById('summaryTime').textContent =
-                                label + ' - ' + addMinutesToLabel(label, 20) + ', ' +
+                                label + ', ' +
                                 document.getElementById('selectedDay').textContent + ', ' +
-                                document.getElementById('selectedDate').value;
+                                document.getElementById('selectedDate').textContent;
                             document.getElementById('summaryTimezone').textContent =
                                 document.getElementById('selectedTimezone').textContent;
 
                             // --- ACTUALIZA LOS CAMPOS OCULTOS AQUÍ ---
-                            
-                            let selectedDateValue = SelectedDate.value // YYYY-MM-DD
-                            let selectedTimeValue = label; // HH:MM
-                            let selectedTimezoneValue = timezoneSelect.value; // Ej: "America/New_York"
+                            // Fecha en formato YYYY-MM-DD
+                            const day = String(dateObj.getDate()).padStart(2, '0');
+                            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                            const year = dateObj.getFullYear();
+                            let selectedDateValue = `${year}-${month}-${day}`;
+                            let selectedTimeValue = label; // hh:mm AM/PM
+                            let selectedTimezoneValue = timezoneSelect.value;
                             document.getElementById('hiddenDate').value = selectedDateValue;
                             document.getElementById('hiddenTime').value = selectedTimeValue;
                             document.getElementById('hiddenTimezone').value = selectedTimezoneValue;
-                            // También puedes actualizar los inputs visibles si quieres mostrar el valor al usuario
-                            document.getElementById('visibleDate').value = selectedDateValue;
-                            document.getElementById('visibleTime').value = label;
-                            document.getElementById('visibleTimezone').value = document.getElementById('selectedTimezone').value;
                         };
                         slotWrapper.appendChild(btn);
                         slotWrapper.appendChild(nextBtn);
@@ -210,10 +211,10 @@ function showYearAsText(instance) {
                 }
             }
             document.getElementById('backToTimeSelection').onclick = function() {
-        document.getElementById('confirmationFormCard').style.display = 'none';
-        document.getElementById('timeSelectionCard').style.display = 'block';
-    };
-    }
+                document.getElementById('confirmationFormCard').style.display = 'none';
+                document.getElementById('timeSelectionCard').style.display = 'block';
+            };
+        }
 
         // Renderiza los horarios
         renderTimeSlots();

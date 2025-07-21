@@ -45,9 +45,6 @@
         </div>
     </div>
     <div class="consultation-right">
-        {% if form.non_field_errors %}
-            <div class="error-msg">{{ form.non_field_errors.0 }}</div>
-        {% endif %}
         <div class="calendar-card">
             <h3>Select a Day</h3>
             <input type="text" id="calendar" class="calendar-input" readonly>
@@ -92,17 +89,6 @@
             <form class="confirmation-form" method="post" action="{% url 'contact' %}">
                 {% csrf_token %}
 
-                <div class="form-summary-fields">
-                    <label for="visibleDate">Date</label>
-                    <input type="text" id="visibleDate" value="{{ form.date.value|default_if_none:'' }}" required>
-
-                    <label for="visibleTime">Time</label>
-                    <input type="text" id="visibleTime" value="{{ form.time.value|default_if_none:'' }}" required>
-
-                    <label for="visibleTimezone">Timezone</label>
-                    <input type="text" id="visibleTimezone" value="{{ form.timezone.value|default_if_none:'' }}" required>
-                </div>
-
                 {% if form.non_field_errors %}
                     <div class="error-msg">{{ form.non_field_errors.0 }}</div>
                 {% endif %}
@@ -118,33 +104,29 @@
                 {% if form.email.errors %}
                     <div class="error-msg">{{ form.email.errors.0 }}</div>
                 {% endif %}
-                
-                <button type="button" class="add-guests-btn" id="addGuestsBtn">Add Guests</button>
-                <div class="guests-field" id="guestsField" style="display:none;">
-                    <label for="id_guests">Guest Email(s)</label>
-                    <input name="guests" id="id_guests" type="text" maxlength="500" value="{{ form.guests.value|default_if_none:'' }}">
-                    {% if form.guests.errors %}
-                        <div class="error-msg">{{ form.guests.errors.0 }}</div>
-                    {% endif %}
-                    <div class="guests-hint">Notify up to 10 additional guests of the scheduled event.</div>
-                </div>
+
+                <label for="id_guests">Guest Email(s)</label>
+                <input type="text" name="guests" id="id_guests" value="{{ form.guests.value|default_if_none:'' }}">
+                {% if form.guests.errors %}
+                    <div class="error-msg">{{ form.guests.errors.0 }}</div>
+                {% endif %}
 
                 <label for="id_important">What is one of the most important things that your TaskUp assistant will do for you?</label>
-                <input name="important" id="id_important" type="text" value="{{ form.important.value|default_if_none:'' }}" required>
+                <input type="text" name="important" id="id_important" value="{{ form.important.value|default_if_none:'' }}" required>
                 {% if form.important.errors %}
                     <div class="error-msg">{{ form.important.errors.0 }}</div>
                 {% endif %}
 
-                <label for="id_phone">What is your phone number? *</label>
-                <input type="tel" id="id_phone" name="phone" value="{{ form.phone.value|default_if_none:'' }}" required>
+                <label for="id_phone">Phone *</label>
+                <input type="tel" name="phone" id="id_phone" value="{{ form.phone.value|default_if_none:'' }}" required>
                 {% if form.phone.errors %}
                     <div class="error-msg">{{ form.phone.errors.0 }}</div>
                 {% endif %}
 
-                <!-- Campos ocultos para ser llenados por JS -->
-                <input type="hidden" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
-                <input type="hidden" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'' }}">
-                <input type="hidden" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
+                <!-- Campos ocultos para enviar los datos -->
+                <input type="date" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
+                <input type="time" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'' }}">
+                <input type="timezone" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
 
                 {% if form.date.errors %}
                     <div class="error-msg">{{ form.date.errors.0 }}</div>
@@ -170,3 +152,4 @@
 <script src="https://cdn.jsdelivr.net/npm/moment-timezone@0.5.43/builds/moment-timezone-with-data.min.js"></script>
 <script src="{% static 'js/contact.js' %}"></script>
 {% endblock content %}
+
