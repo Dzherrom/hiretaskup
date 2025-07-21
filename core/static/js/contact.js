@@ -190,9 +190,19 @@ function showYearAsText(instance) {
                             const day = String(dateObj.getDate()).padStart(2, '0');
                             const month = String(dateObj.getMonth() + 1).padStart(2, '0');
                             const year = dateObj.getFullYear();
+                            function to24HourFormat(label) {
+                                let [time, ampm] = label.split(' ');
+                                let [hour, minute] = time.split(':').map(Number);
+                                if (ampm.toUpperCase().includes('PM') && hour !== 12) hour += 12;
+                                if (ampm.toUpperCase().includes('AM') && hour === 12) hour = 0;
+                                return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                            }
+
+                            // En tu nextBtn.onclick:
                             let selectedDateValue = `${year}-${month}-${day}`;
-                            let selectedTimeValue = label; // hh:mm AM/PM
+                            let selectedTimeValue = to24HourFormat(label);
                             let selectedTimezoneValue = timezoneSelect.value;
+                            
                             document.getElementById('hiddenDate').value = selectedDateValue;
                             document.getElementById('hiddenTime').value = selectedTimeValue;
                             document.getElementById('hiddenTimezone').value = selectedTimezoneValue;

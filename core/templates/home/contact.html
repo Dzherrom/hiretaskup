@@ -124,9 +124,9 @@
                 {% endif %}
 
                 <!-- Campos ocultos para enviar los datos -->
-                <input type="date" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
-                <input type="time" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'' }}">
-                <input type="timezone" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
+                <input type="hidden" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
+                <input type="hidden" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'14:00' }}">
+                <input type="hidden" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
 
                 {% if form.date.errors %}
                     <div class="error-msg">{{ form.date.errors.0 }}</div>
