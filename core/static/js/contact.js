@@ -32,9 +32,15 @@ if (timezoneSelect) {
         optgroup.label = group;
         groups[group].forEach(tz => {
             const option = document.createElement('option');
-            option.value = tz;
-            option.text = tz.replace(/_/g, ' ');
-            optgroup.appendChild(option);
+            try {
+                const now = moment().tz(tz);
+                const localTime = now.format('HH:mm');
+                option.text = `${tz.replace(/_/g, ' ')}\u00A0(${localTime})`;
+                optgroup.appendChild(option);
+            } catch (e) {
+                option.text = tz.replace(/_/g, ' ');
+                optgroup.appendChild(option);
+            }
         });
         timezoneSelect.appendChild(optgroup);
     });
@@ -46,6 +52,7 @@ if (timezoneSelect) {
         width: 'resolve'
     });
 
+    
     // Selecciona automáticamente la zona horaria local del usuario si está en la lista
     const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (commonTimezones.includes(localTz)) {
@@ -94,9 +101,16 @@ function showYearAsText(instance) {
     if (curMonth) curMonth.after(yearSpan);
 }
 
-    const calendarCard = document.querySelector('.calendar-card');
-    const timeSelectionCard = document.getElementById('timeSelectionCard');
     const backBtn = document.getElementById('backToCalendar');
+    const timeSelectionCard = document.getElementById('timeSelectionCard');
+    const calendarCard = document.querySelector('.calendar-card');
+
+    if (backBtn && timeSelectionCard && calendarCard) {
+        backBtn.onclick = function() {
+            timeSelectionCard.style.display = 'none';
+            calendarCard.style.display = 'block';
+        };
+    }
 
     const phoneInput = document.querySelector("#phoneInput");
     const itiPhone = window.intlTelInput(phoneInput, {
@@ -178,6 +192,8 @@ function showYearAsText(instance) {
                         nextBtn.onclick = function() {
                             document.getElementById('timeSelectionCard').style.display = 'none';
                             document.getElementById('confirmationFormCard').style.display = 'block';
+                            document.getElementById('timeSelectionCard').style.display = 'none';
+                            document.getElementById('confirmationFormCard').style.display = 'block';
                             document.getElementById('summaryTime').textContent =
                                 label + ', ' +
                                 document.getElementById('selectedDay').textContent + ', ' +
@@ -206,6 +222,33 @@ function showYearAsText(instance) {
                             document.getElementById('hiddenDate').value = selectedDateValue;
                             document.getElementById('hiddenTime').value = selectedTimeValue;
                             document.getElementById('hiddenTimezone').value = selectedTimezoneValue;
+                        
+                            const descToggle = document.querySelector('.desc-toggle');
+                            const descContent = document.querySelector('.desc-content');
+                            if (descToggle && descContent) {
+                                descContent.style.overflow = "hidden";
+                                descContent.style.transition = "max-height 0.4s ease";
+                                descContent.style.maxHeight = null;
+
+                                descToggle.onclick = function() {
+                                    if (descContent.classList.contains('open')) {
+                                        descContent.style.maxHeight = descContent.scrollHeight + "px";
+                                        setTimeout(() => {
+                                            descContent.style.maxHeight = null;
+                                            descContent.classList.remove('open');
+                                        }, 10);
+                                    } else {
+                                        descContent.classList.add('open');
+                                        descContent.style.maxHeight = descContent.scrollHeight + "px";
+                                    }
+                                };
+
+                                descContent.addEventListener('transitionend', function() {
+                                    if (descContent.classList.contains('open')) {
+                                        descContent.style.maxHeight = 'none';
+                                    }
+                                });
+                            }
                         };
                         slotWrapper.appendChild(btn);
                         slotWrapper.appendChild(nextBtn);
@@ -229,6 +272,7 @@ function showYearAsText(instance) {
         // Renderiza los horarios
         renderTimeSlots();
     }
+
 
 // Función auxiliar para sumar minutos a la hora seleccionada
 function addMinutesToLabel(label, minutes) {
