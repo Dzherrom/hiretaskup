@@ -30,6 +30,11 @@
 }
 
 .consultation-right {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
     overflow-y: auto;
     background: #fff;
     border-radius: 18px;
