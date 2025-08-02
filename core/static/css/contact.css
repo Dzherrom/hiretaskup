@@ -14,6 +14,7 @@
     align-items: flex-start;
     gap: 32px;
     max-width: 1100px;
+    width: 100%;
     margin: 40px auto 0 auto;
     padding: 0 16px 32px 16px;
     margin-bottom: 120px; /* Ajusta según la altura de tu footer */
@@ -160,11 +161,27 @@
 }
 
 .timezone select {
-    margin-left: 8px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
+    width: 100% !important;
+    min-width: 220px; /* Ajusta según tu diseño */
+    max-width: 100%;
+    box-sizing: border-box;
 }
+
+/* Para Select2 */
+.select2-container,
+.select2-selection {
+    width: 100% !important;
+    min-width: 220px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.select2-selection__rendered,
+.select2-results__option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 .consultation-privacy {
     max-width: 900px;
