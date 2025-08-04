@@ -19,7 +19,7 @@ class Meeting(models.Model):
     email = models.EmailField()
     guests = models.TextField(blank=True, null=True)
     important = models.TextField()
-    phone = models.IntegerField()
+    phone = models.TextField()
     date = models.DateField()
     time = models.TimeField()
     timezone = models.CharField(max_length=50, default="UTC")

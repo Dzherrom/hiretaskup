@@ -112,16 +112,16 @@ function showYearAsText(instance) {
         };
     }
 
-    const phoneInput = document.querySelector("#phoneInput");
+    const phoneInput = document.querySelector("#id_phone");
     const itiPhone = window.intlTelInput(phoneInput, {
         initialCountry: "auto",
         geoIpLookup: function(callback) {
         fetch('https://ipinfo.io/json?token=<6db1cea8941122>')
             .then((resp) => resp.json())
-            .then((resp) => callback(resp.country ? resp.country : "us"))
+            .then((resp) => callback(resp.country ? resp.country : "ve"))
             .catch(() => callback("us"));
         },
-        preferredCountries: ["us", "gb", "co", "mx"],
+        preferredCountries: ["us", "ve", "co", "mx"],
         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
     });
 
@@ -189,7 +189,7 @@ function showYearAsText(instance) {
                         nextBtn.className = 'next-btn';
                         nextBtn.textContent = 'Next';
                         nextBtn.style.flex = '1';
-                        nextBtn.onclick = function() {
+                        nextBtn.onclick = function() { 
                             document.getElementById('timeSelectionCard').style.display = 'none';
                             document.getElementById('confirmationFormCard').style.display = 'block';
                             document.getElementById('timeSelectionCard').style.display = 'none';
