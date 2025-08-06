@@ -4,420 +4,425 @@
 {% block content %}
 
 <div class="main-container">
-            <div class="flex-container">
+    <div class="flex-container">
+        <div>
+            <h1 style="font-weight: 600;">Virtual assistants for your business to help you<br>
+                   <span class="gradient-text"> Get Things Done </span>
+            </h1>
+            <p> Delegate your essential tasks to our skilled virtual assistants and focus on what matters the most -growing your business.</p>
+            <a class="btn btn-primary" href="{% url 'contact' %}">Free Consultation</a> 
+            <a class="btn btn-light" href="#">Get Started</a>
+        </div>
+        <div>
+            <image src="{% static 'img/hero.png' %}" alt="Hero Image" class="hero-image"></image>
+        </div>
+    </div>
+    <div class="info-container">
+        <div class="info-text">
+            <div>
+                <h3>Our Vision</h3>
+                <p>To become the leading provider of virtual assistance enabling companies to work more fficiently while they focus on their core objectives.</p>    
+            </div>
+        </div>
+        <div class="info-icons">
+            <div>
                 <div>
-                    <h1>Virtual assistant services for your business</h1>
-                    <p> Delegate your essential tasks to our skilled virtual assistants and focus on what matters the most -growing your business.</p>
-                    <button class="btn btn-primary">Get Started</button> 
-                    <button class="btn btn-light">Plans & Pricing </button>
+                    <img src="{% static 'img/growth.png' %}" alt="growth" class="info-icon">
                 </div>
                 <div>
-                    <image src="{% static 'img/hero.png' %}" alt="Hero Image" class="hero-image"></image>
+                    <h5>Boost Productivity</h5>
                 </div>
             </div>
-            <div class="info-container">
-                <div class="info-text">
-                    <div>
-                        <h3>Our Vision</h3>
-                        <p>To become the leading provider of virtual assistance enabling companies to work more fficiently while they focus on their core objectives.</p>    
-                    </div>
+            <div>
+                <div>
+                    <img src="{% static 'img/collaboration.png' %}" alt="growth" class="info-icon">
                 </div>
-                <div class="info-icons">
-                    <div>
-                        <div>
-                            <img src="{% static 'img/growth.png' %}" alt="growth" class="info-icon">
-                        </div>
-                        <div>
-                            <h5>Boost Productivity</h5>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <img src="{% static 'img/collaboration.png' %}" alt="growth" class="info-icon">
-                        </div>
-                        <div>
-                            <h5>Virtual Collaboration</h5>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <img src="{% static 'img/streamline.png' %}" alt="growth" class="info-icon">
-                        </div>
-                        <div>
-                            <h5>Boost Streamline Operations</h5>
-                        </div>
-                    </div>
+                <div>
+                    <h5>Virtual Collaboration</h5>
                 </div>
             </div>
-            <div class="assistant-container">
-                <div class="assistant-text">
-                    <h2>What does a Virtual Assistant Do?</h2>
-                    <p>
-                        A Wing General Virtual Assistant (GVA) will take care of your administrative and personal work and help you streamline your day-to-day operations so you can focus on growing your business and achieving your goals.
-                        Do you need something else? Jump to: More Virtual Assistant Services
-                    </p>
+            <div>
+                <div>
+                    <img src="{% static 'img/streamline.png' %}" alt="growth" class="info-icon">
                 </div>
-                <div class="table-container">
-                    <div class="assistant">
-                        <img src="{% static 'img/calendar.webp' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Calendar Management</h5>
-                            <p>Our virtual assistants can help you manage your calendar, schedule appointments, and send reminders.</p>
-                        </div>
-                    </div>
-                    <div class="assistant">
-                        <img src="{% static 'img/research.webp' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Basic research and reports</h5>
-                            <p>Gather data from different platforms and produce reports and insights as required</p>
-                        </div>
-                    </div>
-                    <div class="assistant">
-                        <img src="{% static 'img/calls.png' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Recieve your calls</h5>
-                            <p>Your assistant can handle your phone calls, take notes, and attend/route them as required.</p>
-                        </div>
-                    </div>
-                    <div class="assistant">
-                        <img src="{% static 'img/travel.png' %}" alt="assistant" class="assistant-image">
-                        <div> 
-                            <h5>Make travel arrangements</h5>
-                            <p>Wing Assistant prepares itineraries for company executives, books hotels and cars, and more.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-container">
-                    <div class="assistant">
-                        <img src="{% static 'img/email.webp' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Email and Response Management</h5>
-                            <p>Let your assistant manage emails, conduct follow-ups, forward important and urgent emails.</p>
-                        </div>
-                    </div>
-                    <div class="assistant">
-                        <img src="{% static 'img/order.webp' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Order products and supplies</h5>
-                            <p>Take care of miscellaneous needs such as ordering office supplies, furniture, team lunch, etc.</p>
-                        </div>
-                    </div>
-                    <div class="assistant">
-                        <img src="{% static 'img/handle.webp' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Handle CRM tools</h5>
-                            <p>Your assistant can input and update records and collect information for your CRM tools.</p>
-                        </div>
-                    </div>
-                    <div class="assistant">
-                        <img src="{% static 'img/invoices.webp' %}" alt="assistant" class="assistant-image">
-                        <div>
-                            <h5>Track expenses and invoices</h5>
-                            <p>Creates or sends statements or invoices, track payments, and record company expenses.</p>
-                        </div>
-                    </div>
+                <div>
+                    <h5>Boost Streamline Operations</h5>
                 </div>
             </div>
-            <div class="testimonies-container">
-                <div class="testimonies">
-                    <div>
-                        <h2>Customer Testimonial</h2>
-                    </div>
-                    <div class="testimony-card">
-                        <img src="{% static 'img/comillas.png' %}" alt="">
-                        <div class="general-card">
-                            <p>Our virtual assistant from TaskUp has become an indiepensable part of our team. Their eficiency and attention to detail has helped us stay organized.</p>
-                            <h6> John Smith</h6>
-                            <p> CEO, Company name</p>
-                        </div>
-                    </div>
+        </div>
+    </div>
+    <div class="assistant-container">
+        <div class="assistant-text">
+            <h2>What does a Virtual Assistant Do?</h2>
+            <p>
+                A Wing General Virtual Assistant (GVA) will take care of your administrative and personal work and help you streamline your day-to-day operations so you can focus on growing your business and achieving your goals.
+                Do you need something else? Jump to: More Virtual Assistant Services
+            </p>
+        </div>
+        <div class="table-container">
+            <div class="assistant">
+                <img src="{% static 'img/calendar.webp' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Calendar Management</h5>
+                    <p>Our virtual assistants can help you manage your calendar, schedule appointments, and send reminders.</p>
+                </div>
+            </div>
+            <div class="assistant">
+                <img src="{% static 'img/research.webp' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Basic research and reports</h5>
+                    <p>Gather data from different platforms and produce reports and insights as required</p>
+                </div>
+            </div>
+            <div class="assistant">
+                <img src="{% static 'img/calls.png' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Recieve your calls</h5>
+                    <p>Your assistant can handle your phone calls, take notes, and attend/route them as required.</p>
+                </div>
+            </div>
+            <div class="assistant">
+                <img src="{% static 'img/travel.png' %}" alt="assistant" class="assistant-image">
+                <div> 
+                    <h5>Make travel arrangements</h5>
+                    <p>Wing Assistant prepares itineraries for company executives, books hotels and cars, and more.</p>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <div class="assistant">
+                <img src="{% static 'img/email.webp' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Email and Response Management</h5>
+                    <p>Let your assistant manage emails, conduct follow-ups, forward important and urgent emails.</p>
+                </div>
+            </div>
+            <div class="assistant">
+                <img src="{% static 'img/order.webp' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Order products and supplies</h5>
+                    <p>Take care of miscellaneous needs such as ordering office supplies, furniture, team lunch, etc.</p>
+                </div>
+            </div>
+            <div class="assistant">
+                <img src="{% static 'img/handle.webp' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Handle CRM tools</h5>
+                    <p>Your assistant can input and update records and collect information for your CRM tools.</p>
+                </div>
+            </div>
+            <div class="assistant">
+                <img src="{% static 'img/invoices.webp' %}" alt="assistant" class="assistant-image">
+                <div>
+                    <h5>Track expenses and invoices</h5>
+                    <p>Creates or sends statements or invoices, track payments, and record company expenses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="testimonies-container">
+        <div class="testimonies">
+            <div>
+                <h2>Customer Testimonial</h2>
+            </div>
+            <div class="testimony-card">
+                <img src="{% static 'img/comillas.png' %}" alt="">
+                <div class="general-card">
+                    <p>Our virtual assistant from TaskUp has become an indiepensable part of our team. Their eficiency and attention to detail has helped us stay organized.</p>
+                    <h6> John Smith</h6>
+                    <p> CEO, Company name</p>
+                </div>
+            </div>
 
-                                        <div class="testimony-card">
-                        <img src="{% static 'img/comillas.png' %}" alt="">
-                        <div class="general-card">
-                            <p>Our virtual assistant from TaskUp has become an indiepensable part of our team. Their eficiency and attention to detail has helped us stay organized.</p>
-                            <h6> John Smith</h6>
-                            <p> CEO, Company name</p>
+                                <div class="testimony-card">
+                <img src="{% static 'img/comillas.png' %}" alt="">
+                <div class="general-card">
+                    <p>Our virtual assistant from TaskUp has become an indiepensable part of our team. Their eficiency and attention to detail has helped us stay organized.</p>
+                    <h6> John Smith</h6>
+                    <p> CEO, Company name</p>
+                </div>
+            </div>
+                                <div class="testimony-card">
+                <img src="{% static 'img/comillas.png' %}" alt="">
+                <div class="general-card">
+                    <p>Our virtual assistant from TaskUp has become an indiepensable part of our team. Their eficiency and attention to detail has helped us stay organized.</p>
+                    <h6> John Smith</h6>
+                    <p> CEO, Company name</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="choose-container">
+        <div>
+            <h2>Why choose TaskUp</h2>
+            <p>Our virtual assistants are trained to help you with your business needs. We have a wide range of services to choose from.</p>
+            <p>We have a team of experts who are ready to help you with your business needs. We have a wide range of services to choose from.</p>   
+        </div>
+        
+        <div class="testimonies">
+            <div class="choose-img">
+                <img src="{% static 'img/service-stages.png' %}" alt="">
+            </div>
+            <div>
+                <h2>How it works</h2>
+                <p>Our virtual assistants are trained to help you with your business needs. We have a wide range of services to choose from.</p>
+                <p>We have a team of experts who are ready to help you with your business needs. We have a wide range of services to choose from.</p>
+                <div class="choose-card">
+                        <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                No Obligation Monthly Subscription
+                                <span class="accordion-arrow">&#9660;</span>
+                            </button>
+                            <div class="accordion-content">
+                                <p>Wing offers a variety of payment options and flexible terms to accommodate the diverse financial needs of enterprise clients. Whether you prefer monthly invoicing, annual plans, or customized payment schedules, we have a solution for you.</p>
+                            </div>
                         </div>
-                    </div>
-                                        <div class="testimony-card">
-                        <img src="{% static 'img/comillas.png' %}" alt="">
-                        <div class="general-card">
-                            <p>Our virtual assistant from TaskUp has become an indiepensable part of our team. Their eficiency and attention to detail has helped us stay organized.</p>
-                            <h6> John Smith</h6>
-                            <p> CEO, Company name</p>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                NDAs and Custom Talent Policies
+                                <span class="accordion-arrow">&#9660;</span>
+                            </button>
+                            <div class="accordion-content">
+                                <p>We ensure confidentiality and provide custom talent policies tailored to your business needs.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                Data Security and Compliance
+                                <span class="accordion-arrow">&#9660;</span>
+                            </button>
+                            <div class="accordion-content">
+                                <p>Our services comply with the highest data security standards to protect your business information.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                End-to-end Teams, 24/7 Teams
+                                <span class="accordion-arrow">&#9660;</span>
+                            </button>
+                            <div class="accordion-content">
+                                <p>We provide dedicated teams available around the clock to meet your business requirements.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="choose-container">
-                <div>
-                    <h2>Why choose TaskUp</h2>
-                    <p>Our virtual assistants are trained to help you with your business needs. We have a wide range of services to choose from.</p>
-                    <p>We have a team of experts who are ready to help you with your business needs. We have a wide range of services to choose from.</p>   
+        </div>
+    </div>
+    <div class="reviews-container">
+        <h2>Hundreds of Stellar Client Reviews</h2>
+        <p>TaskUp has been recognized as a top virtual assistant service provider by Clutch, Google, and other platforms.</p>
+        <div class="reviews-slider">
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="stars">★★★★★</span>
+                    <span class="platform">Clutch</span>
                 </div>
-                
-                <div class="testimonies">
-                    <div class="choose-img">
-                        <img src="{% static 'img/service-stages.png' %}" alt="">
-                    </div>
+                <p>Overall, I have been very pleased with each aspect of hiring my Wing VA...</p>
+                <div class="review-footer">
+                    <img src="{% static 'img/user.png' %}" alt="Christine Mulvey">
                     <div>
-                        <h2>How it works</h2>
-                        <p>Our virtual assistants are trained to help you with your business needs. We have a wide range of services to choose from.</p>
-                        <p>We have a team of experts who are ready to help you with your business needs. We have a wide range of services to choose from.</p>
-                        <div class="choose-card">
-                             <div class="accordion">
-                                <div class="accordion-item">
-                                    <button class="accordion-header">
-                                        No Obligation Monthly Subscription
-                                        <span class="accordion-arrow">&#9660;</span>
-                                    </button>
-                                    <div class="accordion-content">
-                                        <p>Wing offers a variety of payment options and flexible terms to accommodate the diverse financial needs of enterprise clients. Whether you prefer monthly invoicing, annual plans, or customized payment schedules, we have a solution for you.</p>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <button class="accordion-header">
-                                        NDAs and Custom Talent Policies
-                                        <span class="accordion-arrow">&#9660;</span>
-                                    </button>
-                                    <div class="accordion-content">
-                                        <p>We ensure confidentiality and provide custom talent policies tailored to your business needs.</p>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <button class="accordion-header">
-                                        Data Security and Compliance
-                                        <span class="accordion-arrow">&#9660;</span>
-                                    </button>
-                                    <div class="accordion-content">
-                                        <p>Our services comply with the highest data security standards to protect your business information.</p>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <button class="accordion-header">
-                                        End-to-end Teams, 24/7 Teams
-                                        <span class="accordion-arrow">&#9660;</span>
-                                    </button>
-                                    <div class="accordion-content">
-                                        <p>We provide dedicated teams available around the clock to meet your business requirements.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h6>Christine Mulvey</h6>
+                        <p>Director of Marketing<br>charlesgate.com</p>
                     </div>
                 </div>
             </div>
-            <div class="reviews-container">
-                <h2>Hundreds of Stellar Client Reviews</h2>
-                <p>TaskUp has been recognized as a top virtual assistant service provider by Clutch, Google, and other platforms.</p>
-                <div class="reviews-slider">
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="stars">★★★★★</span>
-                            <span class="platform">Clutch</span>
-                        </div>
-                        <p>Overall, I have been very pleased with each aspect of hiring my Wing VA...</p>
-                        <div class="review-footer">
-                            <img src="{% static 'img/user.png' %}" alt="Christine Mulvey">
-                            <div>
-                                <h6>Christine Mulvey</h6>
-                                <p>Director of Marketing<br>charlesgate.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="stars">★★★★★</span>
-                            <span class="platform">Google</span>
-                        </div>
-                        <p>Amazing service! Excellent customer support and the work done by my assistant...</p>
-                        <div class="review-footer">
-                            <img src="{% static 'img/user.png' %}" alt="Chris Mullaly">
-                            <div>
-                                <h6>Chris Mullaly</h6>
-                                <p>Founder and Managing Partner<br>spiruscapitalpartners.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="stars">★★★★★</span>
-                            <span class="platform">Google</span>
-                        </div>
-                        <p>Wing provides exceptional Virtual Assistant services and an accompanying productivity platform...</p>
-                        <div class="review-footer">
-                            <img src="{% static 'img/user.png' %}" alt="Dylan Schiemann">
-                            <div>
-                                <h6>Dylan Schiemann</h6>
-                                <p>Co-Founder & CEO<br>livingspec.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review-card">
-                    <div class="review-header">
-                        <span class="stars">★★★★★</span>
-                        <span class="platform">Trustpilot</span>
-                    </div>
-                    <p>TaskUp has been a game-changer for our business. Their assistants are professional, reliable, and always go the extra mile.</p>
-                    <div class="review-footer">
-                        <img src="{% static 'img/user.png' %}" alt="Alex Johnson">
-                        <div>
-                            <h6>Alex Johnson</h6>
-                            <p>CEO<br>innovatech.com</p>
-                        </div>
-                    </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="stars">★★★★★</span>
+                    <span class="platform">Google</span>
                 </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="stars">★★★★☆</span>
-                        <span class="platform">Yelp</span>
-                    </div>
-                    <p>Great service! The assistant helped me organize my schedule and manage my emails efficiently. Highly recommend!</p>
-                    <div class="review-footer">
-                        <img src="{% static 'img/user.png' %}" alt="Sophia Lee">
-                        <div>
-                            <h6>Sophia Lee</h6>
-                            <p>Marketing Manager<br>brightideas.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="stars">★★★★★</span>
-                        <span class="platform">Facebook</span>
-                    </div>
-                    <p>Exceptional service! My assistant has been instrumental in streamlining our operations and improving productivity.</p>
-                    <div class="review-footer">
-                        <img src="{% static 'img/user.png' %}" alt="Michael Brown">
-                        <div>
-                            <h6>Michael Brown</h6>
-                            <p>Operations Director<br>streamlinecorp.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="stars">★★★★☆</span>
-                        <span class="platform">Google</span>
-                    </div>
-                    <p>Very satisfied with the service. The assistant is proactive and always ready to help with any task I need.</p>
-                    <div class="review-footer">
-                        <img src="{% static 'img/user.png' %}" alt="Emily Davis">
-                        <div>
-                            <h6>Emily Davis</h6>
-                            <p>Freelancer<br>emilydavis.com</p>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="subscriptions">
-                <div class="subscriptions-container">
-                    <div class="help-section">
-                        <h3>Need help?</h3>
-                        <div class="help-option">
-                            <img src="{% static 'img/calendar-icon.png' %}" alt="Book a Meeting">
-                            <div>
-                                <h5>Book a Meeting</h5>
-                                <p>Book anytime, today, or this week</p>
-                            </div>
-                        </div>
-                        <div class="help-option">
-                            <img src="{% static 'img/chat-icon.png' %}" alt="Live Chat">
-                            <div>
-                                <h5>Live Chat</h5>
-                                <p>Available between 6 to 9 PM PST weekdays</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="plans-section">
-                        <div class="plan-card">
-                            <h4>GVA Full-Time</h4>
-                            <span class="badge">16% SAVINGS</span>
-                            <h2>$1099/Month</h2>
-                            <button class="btn btn-primary">Sign Up</button>
-                            <ul>
-                                <li>160 Hours per month</li>
-                                <li>Dedicated Virtual Assistant</li>
-                                <li>Free replacement</li>
-                                <li>Customer Success Manager</li>
-                                <li>Rigorous quality control and supervision</li>
-                                <li>Wing Workspace App</li>
-                                <li>Your timezone - Any hours you want</li>
-                                <li>Share with colleagues</li>
-                                <li>Unlimited file sharing/storage</li>
-                            </ul>
-                        </div>
-                        <div class="plan-card">
-                            <h4>GVA Part-Time</h4>
-                            <h2>$699/Month</h2>
-                            <button class="btn btn-primary">Sign Up</button>
-                            <ul>
-                                <li>80 Hours per month</li>
-                                <li>Dedicated Virtual Assistant</li>
-                                <li>Free replacement</li>
-                                <li>Customer Success Manager</li>
-                                <li>Rigorous quality control and supervision</li>
-                                <li>Wing Workspace App</li>
-                                <li>Your timezone - Choose from designated slots</li>
-                                <li>Sharing is limited</li>
-                                <li>10 GB file sharing/storage limit</li>
-                            </ul>
-                        </div>
+                <p>Amazing service! Excellent customer support and the work done by my assistant...</p>
+                <div class="review-footer">
+                    <img src="{% static 'img/user.png' %}" alt="Chris Mullaly">
+                    <div>
+                        <h6>Chris Mullaly</h6>
+                        <p>Founder and Managing Partner<br>spiruscapitalpartners.com</p>
                     </div>
                 </div>
             </div>
-            <div class="virtual-assistant">
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="stars">★★★★★</span>
+                    <span class="platform">Google</span>
+                </div>
+                <p>Wing provides exceptional Virtual Assistant services and an accompanying productivity platform...</p>
+                <div class="review-footer">
+                    <img src="{% static 'img/user.png' %}" alt="Dylan Schiemann">
+                    <div>
+                        <h6>Dylan Schiemann</h6>
+                        <p>Co-Founder & CEO<br>livingspec.com</p>
+                    </div>
+                </div>
             </div>
-            <div class="faqs">
-                <div class="faqs-container">
-                    <h2>Popular Questions:</h2>
-                    <div class="faq">
-                        <button class="faq-header">
-                            <span class="faq-icon">+</span>
-                            Is my Wing Assistant dedicated?
-                        </button>
-                        <div class="faq-content">
-                            <p>Yes, your Wing Assistant only works on your tasks during the agreed-upon hours.</p>
-                        </div>
+            <div class="review-card">
+            <div class="review-header">
+                <span class="stars">★★★★★</span>
+                <span class="platform">Trustpilot</span>
+            </div>
+            <p>TaskUp has been a game-changer for our business. Their assistants are professional, reliable, and always go the extra mile.</p>
+            <div class="review-footer">
+                <img src="{% static 'img/user.png' %}" alt="Alex Johnson">
+                <div>
+                    <h6>Alex Johnson</h6>
+                    <p>CEO<br>innovatech.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="review-header">
+                <span class="stars">★★★★☆</span>
+                <span class="platform">Yelp</span>
+            </div>
+            <p>Great service! The assistant helped me organize my schedule and manage my emails efficiently. Highly recommend!</p>
+            <div class="review-footer">
+                <img src="{% static 'img/user.png' %}" alt="Sophia Lee">
+                <div>
+                    <h6>Sophia Lee</h6>
+                    <p>Marketing Manager<br>brightideas.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="review-header">
+                <span class="stars">★★★★★</span>
+                <span class="platform">Facebook</span>
+            </div>
+            <p>Exceptional service! My assistant has been instrumental in streamlining our operations and improving productivity.</p>
+            <div class="review-footer">
+                <img src="{% static 'img/user.png' %}" alt="Michael Brown">
+                <div>
+                    <h6>Michael Brown</h6>
+                    <p>Operations Director<br>streamlinecorp.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="review-header">
+                <span class="stars">★★★★☆</span>
+                <span class="platform">Google</span>
+            </div>
+            <p>Very satisfied with the service. The assistant is proactive and always ready to help with any task I need.</p>
+            <div class="review-footer">
+                <img src="{% static 'img/user.png' %}" alt="Emily Davis">
+                <div>
+                    <h6>Emily Davis</h6>
+                    <p>Freelancer<br>emilydavis.com</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="pricing-container" style="display: flex; flex-direction: column; align-items: center;">
+        <h2>General Virtual Assistant Pricing</h2>
+        <p style="max-width: 900px;">A TaskUp General Virtual Assistant (GVA) will take care of your administrative and personal work and help you streamline your day-to-day operations so you can focus on growing your business and achieving your goals.</p>
+    </div>
+    <div class="subscriptions">
+        <div class="subscriptions-container">
+            <div class="help-section">
+                <h3>Need help?</h3>
+                <div class="help-option">
+                    <img src="{% static 'img/calendar-icon.png' %}" alt="Book a Meeting">
+                    <div>
+                        <h5>Book a Meeting</h5>
+                        <p>Book anytime, today, or this week</p>
                     </div>
-                    <div class="faq">
-                        <button class="faq-header">
-                            <span class="faq-icon">+</span>
-                            What hours will my assistant work?
-                        </button>
-                        <div class="faq-content">
-                            <p>Your assistant will work during the hours you specify when setting up your plan.</p>
-                        </div>
+                </div>
+                <div class="help-option">
+                    <img src="{% static 'img/chat-icon.png' %}" alt="Live Chat">
+                    <div>
+                        <h5>Live Chat</h5>
+                        <p>Available between 6 to 9 PM PST weekdays</p>
                     </div>
-                    <div class="faq">
-                        <button class="faq-header">
-                            <span class="faq-icon">+</span>
-                            Can I access Wing Assistant worldwide?
-                        </button>
-                        <div class="faq-content">
-                            <p>Yes, Wing Assistants are available globally and can work remotely from anywhere.</p>
-                        </div>
-                    </div>
-                    <div class="faq">
-                        <button class="faq-header">
-                            <span class="faq-icon">+</span>
-                            What does "unlimited work" mean?
-                        </button>
-                        <div class="faq-content">
-                            <p>Unlimited work means you can assign as many tasks as you want, within the agreed-upon hours.</p>
-                        </div>
-                    </div>
-                    <div class="faq">
-                        <button class="faq-header">
-                            <span class="faq-icon">+</span>
-                            Do you provide 24/7 coverage?
-                        </button>
-                        <div class="faq-content">
-                            <p>Yes, we offer 24/7 coverage with assistants working in shifts to meet your needs.</p>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            
+            <div class="plans-section">
+                <div class="plan-card">
+                    <h4>GVA Full-Time</h4>
+                    <span class="badge">16% SAVINGS</span>
+                    <h2>$1099/Month</h2>
+                    <button class="btn btn-primary">Sign Up</button>
+                    <ul>
+                        <li>160 Hours per month</li>
+                        <li>Dedicated Virtual Assistant</li>
+                        <li>Free replacement</li>
+                        <li>Customer Success Manager</li>
+                        <li>Rigorous quality control and supervision</li>
+                        <li>Wing Workspace App</li>
+                        <li>Your timezone - Any hours you want</li>
+                        <li>Share with colleagues</li>
+                        <li>Unlimited file sharing/storage</li>
+                    </ul>
+                </div>
+                <div class="plan-card">
+                    <h4>GVA Part-Time</h4>
+                    <h2>$699/Month</h2>
+                    <button class="btn btn-primary">Sign Up</button>
+                    <ul>
+                        <li>80 Hours per month</li>
+                        <li>Dedicated Virtual Assistant</li>
+                        <li>Free replacement</li>
+                        <li>Customer Success Manager</li>
+                        <li>Rigorous quality control and supervision</li>
+                        <li>Wing Workspace App</li>
+                        <li>Your timezone - Choose from designated slots</li>
+                        <li>Sharing is limited</li>
+                        <li>10 GB file sharing/storage limit</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="virtual-assistant">
+    </div>
+    <div class="faqs">
+        <div class="faqs-container">
+            <h2>Popular Questions:</h2>
+            <div class="faq">
+                <button class="faq-header">
+                    <span class="faq-icon">+</span>
+                    Is my Wing Assistant dedicated?
+                </button>
+                <div class="faq-content">
+                    <p>Yes, your Wing Assistant only works on your tasks during the agreed-upon hours.</p>
+                </div>
+            </div>
+            <div class="faq">
+                <button class="faq-header">
+                    <span class="faq-icon">+</span>
+                    What hours will my assistant work?
+                </button>
+                <div class="faq-content">
+                    <p>Your assistant will work during the hours you specify when setting up your plan.</p>
+                </div>
+            </div>
+            <div class="faq">
+                <button class="faq-header">
+                    <span class="faq-icon">+</span>
+                    Can I access Wing Assistant worldwide?
+                </button>
+                <div class="faq-content">
+                    <p>Yes, Wing Assistants are available globally and can work remotely from anywhere.</p>
+                </div>
+            </div>
+            <div class="faq">
+                <button class="faq-header">
+                    <span class="faq-icon">+</span>
+                    What does "unlimited work" mean?
+                </button>
+                <div class="faq-content">
+                    <p>Unlimited work means you can assign as many tasks as you want, within the agreed-upon hours.</p>
+                </div>
+            </div>
+            <div class="faq">
+                <button class="faq-header">
+                    <span class="faq-icon">+</span>
+                    Do you provide 24/7 coverage?
+                </button>
+                <div class="faq-content">
+                    <p>Yes, we offer 24/7 coverage with assistants working in shifts to meet your needs.</p>
                 </div>
             </div>
         </div>

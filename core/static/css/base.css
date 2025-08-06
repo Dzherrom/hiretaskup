@@ -229,13 +229,50 @@ body {
 /*primer flex container*/
 
 .flex-container {
-    display: flex; /* Activa Flexbox */
-    flex-direction: row; /* Alinea los elementos en una fila (horizontalmente) */
-    justify-content: center; /* Espacio entre los elementos */
-    align-items: center; /* Centra los elementos verticalmente */
-    gap: 20px; /* Espaciado entre los elementos */
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: center; /* Espacia los elementos horizontalmente */
+    padding: 40px; /* Ajusta el espacio interno */
+    gap: 80px; /* Espaciado entre los elementos */
     width: 100%; /* Asegura que ocupe todo el ancho */
-    padding: 20px; /* Opcional: agrega espacio interno */
+    max-width: 1400px; /* Limita el ancho máximo */
+    margin: 0 auto;    /* Centra el contenedor en la página */
+
+}
+
+.flex-container div {
+    flex: 1; /* Los elementos ocupan el mismo espacio */
+}
+
+.flex-container h1 {
+    font-size: 3em; /* Ajusta el tamaño del texto */
+    margin-bottom: 20px;
+    color: #333; /* Color del texto */
+}
+
+.flex-container p {
+    font-size: 1.2em; /* Ajusta el tamaño del texto */
+    margin-bottom: 30px;
+    color: #555; /* Color del texto */
+}
+
+.flex-container .btn {
+    margin-right: 10px; /* Espaciado entre botones */
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.hero-image {
+    max-width: 100%; /* Asegura que la imagen no exceda el contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #26a8ff 0%, #7b7ffb 60%, #e7a1e6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .main-container {
