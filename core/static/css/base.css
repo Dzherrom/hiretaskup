@@ -235,7 +235,7 @@ body {
     padding: 40px; /* Ajusta el espacio interno */
     gap: 80px; /* Espaciado entre los elementos */
     width: 100%; /* Asegura que ocupe todo el ancho */
-    max-width: 1400px; /* Limita el ancho máximo */
+    max-width: 1200px; /* Limita el ancho máximo */
     margin: 0 auto;    /* Centra el contenedor en la página */
 
 }
@@ -284,6 +284,8 @@ body {
     width: 100%; /* Asegura que ocupe todo el ancho */
     padding: 20px; /* Espaciado interno opcional */
     min-height: 100vh; /* Asegura que ocupe al menos la altura de la ventana */
+
+
 }
 
 .info-container {
@@ -546,19 +548,62 @@ body {
 }
 
 .reviews-slider {
+    position: relative;
     display: flex;
-    gap: 20px; /* Espaciado entre las tarjetas */
-    overflow-x: auto; /* Habilita el desplazamiento horizontal */
-    scroll-behavior: smooth; /* Desplazamiento suave */
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
     padding: 10px;
-    cursor: grab;
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
-    max-width: 1200px; /* Ajusta el ancho máximo para mostrar 4 elementos */
-    margin: 0 auto; /* Centra el contenedor */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.reviews-slider:active {
-    cursor: grabbing;
+.reviews-slider::before,
+.reviews-slider::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.reviews-slider::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+.reviews-slider::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
+}
+
+.slider-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .review-card {
@@ -613,6 +658,7 @@ body {
 }
 
 /* Subscriptions */
+
 /* Contenedor principal */
 .subscriptions-container {
     display: flex;

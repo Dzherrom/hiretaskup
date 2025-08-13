@@ -21,4 +21,16 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+    
+    const slider = document.querySelector(".reviews-slider");
+    const leftArrow = document.querySelector(".left-arrow");
+    const rightArrow = document.querySelector(".right-arrow");
+
+    leftArrow.addEventListener("click", () => {
+        slider.scrollBy({ left: -300, behavior: "smooth" });
+    });
+
+    rightArrow.addEventListener("click", () => {
+        slider.scrollBy({ left: 300, behavior: "smooth" });
+    });
 });
