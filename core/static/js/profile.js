@@ -33,7 +33,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const phoneLengths = {
             'co': 10, // Colombia
             'mx': 10, // México
-            'ar': 10  // Argentina (ajusta según el país)
+            'ar': 10,  // Argentina
+            'pe': 9,   // Perú
+            'br': 11,  // Brasil
+            'cl': 9,   // Chile
+            'uy': 8,   // Uruguay
+            've': 10,  // Venezuela
+            'es': 9,   // España
+            'us': 10,  // Estados Unidos
+            'gb': 10,  // Reino Unido
+            'fr': 10,  // Francia
+            'de': 10,  // Alemania
+            'it': 10,  // Italia
+            'jp': 10,  // Japón
+            'cn': 11,  // China
+            'in': 10,  // India
+            'au': 9,   // Australia
+            'za': 10   // Sudáfrica
         };
         function updatePhoneLength() {
             const selected = countryInput.value;

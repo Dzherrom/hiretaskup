@@ -24,6 +24,18 @@ PAIS_CHOICES = [
     ('MX', 'Mexico'),
     ('PE', 'Peru'),
     ('UY', 'Uruguay'),
+    ('VE', 'Venezuela'),
+    ('ES', 'Spain'),
+    ('US', 'United States'),
+    ('GB', 'United Kingdom'),
+    ('FR', 'France'),
+    ('DE', 'Germany'),
+    ('IT', 'Italy'),
+    ('JP', 'Japan'),
+    ('CN', 'China'),
+    ('IN', 'India'),
+    ('AU', 'Australia'),
+    ('ZA', 'South Africa'),
 ]
 
 class ProfileForm(forms.ModelForm):
