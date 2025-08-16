@@ -1,1 +1,2 @@
-web: gunicorn hiretaskup.wsgi
+release: python manage.py migrate
+web: gunicorn hiretaskup.wsgi --log-file=-
