@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'hiretaskup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'degt3vf9svk36i',
-        'USER': 'u2klvkdg5rvr3h',
-        'PASSWORD': 'p308f37b404569c967000fd54c2d9c014a9140edc6368d07afa7675508cec1bec',
-        'HOST': 'cduf3or326qj7m.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
+        'NAME': 'daqv9tfsgniack',
+        'USER': 'uadv0t4cp297tb',
+        'PASSWORD': 'pe339b8d0e34e25e93ee357e0f6cf84973c67d620f9cb190cd8e1cadd20c062ce',
+        'HOST': 'c7itisjfjj8ril.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
