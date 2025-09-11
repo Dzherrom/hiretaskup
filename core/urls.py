@@ -6,6 +6,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('plans/', views.plans, name='plans'),
+    path('onboarding/checkout/', views.onboarding_checkout, name='onboarding_checkout'),
+    path('onboarding/create-checkout/', views.onboarding_create_checkout, name='onboarding_create_checkout'),
     path('contact/', views.contact, name='contact'),
     path('payments/', views.payments_page, name='payments'),
     #auth urls
