@@ -48,6 +48,18 @@ nav ul li a:hover {
 .right-section {
     display: flex;
     align-items: center;
+    gap: 20px;
+}
+
+/* Prevent underline on links in the right section (all states) */
+.right-section a,
+.right-section a:link,
+.right-section a:visited,
+.right-section a:hover,
+.right-section a:active,
+.right-section a:focus,
+.right-section .btn {
+    text-decoration: none;
 }
 
 .right-section .btn {

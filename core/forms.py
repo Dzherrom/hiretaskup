@@ -11,6 +11,18 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
         
 class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'placeholder': 'Username',
+            'class': 'input-field',
+            'autocomplete': 'username',
+        })
+        self.fields['password'].widget.attrs.update({
+            'placeholder': 'Password',
+            'class': 'input-field',
+            'autocomplete': 'current-password',
+        })
     class Meta:
         model = User
         fields = ['username', 'password'] 
