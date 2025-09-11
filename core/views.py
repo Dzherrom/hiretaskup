@@ -10,8 +10,8 @@ from .forms import MeetingForm
 from django.http import Http404
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
-
-# Create your views here.
+from django.conf import settings
+import stripe 
 
 def home(request):
     return render(request, 'home/home.html', {'user_is_authenticated': request.user.is_authenticated})
@@ -150,3 +150,31 @@ def contact(request):
             'form': form,
             'error': "This meeting already exists",
             'user_is_authenticated': request.user.is_authenticated})
+    
+# payments
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+def process_payment(request):
+    if request.method == 'POST':
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': 'Xbox Game Pass 1 Month for PC',
+                    },
+                    'unit_amount': 302,  # Amount in cents
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri('/success/'),
+            cancel_url=request.build_absolute_uri('/cancel/'),
+        )
+        return redirect(session.url, code=303)
+    return render(request, 'payment/stripe_redirect.html')
+
+def payments_page(request):
+    return render(request, 'payment/payments.html')
