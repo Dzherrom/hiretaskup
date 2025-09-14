@@ -14,9 +14,15 @@ from pathlib import Path
 import os
 import dj_database_url
 import django_on_heroku
-from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables from a .env file if present
+# Optional: load environment variables from a .env file in local/dev. In Heroku, Config Vars are injected.
+try:
+    from dotenv import load_dotenv  # type: ignore
+except Exception:  # pragma: no cover - if python-dotenv isn't installed
+    load_dotenv = None
+
+if load_dotenv:
+    load_dotenv()  # Load environment variables from a .env file if present
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,15 +51,15 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-unsafe-secret-key-change-me')
 # DEBUG flag controlled by env
 DEBUG = env_bool('DEBUG', default=False)
 
-# Hosts and CSRF
-ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', default=['.herokuapp.com', 'localhost', '127.0.0.1'])
+# Hosts and CSRF (must come from environment in prod)
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', default=[])
 CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS', default=[])
 
-# Stripe (use environment variables; test keys in dev)
-STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "pk_test_51Rz1qWILrOKTYtsrjh5E5GfHI2wNTGtVsuWHqXmRdLMFhhmp9imhNVThvXsw5A96ThAnDgawEKoNihfiW1dGDf9i00OT8Ke6Lo")
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "sk_test_51Rz1qWILrOKTYtsrHrOv0IRmQKqhoGnGKve9GEuFoJD3JcfjsLfz3dutqV0AZh8wCrvp4Fw0N3Zz6N0fv3fYfw5j00sarX35A1")
+# Stripe (must come from environment)
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 # Optional: Stripe Webhook secret for local/Heroku testing
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 
 
@@ -104,14 +110,10 @@ WSGI_APPLICATION = 'hiretaskup.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'daqv9tfsgniack',
-        'USER': 'uadv0t4cp297tb',
-        'PASSWORD': 'pe339b8d0e34e25e93ee357e0f6cf84973c67d620f9cb190cd8e1cadd20c062ce',
-        'HOST': 'c7itisjfjj8ril.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', f"sqlite:///{(BASE_DIR / 'db.sqlite3').as_posix()}"),
+        conn_max_age=600,
+    )
 }
 
 # Password validation
