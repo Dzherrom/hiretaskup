@@ -35,9 +35,10 @@
                                     {{ form.username }}
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group password-wrap">
                                     {{ form.password.errors }}
                                     {{ form.password }}
+                                    <button type="button" class="toggle-pass" aria-label="Show password">👁️</button>
                                 </div>
 
                     <div class="form-row">
@@ -65,4 +66,20 @@
     <div class="login-right" aria-hidden="true"></div>
 </div>
 {% endblock content %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.password-wrap').forEach(wrap => {
+        const input = wrap.querySelector('input[type="password"], input[type="text"]');
+        const btn = wrap.querySelector('.toggle-pass');
+        if (!input || !btn) return;
+        btn.addEventListener('click', () => {
+            const isPwd = input.type === 'password';
+            input.type = isPwd ? 'text' : 'password';
+            btn.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
+        });
+    });
+});
+</script>
+{% endblock extra_js %}
 {% block footer %}{% endblock footer %}
