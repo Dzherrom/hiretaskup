@@ -1,9 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
     const slider = document.querySelector(".reviews-slider");
+    const leftArrow = document.querySelector(".left-arrow");
+    const rightArrow = document.querySelector(".right-arrow");
     let isDown = false;
     let startX;
     let scrollLeft;
 
+    leftArrow.addEventListener("click", () => {
+        slider.scrollBy({ left: -300, behavior: "smooth" }); // Desplaza hacia la izquierda
+    });
+
+    rightArrow.addEventListener("click", () => {
+        slider.scrollBy({ left: 300, behavior: "smooth" }); // Desplaza hacia la derecha
+    });
+    
     // Evento al presionar el mouse
     slider.addEventListener("mousedown", (e) => {
         isDown = true;

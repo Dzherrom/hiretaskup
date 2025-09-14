@@ -1,0 +1,99 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block extra_css %}
+<style>
+.ob-wrapper{max-width:1050px;margin:30px auto;border:1px solid #e5e7eb;border-radius:12px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;background:#fff}
+.ob-left{padding:24px 28px}
+.ob-right{padding:24px 28px;border-left:1px solid #e5e7eb;font-size:16px}
+.ob-title{font-size:28px;font-weight:600;text-align:center;margin:10px 0 6px;color:#111827}
+.ob-sub{color:#6b7280;text-align:center;margin-bottom:18px}
+.ob-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ob-group{display:flex;flex-direction:column;gap:6px}
+.ob-group label{font-size:13px;color:#374151;font-weight:600}
+.ob-form .full{grid-column:1/-1}
+.ob-input{padding:12px 14px;border:1px solid #d1d5db;border-radius:8px;background:#f9fafb}
+.ob-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.ob-item{display:flex;gap:12px;margin-bottom:18px}
+.ob-item h4{margin:0 0 4px;font-size:16px;color:#111827}
+.ob-item p{margin:0;color:#6b7280;font-size:13px}
+.ob-qty{display:flex;align-items:center;gap:6px}
+.ob-qty button{width:28px;height:28px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}
+.ob-total{font-weight:700;color:#1d4ed8;font-size:24px}
+.ob-next{position:sticky;bottom:0;display:flex;justify-content:center;padding:16px;background:transparent;margin-top:12px}
+.ob-next-right{display:flex;justify-content:center;margin-top:12px}
+.ob-next button, .ob-next-right button{min-width:240px;padding:12px 16px;border:none;border-radius:9999px;background:linear-gradient(90deg,#26a8ff,#1d4ed8);color:#fff;font-weight:600}
+@media(max-width:900px){.ob-wrapper{grid-template-columns:1fr}}
+</style>
+{% endblock extra_css %}
+{% block content %}
+<h2 class="ob-title">Let's get you set up</h2>
+<p class="ob-sub">Tell us a little bit about yourself</p>
+<div class="ob-wrapper">
+  <div class="ob-left">
+  <form id="onboardingForm" method="post" action="{% url 'onboarding_create_checkout' %}" class="ob-form">
+      {% csrf_token %}
+      <input type="hidden" name="plan_name" value="{{ plan_name }}"/>
+      <input type="hidden" name="amount_cents" value="{{ amount_cents }}"/>
+      <input type="hidden" name="quantity" id="qtyField" value="{{ qty }}"/>
+      <div class="full ob-group">
+        <label>Full Name</label>
+        <input class="ob-input" type="text" name="full_name" placeholder="Full Name" required />
+      </div>
+      <div class="ob-group">
+        <label>Business Name</label>
+        <input class="ob-input" type="text" name="business_name" placeholder="Business Name" required />
+      </div>
+      <div class="ob-group">
+        <label>Email Address</label>
+        <input class="ob-input" type="email" name="email" placeholder="Email Address" value="{{ request.user.email }}" required />
+      </div>
+      <div class="full ob-group">
+        <label>Phone Number</label>
+        <input class="ob-input" type="tel" name="phone" placeholder="Phone number" required />
+      </div>
+      <div class="full ob-group">
+        <label>Website</label>
+        <input class="ob-input" type="url" name="website" placeholder="yourwebsite.com" />
+      </div>
+      
+    </form>
+  </div>
+  <div class="ob-right">
+    <h3 style="margin-top:0; color:#6b7280; font-weight:600;">SELECTED PRODUCTS</h3>
+    <div class="ob-item">
+      <div style="width:40px;height:40px;border-radius:50%;background:#eaf3ff"></div>
+      <div style="flex:1">
+        <h4>{{ plan_name }}</h4>
+        <p>Includes 1 user account</p>
+        <div class="ob-row">
+          <div>$<span id="unit">{{ amount_dollars|floatformat:2 }}</span>/month</div>
+          <div class="ob-qty">
+            <button type="button" id="minus">–</button>
+            <span id="qty">{{ qty }}</span>
+            <button type="button" id="plus">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="ob-row">
+      <div>Total:</div>
+      <div class="ob-total" id="total">${{ amount_dollars|floatformat:2 }}</div>
+    </div>
+    <div class="ob-next-right"><button type="submit" form="onboardingForm">Next</button></div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const plus = document.getElementById('plus');
+  const minus = document.getElementById('minus');
+  const qtyEl = document.getElementById('qty');
+  const totalEl = document.getElementById('total');
+  const unit = parseFloat(document.getElementById('unit').textContent || '0');
+  const qtyField = document.getElementById('qtyField');
+  function updateTotal(q){ totalEl.textContent = `$${(unit * q).toFixed(2)}`; qtyEl.textContent = q; qtyField.value = q; }
+  plus?.addEventListener('click', () => { const q = Math.min(99, (parseInt(qtyEl.textContent)||1)+1); updateTotal(q); });
+  minus?.addEventListener('click', () => { const q = Math.max(1, (parseInt(qtyEl.textContent)||1)-1); updateTotal(q); });
+});
+</script>
+{% endblock content %}

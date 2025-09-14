@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import django_on_heroku
+import django_on_herokuimport
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,6 +29,13 @@ SECRET_KEY = 'django-insecure-x&6zmbyz!9r*pa9o^_9s5+_d-tx-&b3+sr(t!f8p26bsc90=7h
 DEBUG = True
 
 ALLOWED_HOSTS = ['hiretaskup.herokuapp.com', 'localhost', '127.0.0.1']
+
+# Stripe (use environment variables; test keys in dev)
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "pk_test_51Rz1qWILrOKTYtsrjh5E5GfHI2wNTGtVsuWHqXmRdLMFhhmp9imhNVThvXsw5A96ThAnDgawEKoNihfiW1dGDf9i00OT8Ke6Lo")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "sk_test_51Rz1qWILrOKTYtsrHrOv0IRmQKqhoGnGKve9GEuFoJD3JcfjsLfz3dutqV0AZh8wCrvp4Fw0N3Zz6N0fv3fYfw5j00sarX35A1")
+# Optional: Stripe Webhook secret for local/Heroku testing
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+
 
 
 # Application definition

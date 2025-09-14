@@ -16,8 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from core import views_stripe as stripe_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
+    # Stripe test endpoints
+    path('payments/config/', stripe_views.stripe_config, name='stripe-config'),
+    path('payments/create-checkout-session/', stripe_views.create_checkout_session, name='stripe-create-checkout-session'),
+    path('payments/success/', stripe_views.payment_success, name='stripe-success'),
+    path('payments/cancel/', stripe_views.payment_cancel, name='stripe-cancel'),
+    path('payments/webhook/', stripe_views.stripe_webhook, name='stripe-webhook'),
 ]
