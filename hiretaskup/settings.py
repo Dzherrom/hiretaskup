@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import django_on_herokuimport
+import django_on_heroku
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from a .env file if present
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +25,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x&6zmbyz!9r*pa9o^_9s5+_d-tx-&b3+sr(t!f8p26bsc90=7h'
+def env_bool(name: str, default: bool = False) -> bool:
+    val = os.getenv(name)
+    if val is None:
+        return default
+    return val.strip().lower() in ("1", "true", "yes", "on")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+def env_list(name: str, default: list[str] | None = None) -> list[str]:
+    if default is None:
+        default = []
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    return [item.strip() for item in raw.split(',') if item.strip()]
 
-ALLOWED_HOSTS = ['hiretaskup.herokuapp.com', 'localhost', '127.0.0.1']
+# SECURITY: load from environment (see .env for local dev)
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-unsafe-secret-key-change-me')
+
+# DEBUG flag controlled by env
+DEBUG = env_bool('DEBUG', default=False)
+
+# Hosts and CSRF
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', default=['.herokuapp.com', 'localhost', '127.0.0.1'])
+CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS', default=[])
 
 # Stripe (use environment variables; test keys in dev)
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "pk_test_51Rz1qWILrOKTYtsrjh5E5GfHI2wNTGtVsuWHqXmRdLMFhhmp9imhNVThvXsw5A96ThAnDgawEKoNihfiW1dGDf9i00OT8Ke6Lo")
@@ -84,13 +103,6 @@ WSGI_APPLICATION = 'hiretaskup.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.getenv('DATABASE_URL'),
-#         engine='django.db.backends.postgresql'
-#     )
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -137,7 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'core' / 'static',
 ]
@@ -154,4 +166,11 @@ LOGIN_REDIRECT_URL = '/'
 
 
 django_on_heroku.settings(locals())
+
+# Security headers when running behind a proxy (Heroku)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 

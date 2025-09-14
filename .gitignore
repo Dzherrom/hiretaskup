@@ -1,5 +1,6 @@
 #virtual env
 venv
+.env 
 
 #cache files
 hiretaskup/__pycache__
