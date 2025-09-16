@@ -5,12 +5,13 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
-from .models import CustomUser, Meeting
+from .models import CustomUser, Meeting, Subscription, VirtualAssistant
 from .forms import MeetingForm
 from django.http import Http404
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from django.conf import settings
+from django.utils import timezone
 import stripe 
 
 def home(request):
@@ -59,7 +60,17 @@ def user_profile(request):
             user.password = make_password(password)
         user.save()
         return redirect('user_profile')
-    return render(request, 'user/user_profile.html', {'user': request.user})
+    # GET: build profile context
+    # Show all subscriptions (active and pending). Pending will render with status 'espera'.
+    active_subs = Subscription.objects.filter(user=request.user).prefetch_related('assistants').order_by('-active', '-start_date')
+    # Assistants are derived from active subscriptions only; if none active, UI shows "Por asignar".
+    assistants = VirtualAssistant.objects.filter(subscriptions__user=request.user, subscriptions__active=True).distinct()
+    ctx = {
+        'user': request.user,
+        'active_subscriptions': active_subs,
+        'assigned_assistants': assistants,
+    }
+    return render(request, 'user/user_profile.html', ctx)
 
 @login_required
 def user_list(request):
@@ -144,6 +155,14 @@ def onboarding_checkout(request):
         'amount_cents': amount_cents,
         'amount_dollars': amount_cents / 100 if amount_cents else 0,
         'qty': qty,
+        # Prefill form from user data where possible
+        'prefill': {
+            'full_name': request.user.get_full_name() if hasattr(request.user, 'get_full_name') else '',
+            'business_name': getattr(request.user, 'business_name', '') or '',
+            'email': request.user.email,
+            'phone': getattr(request.user, 'phone_number', '') or '',
+            'website': getattr(request.user, 'website', '') or '',
+        }
     }
     return render(request, 'onboarding/checkout.html', context)
 
@@ -166,6 +185,44 @@ def onboarding_create_checkout(request):
     email = request.POST.get('email', request.user.email)
     phone = request.POST.get('phone', '')
     website = request.POST.get('website', '')
+
+    # Update the logged-in user's profile with submitted info
+    user = request.user
+    # Split full_name into first/last if possible
+    if full_name:
+        parts = full_name.strip().split()
+        if len(parts) == 1:
+            user.first_name = parts[0]
+        else:
+            user.first_name = parts[0]
+            user.last_name = ' '.join(parts[1:])
+    if business_name:
+        setattr(user, 'business_name', business_name)
+    if phone:
+        setattr(user, 'phone_number', phone)
+    if website:
+        setattr(user, 'website', website)
+    if email and email != user.email:
+        user.email = email
+    # Optionally set a composite full_name field if present in model
+    if hasattr(user, 'full_name') and full_name:
+        setattr(user, 'full_name', full_name)
+    user.save()
+
+    # Ensure a pending subscription exists so the profile shows "espera" immediately
+    try:
+        Subscription.objects.get_or_create(
+            user=user,
+            plan_name=plan_name,
+            active=False,
+            defaults={
+                'start_date': timezone.now().date(),
+                'end_date': None,
+            }
+        )
+    except Exception:
+        # Non-fatal: if something goes wrong, still proceed to Stripe
+        pass
 
     # Create Stripe Checkout Session
     stripe.api_key = settings.STRIPE_SECRET_KEY

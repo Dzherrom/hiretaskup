@@ -37,23 +37,23 @@
       <input type="hidden" name="quantity" id="qtyField" value="{{ qty }}"/>
       <div class="full ob-group">
         <label>Full Name</label>
-        <input class="ob-input" type="text" name="full_name" placeholder="Full Name" required />
+        <input class="ob-input" type="text" name="full_name" placeholder="Full Name" value="{{ prefill.full_name }}" required />
       </div>
       <div class="ob-group">
         <label>Business Name</label>
-        <input class="ob-input" type="text" name="business_name" placeholder="Business Name" required />
+        <input class="ob-input" type="text" name="business_name" placeholder="Business Name" value="{{ prefill.business_name }}" required />
       </div>
       <div class="ob-group">
         <label>Email Address</label>
-        <input class="ob-input" type="email" name="email" placeholder="Email Address" value="{{ request.user.email }}" required />
+        <input class="ob-input" type="email" name="email" placeholder="Email Address" value="{{ prefill.email|default:request.user.email }}" required />
       </div>
       <div class="full ob-group">
         <label>Phone Number</label>
-        <input class="ob-input" type="tel" name="phone" placeholder="Phone number" required />
+        <input class="ob-input" type="tel" name="phone" placeholder="Phone number" value="{{ prefill.phone }}" required />
       </div>
       <div class="full ob-group">
         <label>Website</label>
-        <input class="ob-input" type="url" name="website" placeholder="yourwebsite.com" />
+        <input class="ob-input" type="url" name="website" placeholder="yourwebsite.com" value="{{ prefill.website }}" />
       </div>
       
     </form>

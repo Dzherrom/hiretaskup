@@ -1,36 +1,111 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Mi Perfil</h2>
-    <table class="table table-bordered table-striped mt-4">
-        <tbody>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ user.first_name }}</td>
-            </tr>
-            <tr>
-                <th>Apellido</th>
-                <td>{{ user.last_name }}</td>
-            </tr>
-            <tr>
-                <th>Correo electrónico</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Teléfono</th>
-                <td>{{ user.phone_number }}</td>
-            </tr>
-            <tr>
-                <th>Dirección</th>
-                <td>{{ user.address }}</td>
-            </tr>
-            <tr>
-                <th>Nombre de usuario</th>
-                <td>{{ user.username }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="{% url 'user_edit' user.id %}" class="btn btn-primary">Editar Perfil</a>
+<div class="profile-wrapper">
+    <div class="profile-left">
+        <div class="card">
+            <div class="card-body">
+                <div class="avatar">
+                    <img src="{% static 'img/user.png' %}" alt="avatar" />
+                </div>
+                <div class="name">{{ user.get_full_name|default:user.username }}</div>
+                <div class="role">{{ user.business_name|default:"Customer" }}</div>
+                <div class="btn-row">
+                    <a class="btn btn-primary" href="{% url 'user_edit' user.id %}">Edit</a>
+                    <a class="btn btn-outline" href="{% url 'contact' %}">Message</a>
+                </div>
+            </div>
+            <div class="list">
+                <div class="item"><strong>Website</strong><span>{{ user.website|default:"—" }}</span></div>
+                <div class="item"><strong>Email</strong><span>{{ user.email }}</span></div>
+                <div class="item"><strong>Phone</strong><span>{{ user.phone_number|default:"—" }}</span></div>
+                <div class="item"><strong>Address</strong><span>{{ user.address|default:"—" }}</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-right">
+        <div class="card">
+            <div class="header"><h3>User Details</h3><a class="edit-btn" href="{% url 'user_edit' user.id %}">Edit</a></div>
+            <div class="card-body">
+                <div class="info">
+                    <div class="label">Full Name</div>
+                    <div>{{ user.get_full_name|default:"—" }}</div>
+                    <div class="label">Username</div>
+                    <div>{{ user.username }}</div>
+                    <div class="label">Business Name</div>
+                    <div>{{ user.business_name|default:"—" }}</div>
+                    <div class="label">Email</div>
+                    <div>{{ user.email }}</div>
+                    <div class="label">Phone</div>
+                    <div>{{ user.phone_number|default:"—" }}</div>
+                    <div class="label">Website</div>
+                    <div>{{ user.website|default:"—" }}</div>
+                    <div class="label">Address</div>
+                    <div>{{ user.address|default:"—" }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-container"> 
+            <div class="card mt-12">
+                <div class="header"><h3>Subscriptions</h3></div>
+                <div class="card-body">
+                    {% with subs=active_subscriptions %}
+                    {% if subs %}
+                    <div class="grid">
+                            {% for sub in subs %}
+                        <div class="sub-item">
+                            <div class="sub-title">{{ sub.plan_name }}</div>
+                            <div class="muted">Start: {{ sub.start_date|date:"M d, Y" }}</div>
+                                <div class="muted">End: {{ sub.end_date|date:"M d, Y"|default:"—" }}</div>
+                                <div class="sub-status">
+                                    {% if sub.active %}
+                                        <span class="chip chip-active">active</span>
+                                    {% else %}
+                                        <span class="chip chip-pending">pending</span>
+                                    {% endif %}
+                                </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <div style="color:#6b7280">No subscriptions</div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="card mt-12">
+                <div class="header"><h3>Assigned Virtual Assistants</h3></div>
+                <div class="card-body">
+                    {% if assigned_assistants %}
+                    <div class="grid">
+                        {% for va in assigned_assistants %}
+                        <div class="va-item">
+                            <div class="va-avatar">
+                                {% if va.avatar_url %}
+                                    <img src="{{ va.avatar_url }}" alt="{{ va.name }}" />
+                                {% else %}
+                                    <img src="{% static 'img/user.png' %}" alt="{{ va.name }}" />
+                                {% endif %}
+                            </div>
+                            <div class="va-info">
+                                <div class="va-name">{{ va.name }}</div>
+                                <div class="va-email">{{ va.email|default:"—" }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="muted">pending</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

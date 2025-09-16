@@ -6,13 +6,35 @@ class CustomUser(AbstractUser):
     # Add any additional fields you want to include in your custom user model
     # For example, you can add a profile picture field
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    last_name = models.CharField(max_length=100, default="No Last Name")
-    first_name = models.CharField(max_length=100, default="No First Name")
+    full_name = models.CharField(max_length=100, default="No Last Name")
     address = models.TextField(default="No Address")
+    business_name = models.CharField(max_length=100, default="No Business Name")
+    website = models.URLField(blank=True, null=True)
     
     def __str__(self):
         return self.first_name
         return self.last_name
+
+
+class VirtualAssistant(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    avatar_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='subscriptions')
+    plan_name = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    active = models.BooleanField(default=True)
+    assistants = models.ManyToManyField(VirtualAssistant, blank=True, related_name='subscriptions')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.plan_name} ({'active' if self.active else 'inactive'})"
     
 class Meeting(models.Model):
     name = models.CharField(max_length=100)

@@ -3,6 +3,8 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.utils import timezone
+from .models import Subscription, CustomUser
 import stripe
 import json
 
@@ -67,8 +69,30 @@ def stripe_webhook(request):
         return HttpResponse(status=400)
 
     # Handle event types
-    if event.get("type") in ("checkout.session.completed", "payment_intent.succeeded"):
-        # You can mark an order as paid here
-        pass
+    if event.get("type") == "checkout.session.completed":
+        session = event.get("data", {}).get("object", {})
+        metadata = session.get("metadata", {}) or {}
+        user_id = metadata.get("user_id")
+        plan_name = metadata.get("plan_name", "Selected Plan")
+        # Create a pending subscription (active=False) so UI shows "En espera"
+        if user_id:
+            try:
+                user = CustomUser.objects.get(id=int(user_id))
+            except Exception:
+                return HttpResponse(status=200)
+            # Avoid duplicates on webhook retries by using get_or_create on user/plan_name/active=False
+            sub, created = Subscription.objects.get_or_create(
+                user=user,
+                plan_name=plan_name,
+                active=False,
+                defaults={
+                    'start_date': timezone.now().date(),
+                    'end_date': None,
+                }
+            )
+            # If it already existed but has no start_date, ensure it's set
+            if not created and not sub.start_date:
+                sub.start_date = timezone.now().date()
+                sub.save()
 
     return HttpResponse(status=200)
