@@ -57,8 +57,9 @@
                 {% endif %}
             </div>
         </header>
-        {% block content %}
-        {% endblock content %}
+        <div class="page-wrapper">
+            {% block content %}{% endblock %}
+        </div>
         <script src="{% static 'js/reviews-slider.js' %}"></script>
         <script src="{% static 'js/accordion.js' %}"></script>
         <script src="{% static 'js/faqs.js' %}"></script>

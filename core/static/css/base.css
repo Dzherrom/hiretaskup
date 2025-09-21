@@ -167,7 +167,21 @@ nav ul li a:hover {
 }
 
 /* Responsive adjustments */
+.page-wrapper {
+    margin: 32px auto;
+    max-width: 1200px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
 @media (max-width: 400px) {
+    .page-wrapper {
+        margin: 16px;
+        padding: 12px;
+        max-width: 100%;
+    }
     .user-dropdown .submenu {
         min-width: 220px;
         max-width: 95vw;
