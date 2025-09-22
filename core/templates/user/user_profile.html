@@ -21,10 +21,24 @@
                 </div>
             </div>
             <div class="list">
+                <div class="progress-card">
+                    {% if sub_progress.has_active %}
+                    <div class="donut" style="--p: {{ sub_progress.percent }};">
+                        <div class="donut-inner">
+                            <div class="donut-number">{{ sub_progress.percent }}%</div>
+                            <div class="donut-label">{{ sub_progress.days_left }} days left</div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="progress-empty">
+                        <div>No active subscription</div>
+                        <a class="btn btn-primary" href="{% url 'plans' %}">Choose plan</a>
+                    </div>
+                    {% endif %}
+                </div>
                 <div class="item"><strong>Website</strong><span>{{ user.website|default:"—" }}</span></div>
                 <div class="item"><strong>Email</strong><span>{{ user.email }}</span></div>
                 <div class="item"><strong>Phone</strong><span>{{ user.phone_number|default:"—" }}</span></div>
-                <div class="item"><strong>Address</strong><span>{{ user.address|default:"—" }}</span></div>
             </div>
         </div>
     </div>
@@ -46,8 +60,6 @@
                     <div>{{ user.phone_number|default:"—" }}</div>
                     <div class="label">Website</div>
                     <div>{{ user.website|default:"—" }}</div>
-                    <div class="label">Address</div>
-                    <div>{{ user.address|default:"—" }}</div>
                 </div>
             </div>
         </div>

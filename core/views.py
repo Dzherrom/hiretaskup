@@ -63,12 +63,39 @@ def user_profile(request):
     # GET: build profile context
     # Show all subscriptions (active and pending). Pending will render with status 'espera'.
     active_subs = Subscription.objects.filter(user=request.user).prefetch_related('assistants').order_by('-active', '-start_date')
+    # Compute progress for current active subscription (30-day term enforced in model)
+    today = timezone.now().date()
+    current_active = next((s for s in active_subs if s.active), None)
+    sub_progress = {
+        'has_active': bool(current_active),
+        'percent': 0,
+        'days_left': 0,
+        'elapsed': 0,
+        'total': 0,
+        'end_date': None,
+    }
+    if current_active and current_active.start_date and current_active.end_date:
+        total = (current_active.end_date - current_active.start_date).days
+        elapsed = (today - current_active.start_date).days
+        if total < 0:
+            total = 0
+        elapsed = max(0, min(elapsed, total)) if total else 0
+        percent = int(round((elapsed / total) * 100)) if total else 0
+        days_left = max(0, (current_active.end_date - today).days)
+        sub_progress.update({
+            'percent': percent,
+            'days_left': days_left,
+            'elapsed': elapsed,
+            'total': total,
+            'end_date': current_active.end_date,
+        })
     # Assistants are derived from active subscriptions only; if none active, UI shows "Por asignar".
     assistants = VirtualAssistant.objects.filter(subscriptions__user=request.user, subscriptions__active=True).distinct()
     ctx = {
         'user': request.user,
         'active_subscriptions': active_subs,
         'assigned_assistants': assistants,
+        'sub_progress': sub_progress,
     }
     return render(request, 'user/user_profile.html', ctx)
 

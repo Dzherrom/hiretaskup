@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -35,6 +37,30 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.plan_name} ({'active' if self.active else 'inactive'})"
+    
+    def save(self, *args, **kwargs):
+        # Always enforce a 30-day term counted from activation time
+        if self.active:
+            today = timezone.now().date()
+            if self.pk:
+                try:
+                    original = Subscription.objects.only('active', 'start_date').get(pk=self.pk)
+                except Subscription.DoesNotExist:
+                    original = None
+                # If transitioning from inactive to active, reset start_date to today
+                if original and not original.active:
+                    self.start_date = today
+                elif not self.start_date:
+                    self.start_date = today
+            else:
+                # New active subscription: start now unless explicitly provided
+                if not self.start_date:
+                    self.start_date = today
+            self.end_date = self.start_date + timedelta(days=30)
+        else:
+            # Pending/inactive subscriptions don't have a fixed end date
+            self.end_date = None
+        super().save(*args, **kwargs)
     
 class Meeting(models.Model):
     name = models.CharField(max_length=100)
