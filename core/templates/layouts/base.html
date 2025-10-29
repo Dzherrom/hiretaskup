@@ -8,6 +8,7 @@
         {% block extra_css %}{% endblock extra_css %}
     </head>
     <body>
+        {% block header %}
         <header>
              <div class="header-container">
                 <div class="left-section">
@@ -52,18 +53,20 @@
                 </div>
                 {% else %}
                 <div class="right-section">
-                    <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
+                    <a href="{% url 'login' %}" class="#">Sign In</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
                 </div>
                 {% endif %}
             </div>
         </header>
-        <div class="page-wrapper">
-            {% block content %}{% endblock %}
-        </div>
+        {% endblock header %}
+        {% block content %}
+        {% endblock content %}
         <script src="{% static 'js/reviews-slider.js' %}"></script>
         <script src="{% static 'js/accordion.js' %}"></script>
         <script src="{% static 'js/faqs.js' %}"></script>
         <script src="{% static 'js/dropdown.js' %}"></script>
+        {% block footer %}
         <div class="footer">
             <p>&copy; 2025 My Website</p>
             <ul>
@@ -72,5 +75,6 @@
                 <li><a href="#">Contact Us</a></li>
             </ul>
         </div>
+        {% endblock footer %}
 </body>
 </html>

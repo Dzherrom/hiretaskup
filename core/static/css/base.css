@@ -48,6 +48,18 @@ nav ul li a:hover {
 .right-section {
     display: flex;
     align-items: center;
+    gap: 20px;
+}
+
+/* Prevent underline on links in the right section (all states) */
+.right-section a,
+.right-section a:link,
+.right-section a:visited,
+.right-section a:hover,
+.right-section a:active,
+.right-section a:focus,
+.right-section .btn {
+    text-decoration: none;
 }
 
 .right-section .btn {
@@ -249,7 +261,7 @@ body {
     padding: 40px; /* Ajusta el espacio interno */
     gap: 80px; /* Espaciado entre los elementos */
     width: 100%; /* Asegura que ocupe todo el ancho */
-    max-width: 1200px; /* Limita el ancho máximo */
+    max-width: 1500px; /* Limita el ancho máximo */
     margin: 0 auto;    /* Centra el contenedor en la página */
 
 }
@@ -552,7 +564,8 @@ body {
 .reviews-container {
     text-align: center;
     padding: 20px;
-    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .reviews-container h2 {
@@ -562,14 +575,13 @@ body {
 }
 
 .reviews-slider {
-    position: relative;
     display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
+    gap: 20px; /* Espaciado entre las tarjetas */
+    overflow-x: auto; /* Habilita el desplazamiento horizontal */
+    scroll-behavior: smooth; /* Desplazamiento suave */
     padding: 10px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1000px; /* Ajusta el ancho máximo del slider */
     margin: 0 auto;
 }
 
@@ -594,34 +606,42 @@ body {
     background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 }
 
+.slider-container {
+    position: relative; /* Necesario para posicionar las flechas */
+    max-width: 1200px; /* Asegura que las flechas estén alineadas con el slider */
+    margin: 0 auto; /* Centra el contenedor */
+}
+
 .slider-arrow {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
+    top: 50%; /* Centra verticalmente los botones */
+    transform: translateY(-50%); /* Ajusta el centrado vertical */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    color: white;
     border: none;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     cursor: pointer;
-    z-index: 2;
+    z-index: 10; /* Asegura que los botones estén encima del contenido */
 }
 
 .left-arrow {
-    left: 10px;
+    left: 0; /* Ancla al borde izquierdo */
+    margin-left: 10px; /* Espaciado opcional desde el borde */
 }
 
 .right-arrow {
-    right: 10px;
+    right: 0; /* Ancla al borde derecho */
+    margin-right: 10px; /* Espaciado opcional desde el borde */
 }
 
 .slider-arrow:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.8); /* Cambia el color al pasar el mouse */
 }
 
 .review-card {
-    flex: 0 0 calc(25% - 20px); /* Cada tarjeta ocupa el 25% del ancho menos el gap */
+    flex: 0 0 calc(33.33% - 20px); /* Cada tarjeta ocupa un tercio del slider menos el gap */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -672,10 +692,19 @@ body {
 }
 
 /* Subscriptions */
+.subscriptions-container2 {
+    display: flex; /* Activa Flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
 
 /* Contenedor principal */
 .subscriptions-container {
     display: flex;
+    max-width: 1200px;
+    width: 100%;
     gap: 20px;
     background-color: #f9f9f9;
     border-radius: 10px;

@@ -10,8 +10,8 @@ from .forms import MeetingForm
 from django.http import Http404
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
-
-# Create your views here.
+from django.conf import settings
+import stripe 
 
 def home(request):
     return render(request, 'home/home.html', {'user_is_authenticated': request.user.is_authenticated})
@@ -23,7 +23,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')  # Redirige a la página principal
+            return redirect('plans')  # Redirige a planes para forzar selección
     else:
         form = CustomUserCreationForm()
     return render(request, 'auth/register.html', {'form': form})
@@ -124,6 +124,77 @@ def about(request):
 def plans(request):
     return render(request, 'plans/plans.html', {'user_is_authenticated': request.user.is_authenticated})
     
+# ONBOARDING CHECKOUT
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
+
+@login_required
+@require_http_methods(["GET"])
+def onboarding_checkout(request):
+    plan_name = request.GET.get('name') or 'Selected Plan'
+    try:
+        amount_cents = int(request.GET.get('amount') or 0)
+    except ValueError:
+        amount_cents = 0
+    qty = int(request.GET.get('qty') or 1)
+    if qty < 1:
+        qty = 1
+    context = {
+        'plan_name': plan_name,
+        'amount_cents': amount_cents,
+        'amount_dollars': amount_cents / 100 if amount_cents else 0,
+        'qty': qty,
+    }
+    return render(request, 'onboarding/checkout.html', context)
+
+
+@login_required
+@require_http_methods(["POST"])
+@csrf_protect
+def onboarding_create_checkout(request):
+    # Collect form data
+    plan_name = request.POST.get('plan_name', 'Selected Plan')
+    try:
+        amount_cents = int(request.POST.get('amount_cents', '0'))
+        qty = int(request.POST.get('quantity', '1'))
+    except ValueError:
+        amount_cents, qty = 0, 1
+    qty = max(1, qty)
+
+    full_name = request.POST.get('full_name', '')
+    business_name = request.POST.get('business_name', '')
+    email = request.POST.get('email', request.user.email)
+    phone = request.POST.get('phone', '')
+    website = request.POST.get('website', '')
+
+    # Create Stripe Checkout Session
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    session = stripe.checkout.Session.create(
+        mode='payment',
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {'name': plan_name},
+                'unit_amount': amount_cents,
+            },
+            'quantity': qty,
+        }],
+        customer_email=email or None,
+        success_url=request.build_absolute_uri('/payments/success/'),
+        cancel_url=request.build_absolute_uri('/payments/cancel/'),
+        metadata={
+            'user_id': str(request.user.id),
+            'full_name': full_name,
+            'business_name': business_name,
+            'phone': phone,
+            'website': website,
+            'plan_name': plan_name,
+            'qty': str(qty),
+            'amount_cents': str(amount_cents),
+        }
+    )
+    return redirect(session.url, code=303)
 ### CONTACT ###
 @login_required
 def contact(request):
@@ -150,3 +221,31 @@ def contact(request):
             'form': form,
             'error': "This meeting already exists",
             'user_is_authenticated': request.user.is_authenticated})
+    
+# payments
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+def process_payment(request):
+    if request.method == 'POST':
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': 'Xbox Game Pass 1 Month for PC',
+                    },
+                    'unit_amount': 302,  # Amount in cents
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri('/success/'),
+            cancel_url=request.build_absolute_uri('/cancel/'),
+        )
+        return redirect(session.url, code=303)
+    return render(request, 'payment/stripe_redirect.html')
+
+def payments_page(request):
+    return render(request, 'payment/payments.html')

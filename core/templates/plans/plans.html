@@ -18,7 +18,7 @@
         <div class="plans-main-card">
             <div class="plans-type">Part-Time Assistant</div>
             <div class="plans-price">$799<span>/Month</span></div>
-            <button class="plans-btn">Get Your Assistant</button>
+            <a class="plans-btn" href="{% url 'onboarding_checkout' %}?amount=79900&name=Part-Time%20Assistant">Get Your Assistant</a>
             <ul>
                 <li>20 hours per week (part-time)</li>
                 <li>Flexible or fixed schedule as needed</li>
@@ -34,7 +34,7 @@
         <div class="plans-main-card">
             <div class="plans-type">Full-Time Assistant <span class="recommended">RECOMMENDED</span></div>
             <div class="plans-price">$1,199<span>/Month</span></div>
-            <button class="plans-btn primary">Get Your Assistant</button>
+            <a class="plans-btn primary" href="{% url 'onboarding_checkout' %}?amount=119900&name=Full-Time%20Assistant">Get Your Assistant</a>
             <ul>
                 <li>40 hours per week (full-time)</li>
                 <li>Personalized schedule to your convenience</li>
@@ -50,7 +50,7 @@
          <div class="plans-main-card">
         <div class="plans-type">Full-Time Team <span class="recommended">PREMIUM</span></div>
         <div class="plans-price">$1,899<span>/Month</span></div>
-        <button class="plans-btn primary">Get Your Team</button>
+    <a class="plans-btn primary" href="{% url 'onboarding_checkout' %}?amount=189900&name=Full-Time%20Team">Get Your Team</a>
         <ul>
             <li>80+ hours per week (2 dedicated assistants)</li>
             <li>Fully customized schedule for your business</li>

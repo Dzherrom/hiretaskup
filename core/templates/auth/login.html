@@ -3,21 +3,83 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock extra_css %}
+{% block header %}{% endblock header %}
 {% block content %}
-<div class="login-main-container">
-    <div class="login-form-wrapper">
-        <div class="login-card">
-            <h2 class="login-title">Iniciar Sesión</h2>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="login-btn">Log In</button>
-            </form>
-            <div class="login-register-link">
-                <span>¿No tienes cuenta?</span>
-                <a href="{% url 'register' %}">Regístrate</a>
+<div class="login-split">
+    <!-- Left: form -->
+    <div class="login-left">
+        <div class="login-left-inner">
+            <div class="login-topbar">
+                <div class="brand">
+                    <img src="{% static 'img/logo.png' %}" alt="TaskUp" />
+                </div>
+                <div class="top-cta">
+                    <span>¿Don't have an account?</span>
+                    <a href="{% url 'register' %}">Sign Up</a>
+                </div>
+            </div>
+
+            <div class="login-content">
+                <h1 class="login-heading">Sign in on <a href="/" class="brand-link">TaskUp</a></h1>
+                <p class="login-subtitle">Dedicated virtual assistants for your business. Manage your tasks and focus on growing.</p>
+
+                <form method="post" class="login-form">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="form-errors">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                                <div class="input-group">
+                                    {{ form.username.errors }}
+                                    {{ form.username }}
+                                </div>
+
+                                <div class="input-group password-wrap">
+                                    {{ form.password.errors }}
+                                    {{ form.password }}
+                                    <button type="button" class="toggle-pass" aria-label="Show password">👁️</button>
+                                </div>
+
+                    <div class="form-row">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember_me" />
+                            <span>Remember me</span>
+                        </label>
+                        <a class="forgot-link" href="#">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+
+                <div class="terms">
+                    <span>By using TaskUp you accept our terms of service</span>
+                    <a href="#">Terms of Service</a>
+                    <span>and</span>
+                    <a href="#">Privacy Policy</a>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Right: image -->
+    <div class="login-right" aria-hidden="true"></div>
 </div>
 {% endblock content %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.password-wrap').forEach(wrap => {
+        const input = wrap.querySelector('input[type="password"], input[type="text"]');
+        const btn = wrap.querySelector('.toggle-pass');
+        if (!input || !btn) return;
+        btn.addEventListener('click', () => {
+            const isPwd = input.type === 'password';
+            input.type = isPwd ? 'text' : 'password';
+            btn.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
+        });
+    });
+});
+</script>
+{% endblock extra_js %}
+{% block footer %}{% endblock footer %}

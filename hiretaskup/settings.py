@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
+import django_on_heroku
+
+# Optional: load environment variables from a .env file in local/dev. In Heroku, Config Vars are injected.
+try:
+    from dotenv import load_dotenv  # type: ignore
+except Exception:  # pragma: no cover - if python-dotenv isn't installed
+    load_dotenv = None
+
+if load_dotenv:
+    load_dotenv()  # Load environment variables from a .env file if present
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,13 +31,36 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x&6zmbyz!9r*pa9o^_9s5+_d-tx-&b3+sr(t!f8p26bsc90=7h'
+def env_bool(name: str, default: bool = False) -> bool:
+    val = os.getenv(name)
+    if val is None:
+        return default
+    return val.strip().lower() in ("1", "true", "yes", "on")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+def env_list(name: str, default: list[str] | None = None) -> list[str]:
+    if default is None:
+        default = []
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    return [item.strip() for item in raw.split(',') if item.strip()]
 
-ALLOWED_HOSTS = []
+# SECURITY: load from environment (see .env for local dev)
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-unsafe-secret-key-change-me')
+
+# DEBUG flag controlled by env
+DEBUG = env_bool('DEBUG', default=False)
+
+# Hosts and CSRF (must come from environment in prod)
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', default=[])
+CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS', default=[])
+
+# Stripe (must come from environment)
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+# Optional: Stripe Webhook secret for local/Heroku testing
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
 
 
 # Application definition
@@ -73,17 +108,13 @@ WSGI_APPLICATION = 'hiretaskup.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hiretaskup',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', f"sqlite:///{(BASE_DIR / 'db.sqlite3').as_posix()}"),
+        conn_max_age=600,
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -134,4 +165,14 @@ AUTH_USER_MODEL = 'core.CustomUser'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+
+django_on_heroku.settings(locals())
+
+# Security headers when running behind a proxy (Heroku)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
