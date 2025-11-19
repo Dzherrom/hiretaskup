@@ -35,9 +35,11 @@ if (timezoneSelect) {
             try {
                 const now = moment().tz(tz);
                 const localTime = now.format('HH:mm');
+                option.value = tz;
                 option.text = `${tz.replace(/_/g, ' ')}\u00A0(${localTime})`;
                 optgroup.appendChild(option);
             } catch (e) {
+                option.value = tz;
                 option.text = tz.replace(/_/g, ' ');
                 optgroup.appendChild(option);
             }
@@ -48,17 +50,66 @@ if (timezoneSelect) {
     // Inicializa Select2
     $('#timezone-select').select2({
         placeholder: "Select a time zone",
-        allowClear: true,
+        // No permitir limpiar para garantizar siempre un valor
+        allowClear: false,
         width: 'resolve'
     });
 
     
     // Selecciona automáticamente la zona horaria local del usuario si está en la lista
     const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let initialTz = null;
     if (commonTimezones.includes(localTz)) {
-        $('#timezone-select').val(localTz).trigger('change');
+        initialTz = localTz;
+    } else if (commonTimezones.length) {
+        initialTz = commonTimezones[0];
+    }
+    if (initialTz) {
+        $('#timezone-select').val(initialTz).trigger('change');
+        // Establecer hiddenTimezone inmediatamente si existe el campo
+        const hiddenTz = document.getElementById('hiddenTimezone');
+        if (hiddenTz) hiddenTz.value = initialTz;
     }
 }
+
+    // Helpers for timezone selection enforcement
+    function getSelectedTimezoneValue() {
+        // Prefer Select2 value when present
+        const jqVal = (window.jQuery && $('#timezone-select').val()) || '';
+        return jqVal || (timezoneSelect ? timezoneSelect.value : '');
+    }
+    function markTimezoneError() {
+        // Add red border to Select2 container and show message
+        if (window.jQuery) {
+            const sel2 = $('#timezone-select').data('select2');
+            if (sel2 && sel2.$container) {
+                sel2.$container.find('.select2-selection').css('border', '1px solid #ef4444');
+            }
+        }
+        const tzWrap = document.querySelector('.timezone');
+        if (tzWrap && !document.getElementById('tz-error-msg')) {
+            const msg = document.createElement('div');
+            msg.id = 'tz-error-msg';
+            msg.style.color = '#ef4444';
+            msg.style.fontSize = '12px';
+            msg.style.marginTop = '6px';
+            msg.textContent = 'Please select a time zone before continuing.';
+            tzWrap.appendChild(msg);
+        }
+        if (window.jQuery) {
+            $('#timezone-select').select2('open');
+        }
+    }
+    function clearTimezoneError() {
+        if (window.jQuery) {
+            const sel2 = $('#timezone-select').data('select2');
+            if (sel2 && sel2.$container) {
+                sel2.$container.find('.select2-selection').css('border', '1px solid #aaa');
+            }
+        }
+        const msg = document.getElementById('tz-error-msg');
+        if (msg && msg.parentNode) msg.parentNode.removeChild(msg);
+    }
 
     // Inicializa flatpickr
     flatpickr("#calendar", {
@@ -69,6 +120,11 @@ if (timezoneSelect) {
         monthSelectorType: "static",
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length > 0) {
+                const tzVal = getSelectedTimezoneValue();
+                if (!tzVal) {
+                    markTimezoneError();
+                    return; // No continuar sin timezone
+                }
                 showTimeSelection(selectedDates[0]);
             }
         },
@@ -137,8 +193,9 @@ function showYearAsText(instance) {
             year: 'numeric', month: 'long', day: 'numeric'
         });
 
-        // Muestra el timezone seleccionado
-        document.getElementById('selectedTimezone').textContent = timezoneSelect.options[timezoneSelect.selectedIndex].text;
+        // Muestra el timezone seleccionado (Select2 seguro)
+        const tzText = (window.jQuery && $('#timezone-select').find(':selected').text()) || (timezoneSelect.options[timezoneSelect.selectedIndex] ? timezoneSelect.options[timezoneSelect.selectedIndex].text : '');
+        document.getElementById('selectedTimezone').textContent = tzText;
 
         // Genera los horarios de 14:00 a 23:45 cada 15 minutos
         const slotsContainer = document.getElementById('timeSlots');
@@ -290,9 +347,20 @@ function addMinutesToLabel(label, minutes) {
 
     // Si cambia el timezone, actualiza el texto en la vista de hora si está visible
     timezoneSelect.addEventListener('change', function() {
+        clearTimezoneError();
         if(timeSelectionCard.style.display === 'block') {
-            document.getElementById('selectedTimezone').textContent = timezoneSelect.options[timezoneSelect.selectedIndex].text;
+            const tzText = (window.jQuery && $('#timezone-select').find(':selected').text()) || (timezoneSelect.options[timezoneSelect.selectedIndex] ? timezoneSelect.options[timezoneSelect.selectedIndex].text : '');
+            document.getElementById('selectedTimezone').textContent = tzText;
         }
+        // Si por alguna razón el valor quedó vacío, forzar primer opción
+        if (!getSelectedTimezoneValue()) {
+            const firstOpt = timezoneSelect.querySelector('option[value]');
+            if (firstOpt) {
+                $('#timezone-select').val(firstOpt.value).trigger('change');
+            }
+        }
+        const hiddenTz = document.getElementById('hiddenTimezone');
+        if (hiddenTz) hiddenTz.value = getSelectedTimezoneValue();
     });
 
     // Mostrar campo de invitados al hacer click en Add Guests

@@ -94,5 +94,4 @@ def stripe_webhook(request):
             if not created and not sub.start_date:
                 sub.start_date = timezone.now().date()
                 sub.save()
-
     return HttpResponse(status=200)
