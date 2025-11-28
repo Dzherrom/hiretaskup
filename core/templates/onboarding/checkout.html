@@ -24,6 +24,7 @@
 .ob-next button, .ob-next-right button{min-width:240px;padding:12px 16px;border:none;border-radius:9999px;background:linear-gradient(90deg,#26a8ff,#1d4ed8);color:#fff;font-weight:600}
 @media(max-width:900px){.ob-wrapper{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
 {% endblock extra_css %}
 {% block content %}
 <h2 class="ob-title">Let's get you set up</h2>
@@ -49,7 +50,7 @@
       </div>
       <div class="full ob-group">
         <label>Phone Number</label>
-        <input class="ob-input" type="tel" name="phone" placeholder="Phone number" value="{{ prefill.phone }}" required />
+        <input class="ob-input" id="phone" type="tel" name="phone" placeholder="Phone number" value="{{ prefill.phone }}" required />
       </div>
       <div class="full ob-group">
         <label>Website</label>
@@ -83,6 +84,8 @@
     <div class="ob-next-right"><button type="submit" form="onboardingForm">Next</button></div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const plus = document.getElementById('plus');
@@ -94,6 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateTotal(q){ totalEl.textContent = `$${(unit * q).toFixed(2)}`; qtyEl.textContent = q; qtyField.value = q; }
   plus?.addEventListener('click', () => { const q = Math.min(99, (parseInt(qtyEl.textContent)||1)+1); updateTotal(q); });
   minus?.addEventListener('click', () => { const q = Math.max(1, (parseInt(qtyEl.textContent)||1)-1); updateTotal(q); });
+
+  // Initialize international telephone input
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput && window.intlTelInput) {
+    const iti = window.intlTelInput(phoneInput, {
+      initialCountry: 'auto',
+      preferredCountries: ['us','mx','co','es'],
+      geoIpLookup: function(callback) {
+        fetch('https://ipinfo.io/json?token=6db1cea8941122')
+          .then(resp => resp.json())
+          .then(data => callback(data && data.country ? data.country.toLowerCase() : 'us'))
+          .catch(() => callback('us'));
+      },
+      utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js'
+    });
+    const form = document.getElementById('onboardingForm');
+    form.addEventListener('submit', () => {
+      const formatted = iti.getNumber(); // E.164 format
+      if (formatted) {
+        phoneInput.value = formatted;
+      }
+    });
+  }
 });
 </script>
 {% endblock content %}
