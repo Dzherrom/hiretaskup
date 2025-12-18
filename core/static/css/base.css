@@ -319,7 +319,7 @@ body {
     justify-content: space-between; /* Espacio entre info-text e info-icons */
     align-items: center; /* Centra verticalmente los elementos */
     gap: 20px; /* Espaciado entre los elementos */
-    width: 100%; /* Asegura que ocupe todo el ancho */
+    width: 80%;
     padding: 20px; /* Espaciado interno opcional */
 }
 
@@ -345,13 +345,13 @@ body {
 }
 
 /*testiomnios */
-
 .testimonies-container {
     display: flex; /* Activa Flexbox */
+    flex-direction: column;
     justify-content: center; /* Centra los elementos horizontalmente */
-    align-items: center; /* Centra los elementos verticalmente */
+    align-items: flex-start; /* Centra los elementos verticalmente */
     gap: 20px; /* Espaciado entre los elementos */
-    width: 100%; /* Asegura que ocupe todo el ancho */
+    width: 80%;
     padding: 20px; /* Espaciado interno opcional */
 }
 
@@ -389,18 +389,26 @@ body {
     margin: 0 10px; /* Espaciado entre el h6 y el párrafo */
 }
 
+.assistant-text {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 15px;
+}
 /* CSS para la tabla de por que deberias escogernos  */
 /* Contenedor principal que contiene las tablas */
 /* Contenedor principal que contiene las tablas */
 .assistant-container {
     display: grid; /* Activa CSS Grid */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Crea columnas dinámicas */
+    width: 80%;
     gap: 20px; /* Espaciado entre las columnas y filas */
     padding: 20px; /* Espaciado interno opcional */
 }
 
 /* Cada table-container */
 .table-container {
+    width: 100%;
     display: flex; /* Activa Flexbox */
     flex-direction: column; /* Alinea los elementos dentro de cada table-container en una columna */
     gap: 15px; /* Espaciado entre los elementos dentro de cada table-container */
@@ -488,6 +496,7 @@ body {
 
 /* estilo para la seccion de choose us */
 .choose-container {
+    width: 80%;
     text-align: center; /* Centra el texto horizontalmente */
     display: flex; /* Activa Flexbox */
     flex-direction: column; /* Alinea los elementos en una columna */
@@ -564,8 +573,8 @@ body {
 .reviews-container {
     text-align: center;
     padding: 20px;
-    width: 100%;
     max-width: 1200px;
+    width: 80%;
 }
 
 .reviews-container h2 {

@@ -1,6 +1,10 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
 
 <div class="main-container">
@@ -17,40 +21,74 @@
             <image src="{% static 'img/hero.png' %}" alt="Hero Image" class="hero-image"></image>
         </div>
     </div>
-    <div class="info-container">
-        <div class="info-text">
-            <div>
-                <h3>Our Vision</h3>
-                <p>To become the leading provider of virtual assistance enabling companies to work more fficiently while they focus on their core objectives.</p>    
+    <div class="main-container">
+        <div class="solutions-container">
+            <div class="solution-card">
+                <div class="card-content">
+                    <div class="icon-wrapper">
+                        <img src="{% static 'img/user.png' %}" alt="Assistant Solutions">
+                    </div>
+                    <h3>Assistant Solutions</h3>
+                    <p>BELAY Assistants don’t just take tasks off your plate. They are a partner who steps into your world — your inbox, your operations, and your team — so you can step up where it matters.</p>
+                    <a href="{% url 'contact' %}" class="btn-solution">Find Your Strategic Partner <span>&rarr;</span></a>
+                </div>
+            </div>
+            <div class="solution-card">
+                <div class="card-content">
+                    <div class="icon-wrapper">
+                        <img src="{% static 'img/user.png' %}" alt="Assistant Solutions">
+                    </div>
+                    <h3>Assistant Solutions</h3>
+                    <p>BELAY Assistants don’t just take tasks off your plate. They are a partner who steps into your world — your inbox, your operations, and your team — so you can step up where it matters.</p>
+                    <a href="{% url 'contact' %}" class="btn-solution">Find Your Strategic Partner <span>&rarr;</span></a>
+                </div>
+            </div>
+            <div class="solution-card">
+                <div class="card-content">
+                    <div class="icon-wrapper">
+                        <img src="{% static 'img/growth.png' %}" alt="Financial Solutions">
+                    </div>
+                    <h3>Financial Solutions</h3>
+                    <p>Whether you need budgeting help or high-level financial strategy, BELAY has the outsourced accounting solutions to scale with you.</p>
+                    <a href="{% url 'contact' %}" class="btn-solution">Bring Expertise into Your Finances <span>&rarr;</span></a>
+                </div>
             </div>
         </div>
-        <div class="info-icons">
-            <div>
+        <div class="info-container">
+            <div class="info-text">
                 <div>
-                    <img src="{% static 'img/growth.png' %}" alt="growth" class="info-icon">
-                </div>
-                <div>
-                    <h5>Boost Productivity</h5>
+                    <h3>Our Vision</h3>
+                    <p>To become the leading provider of virtual assistance enabling companies to work more fficiently while they focus on their core objectives.</p>    
                 </div>
             </div>
-            <div>
+            <div class="info-icons">
                 <div>
-                    <img src="{% static 'img/collaboration.png' %}" alt="growth" class="info-icon">
+                    <div>
+                        <img src="{% static 'img/growth.png' %}" alt="growth" class="info-icon">
+                    </div>
+                    <div>
+                        <h5>Boost Productivity</h5>
+                    </div>
                 </div>
                 <div>
-                    <h5>Virtual Collaboration</h5>
+                    <div>
+                        <img src="{% static 'img/collaboration.png' %}" alt="growth" class="info-icon">
+                    </div>
+                    <div>
+                        <h5>Virtual Collaboration</h5>
+                    </div>
                 </div>
-            </div>
-            <div>
                 <div>
-                    <img src="{% static 'img/streamline.png' %}" alt="growth" class="info-icon">
-                </div>
-                <div>
-                    <h5>Boost Streamline Operations</h5>
+                    <div>
+                        <img src="{% static 'img/streamline.png' %}" alt="growth" class="info-icon">
+                    </div>
+                    <div>
+                        <h5>Boost Streamline Operations</h5>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <div class="assistant-container">
         <div class="assistant-text">
             <h2>What does a Virtual Assistant Do?</h2>
@@ -58,8 +96,6 @@
                 A Wing General Virtual Assistant (GVA) will take care of your administrative and personal work and help you streamline your day-to-day operations so you can focus on growing your business and achieving your goals.
                 Do you need something else? Jump to: More Virtual Assistant Services
             </p>
-        </div>
-        <div class="table-container">
             <div class="assistant">
                 <img src="{% static 'img/calendar.webp' %}" alt="assistant" class="assistant-image">
                 <div>
@@ -67,6 +103,8 @@
                     <p>Our virtual assistants can help you manage your calendar, schedule appointments, and send reminders.</p>
                 </div>
             </div>
+        </div>
+        <div class="table-container">
             <div class="assistant">
                 <img src="{% static 'img/research.webp' %}" alt="assistant" class="assistant-image">
                 <div>
@@ -91,13 +129,6 @@
         </div>
         <div class="table-container">
             <div class="assistant">
-                <img src="{% static 'img/email.webp' %}" alt="assistant" class="assistant-image">
-                <div>
-                    <h5>Email and Response Management</h5>
-                    <p>Let your assistant manage emails, conduct follow-ups, forward important and urgent emails.</p>
-                </div>
-            </div>
-            <div class="assistant">
                 <img src="{% static 'img/order.webp' %}" alt="assistant" class="assistant-image">
                 <div>
                     <h5>Order products and supplies</h5>
@@ -121,10 +152,10 @@
         </div>
     </div>
     <div class="testimonies-container">
+        <div>
+            <h2>Customer Testimonial</h2>
+        </div>
         <div class="testimonies">
-            <div>
-                <h2>Customer Testimonial</h2>
-            </div>
             <div class="testimony-card">
                 <img src="{% static 'img/comillas.png' %}" alt="">
                 <div class="general-card">
