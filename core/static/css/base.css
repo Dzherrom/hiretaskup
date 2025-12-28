@@ -1,8 +1,25 @@
 /* Header */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Evita scroll lateral */
+}
+
 header {
-    background-color: #f9f9f9;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: transparent !important; /* Forzar transparencia */
+    position: absolute; /* Sacarlo del flujo para que flote sobre el fondo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegurar que esté encima de la imagen */
+    box-shadow: none;
+    border-bottom: none;
+    padding: 15px 20px;
 }
 
 .header-container {
@@ -11,17 +28,43 @@ header {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
 }
 
 /* Sección izquierda: Logo y menú */
 .left-section {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
+}
+
+.btn-header-pill {
+    background-color: #53b7b9; /* Teal */
+    color: #ffffff;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+.btn-header-pill:hover {
+    background-color: #42999b;
+    color: #ffffff;
 }
 
 .logo img {
     width: 120px; /* Ajusta el tamaño del logo */
+    filter: brightness(0) invert(1); /* Make logo white */
+}
+
+nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 nav ul {
@@ -29,19 +72,21 @@ nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px;
+    gap: 30px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: #3c3c3c;
-    font-size: 1rem;
-    font-weight: bold;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #007bff; /* Cambia el color al pasar el mouse */
+    color: #53b7b9; /* Teal */
 }
 
 /* Sección derecha: Botón de Log In */
@@ -60,19 +105,23 @@ nav ul li a:hover {
 .right-section a:focus,
 .right-section .btn {
     text-decoration: none;
+    color: #ffffff;
 }
 
 .right-section .btn {
-    border: 2px solid #212325;
-    padding: 10px 20px;
+    border: 2px solid #ffffff;
+    padding: 8px 20px;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: #ffffff;
 }
 
 .right-section .btn:hover {
-    background-color: #212325;
+    background-color: #ffffff;
+    color: #0B2B36;
 }
 
 .right-section .user-icon {
@@ -211,7 +260,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
     font-size: 1rem;
     font-weight: bold;
     transition: color 0.3s ease;
@@ -225,15 +274,12 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: rgb(255, 255, 255);
+    background-color: #2A4C59;
     display: flex; /* Hacemos el body un flex container */
     flex-direction: column; /* Ordenamos los elementos de arriba hacia abajo */
     min-height: 100vh; /* Asegura que la altura del body sea al menos la altura de la viewport */
 }
 
-.logo img {
-    width: 5vh;
-}
 
 .mode-toggle img {
     width: 3vh;
@@ -256,14 +302,25 @@ body {
 
 .flex-container {
     display: flex;
-    align-items: center; /* Centra verticalmente los elementos */
-    justify-content: center; /* Espacia los elementos horizontalmente */
-    padding: 40px; /* Ajusta el espacio interno */
-    gap: 80px; /* Espaciado entre los elementos */
-    width: 100%; /* Asegura que ocupe todo el ancho */
-    max-width: 1500px; /* Limita el ancho máximo */
-    margin: 0 auto;    /* Centra el contenedor en la página */
-
+    align-items: center; 
+    justify-content: center; 
+    
+    /* Ajuste de padding: Mantén el superior alto para el header */
+    padding: 160px 20px 100px 20px; 
+    
+    gap: 80px; 
+    
+    /* CAMBIOS CLAVE AQUÍ: */
+    width: 80; /* Usar 100% del ancho de la ventana (Viewport Width) */
+    max-width: 100%; /* Asegurar que no tenga límite de ancho */
+    margin: 0; /* Eliminar márgenes automáticos */
+    
+    /* Configuración del fondo */
+    background-image: url('../img/hero-bg.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* Altura mínima de toda la pantalla */
 }
 
 .flex-container div {
@@ -316,23 +373,25 @@ body {
 
 .info-container {
     display: flex; /* Activa Flexbox */
-    justify-content: space-between; /* Espacio entre info-text e info-icons */
+    flex-direction: column;
+    justify-content: center; 
     align-items: center; /* Centra verticalmente los elementos */
-    gap: 20px; /* Espaciado entre los elementos */
+    gap: 40px; /* Espaciado entre los elementos */
     width: 80%;
     padding: 20px; /* Espaciado interno opcional */
 }
 
 .info-text {
-    flex: 1; /* Ocupa el espacio disponible a la izquierda */
-    text-align: left; /* Alinea el texto a la izquierda */
+    width: 100%;
+    text-align: center;
+    max-width: 800px;
 }
 
 .info-icons {
     display: flex; /* Activa Flexbox */
     flex-direction: row; /* Alinea los divs padres uno al lado del otro */
-    gap: 20px; /* Espaciado entre los divs padres */
-    flex: 1; /* Ocupa el espacio disponible a la derecha */
+    gap: 30px; /* Espaciado entre los divs padres */
+    width: 100%;
     justify-content: center; /* Centra los divs padres horizontalmente */
 }
 
@@ -340,19 +399,43 @@ body {
     display: flex; /* Activa Flexbox */
     flex-direction: column; /* Alinea los hijos (imagen y h5) en columna */
     align-items: center; /* Centra los hijos horizontalmente */
-    gap: 10px; /* Espaciado entre la imagen y el h5 */
+    gap: 15px; /* Espaciado entre la imagen y el h5 */
     text-align: center; /* Centra el texto dentro del div */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px 20px;
+    flex: 1;
+}
+
+.info-icons h5 {
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #0f172a;
+}
+
+.info-icons p {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.info-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
 }
 
 /*testiomnios */
 .testimonies-container {
-    display: flex; /* Activa Flexbox */
+    display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra los elementos horizontalmente */
-    align-items: flex-start; /* Centra los elementos verticalmente */
-    gap: 20px; /* Espaciado entre los elementos */
+    justify-content: center;
+    gap: 20px;
     width: 80%;
-    padding: 20px; /* Espaciado interno opcional */
+    padding: 20px;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .testimonies {
@@ -705,7 +788,6 @@ body {
     display: flex; /* Activa Flexbox */
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
-    height: 100vh; /* Ocupa toda la altura de la ventana */
     margin: 0 auto; /* Centra el contenedor horizontalmente */
 }
 
