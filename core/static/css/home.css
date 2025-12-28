@@ -31,7 +31,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    border-top: 8px solid #10b981; /* Green top border */
+    border-top: 8px solid #325b6b; /* Green top border */
 }
 
 .main-text {
@@ -45,7 +45,7 @@
     color: #ffffff;
     line-height: 1.6;
     margin-bottom: 24px;
-    max-width: 80%;
+    max-width: 65%;
 }
 
 .main-text p {
@@ -54,6 +54,10 @@
     line-height: 1.6;
     margin-bottom: 24px;
     max-width: 80%;
+}
+
+.main-text p {
+    max-width: 50%;
 }
 .card-content {
     padding: 40px;
@@ -91,7 +95,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #10b981;
+    background-color: #325b6b;
     color: white;
     padding: 12px 28px;
     border-radius: 30px;
@@ -103,7 +107,7 @@
 }
 
 .btn-solution:hover {
-    background-color: #059669;
+    background-color: #325b6b;
     color: white;
     text-decoration: none;
 }
