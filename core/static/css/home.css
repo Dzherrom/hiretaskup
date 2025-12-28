@@ -1,14 +1,89 @@
 .info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.info-text {
+    text-align: center;
+    margin-bottom: 50px;
+    max-width: 800px;
+}
+
+.info-text h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 16px;
+}
+
+.info-text p {
+    font-size: 1.1rem;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.info-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.info-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 24px;
+}
+
+.info-card h5 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.info-card p {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0;
 }
 
 .solutions-container {
     display: flex;
     justify-content: center;
-    width: 80%;
-    gap: 30px;
+    width: 95%;
+    gap: 20px;
     padding: 0 20px 60px 20px;
     flex-wrap: nowrap;
+    align-items: stretch;
 }
 
 .flex-container{
@@ -26,7 +101,7 @@
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     width: 100%;
-    max-width: 480px;
+    flex: 1;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -35,6 +110,7 @@
 }
 
 .main-text {
+    margin-top: 5%;
     font-size: 1.25rem;
     color: #ffffff;
     line-height: 1.6;
@@ -60,9 +136,10 @@
     max-width: 50%;
 }
 .card-content {
-    padding: 40px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex-grow: 1;
 }
 
@@ -129,6 +206,8 @@
     background-color: #f8fafc; /* Light gray/blue background */
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     padding-top: 40px;
 }
 
@@ -196,4 +275,14 @@
     background-position: center;
     /* Optional: Add a subtle overlay if the pattern is too strong */
     /* box-shadow: inset 0 0 0 1000px rgba(38, 70, 83, 0.8); */
+}
+
+.mid-banner {
+    width: 100%;
+    height: 400px;
+    background-image: url('../img/mid-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 40px 0;
 }

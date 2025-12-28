@@ -72,7 +72,7 @@ nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 30px;
+    gap: 80px;
 }
 
 nav ul li a {
@@ -255,7 +255,7 @@ nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px;
+    gap: 60px;
 }
 
 nav ul li a {
@@ -376,7 +376,6 @@ body {
     flex-direction: column;
     justify-content: center; 
     align-items: center; /* Centra verticalmente los elementos */
-    gap: 40px; /* Espaciado entre los elementos */
     width: 80%;
     padding: 20px; /* Espaciado interno opcional */
 }
@@ -479,55 +478,75 @@ body {
     gap: 15px;
 }
 /* CSS para la tabla de por que deberias escogernos  */
-/* Contenedor principal que contiene las tablas */
-/* Contenedor principal que contiene las tablas */
 .assistant-container {
-    display: grid; /* Activa CSS Grid */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Crea columnas dinámicas */
-    width: 80%;
-    gap: 20px; /* Espaciado entre las columnas y filas */
-    padding: 20px; /* Espaciado interno opcional */
-}
-
-/* Cada table-container */
-.table-container {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
     width: 100%;
-    display: flex; /* Activa Flexbox */
-    flex-direction: column; /* Alinea los elementos dentro de cada table-container en una columna */
-    gap: 15px; /* Espaciado entre los elementos dentro de cada table-container */
-    background-color: #f9f9f900; /* Fondo opcional */
-    border: 1px solid #dddddd00; /* Borde opcional */
-    border-radius: 5px; /* Esquinas redondeadas opcionales */
-    padding: 10px; /* Espaciado interno */
 }
 
-/* Cada elemento dentro de table-container */
-.assistant {
-    display: flex; /* Activa Flexbox */
-    flex-direction: row; /* Alinea la imagen y el texto en una fila */
-    align-items: center; /* Centra los elementos verticalmente */
-    gap: 10px; /* Espaciado entre la imagen y el texto */
-    background-color: #ffffff00; /* Fondo opcional */
-    border: 1px solid #ddd; /* Borde opcional */
-    border-radius: 5px; /* Esquinas redondeadas opcionales */
-    padding: 10px; /* Espaciado interno */
-    text-align: left; /* Alinea el texto a la izquierda */
+.assistant-header {
+    max-width: 800px;
+    margin: 0 auto 50px;
 }
 
-.assistant img {
-    width: 50px; /* Ajusta el tamaño de la imagen */
-    height: auto; /* Mantiene la proporción de la imagen */
-    flex-shrink: 0; /* Evita que la imagen se reduzca */
+.assistant-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
 }
 
-.assistant h5 {
-    margin: 0; /* Elimina márgenes adicionales */
-    font-size: 1.2em; /* Ajusta el tamaño del título */
+.assistant-header p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
 }
 
-.assistant p {
-    margin: 5px 0 0; /* Espaciado entre el título y el párrafo */
-    line-height: 1.5; /* Mejora la legibilidad del texto */
+.assistant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.assistant-card {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.assistant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.assistant-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.assistant-card .card-content h5 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+    margin-top: 0;
+}
+
+.assistant-card .card-content p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
 }
 
 /*testimonios */
