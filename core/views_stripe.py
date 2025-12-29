@@ -43,7 +43,7 @@ def create_checkout_session(request):
 
 
 def payment_success(request):
-    return render(request, "payment/success.html")
+    return redirect('user_profile')
 
 
 def payment_cancel(request):
