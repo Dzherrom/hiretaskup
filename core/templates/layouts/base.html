@@ -67,14 +67,39 @@
         <script src="{% static 'js/faqs.js' %}"></script>
         <script src="{% static 'js/dropdown.js' %}"></script>
         {% block footer %}
-        <div class="footer">
-            <p>&copy; 2025 My Website</p>
-            <ul>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-        </div>
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <img src="{% static 'img/logo-footer.png' %}" alt="Hire TaskUp">
+                        
+                    </a>
+                    <p class="tagline">The Right Hire. Right Now.</p>
+                    <p class="sub-tagline">Virtual Assistants. Accounting Services. Marketing Assistants.</p>
+                    <p class="made-with">Made with &hearts; from the Hire TaskUp team.</p>
+                </div>
+                <div class="footer-column">
+                    <ul>
+                        <li><a href="#">Get Started</a></li>
+                        <li><a href="#">Virtual Assistants</a></li>
+                        <li><a href="#">Accounting Services</a></li>
+                        <li><a href="#">Marketing Assistants</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <ul>
+                        <li><a href="#">More Resources</a></li>
+                        <li><a href="#">Read Our Blog</a></li>
+                        <li><a href="#">One Next Step Podcast</a></li>
+                        <li><a href="#">Our Company</a></li>
+                        <li><a href="#">Jobs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                 <p>&copy; 2025 Hire TaskUp. All rights reserved.</p>
+            </div>
+        </footer>
         {% endblock footer %}
 </body>
 </html>
