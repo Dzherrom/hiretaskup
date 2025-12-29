@@ -274,7 +274,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #2A4C59;
+    background: linear-gradient(180deg, #325a69 0%, #15262C 100%);
     display: flex; /* Hacemos el body un flex container */
     flex-direction: column; /* Ordenamos los elementos de arriba hacia abajo */
     min-height: 100vh; /* Asegura que la altura del body sea al menos la altura de la viewport */
