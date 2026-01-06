@@ -43,8 +43,15 @@
     color: #e5e7eb;
 }
 
-.top-cta a { color: #60a5fa; text-decoration: none; }
-.top-cta a:hover { text-decoration: underline; }
+.top-cta a { 
+    color: #60a5fa; 
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.top-cta a:hover { 
+    color: #007bff;
+    text-decoration: none; 
+}
 
 .login-content { margin-top: 24px; }
 
@@ -56,7 +63,7 @@
 }
 
 .brand-link { 
-    color: #fff; 
+    color: #60a5fa; 
     text-decoration: none; 
     transition: all 0.3s ease;
 }
@@ -108,8 +115,15 @@
 }
 
 .remember-me { display: inline-flex; align-items: center; gap: 8px; color: #e5e7eb; }
-.forgot-link { color: #60a5fa; text-decoration: none; }
-.forgot-link:hover { text-decoration: underline; }
+.forgot-link { 
+    color: #60a5fa; 
+    text-decoration: none; 
+    transition: all 0.3s ease;
+}
+.forgot-link:hover { 
+    color: #007bff;
+    text-decoration: none; 
+}
 
 .form-errors { color: #dc2626; font-size: 0.95rem; }
 
@@ -132,8 +146,15 @@
     color: #9ca3af;
     font-size: 0.9rem;
 }
-.terms a { color: #60a5fa; text-decoration: none; }
-.terms a:hover { text-decoration: underline; }
+.terms a { 
+    color: #60a5fa; 
+    text-decoration: none; 
+    transition: all 0.3s ease;
+}
+.terms a:hover { 
+    color: #007bff;
+    text-decoration: none; 
+}
 
 .login-right {
     background: transparent;
