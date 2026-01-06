@@ -38,6 +38,7 @@
 }
 
 .top-cta {
+    margin-top: 10px;
     font-size: 0.95rem;
     color: #e5e7eb;
 }
@@ -54,8 +55,15 @@
     color: #ffffff;
 }
 
-.brand-link { color: #60a5fa; text-decoration: none; }
-.brand-link:hover { text-decoration: underline; }
+.brand-link { 
+    color: #fff; 
+    text-decoration: none; 
+    transition: all 0.3s ease;
+}
+.brand-link:hover { 
+    color: #007bff; 
+    text-decoration: none; 
+}
 
 .login-subtitle {
     color: #d1d5db;
