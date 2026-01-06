@@ -4,11 +4,12 @@
 <link rel="stylesheet" href="{% static 'css/plans.css' %}">
 {% endblock extra_css %}
 {% block content %}
-<div class="plans-container">
-    <div class="plans-header">
-        <h1>Choose your plan</h1>
-    </div>
-    <div class="choose-plan-dropdown" id="choosePlanDropdown">
+<div class="plans-bg-wrapper">
+    <div class="plans-container">
+        <div class="plans-header">
+            <h1>Choose your plan</h1>
+        </div>
+        <div class="choose-plan-dropdown" id="choosePlanDropdown">
         <button class="dropdown-plan-btn ">Full-Time 2X - Get Your Team</button>
         <button class="dropdown-plan-btn ">Full-Time - Get Your Assistant</button>
         <button class="dropdown-plan-btn ">Part-Time - Get Your Assistant</button>
@@ -137,4 +138,6 @@ Posibilidad de escalar el servicio según crecimiento de la empresa
 </div>
 <script src="{% static 'js/plans.js' %}"></script>
 -->
+    </div>
+</div>
 {% endblock content %} 
