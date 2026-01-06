@@ -3,14 +3,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: calc(100vh - 120px); /* header + footer space */
-    background: #ffffff;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 100%), url('../img/login-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .login-left {
     display: flex;
+    margin-top: 60px;
     align-items: stretch;
     justify-content: center;
-    background: #ffffff;
+    background: transparent;
 }
 
 .login-left-inner {
@@ -36,10 +39,10 @@
 
 .top-cta {
     font-size: 0.95rem;
-    color: #6b7280;
+    color: #e5e7eb;
 }
 
-.top-cta a { color: #1d4ed8; text-decoration: none; }
+.top-cta a { color: #60a5fa; text-decoration: none; }
 .top-cta a:hover { text-decoration: underline; }
 
 .login-content { margin-top: 24px; }
@@ -48,14 +51,14 @@
     font-size: 2.2rem;
     font-weight: 600;
     margin: 0 0 8px;
-    color: #111827;
+    color: #ffffff;
 }
 
-.brand-link { color: #1d4ed8; text-decoration: none; }
+.brand-link { color: #60a5fa; text-decoration: none; }
 .brand-link:hover { text-decoration: underline; }
 
 .login-subtitle {
-    color: #6b7280;
+    color: #d1d5db;
     margin: 0 0 24px;
     max-width: 480px;
 }
@@ -96,8 +99,8 @@
     margin: 4px 0 2px;
 }
 
-.remember-me { display: inline-flex; align-items: center; gap: 8px; color: #374151; }
-.forgot-link { color: #1d4ed8; text-decoration: none; }
+.remember-me { display: inline-flex; align-items: center; gap: 8px; color: #e5e7eb; }
+.forgot-link { color: #60a5fa; text-decoration: none; }
 .forgot-link:hover { text-decoration: underline; }
 
 .form-errors { color: #dc2626; font-size: 0.95rem; }
@@ -118,16 +121,14 @@
 
 .terms {
     margin-top: 16px;
-    color: #6b7280;
+    color: #9ca3af;
     font-size: 0.9rem;
 }
-.terms a { color: #1d4ed8; text-decoration: none; }
+.terms a { color: #60a5fa; text-decoration: none; }
 .terms a:hover { text-decoration: underline; }
 
 .login-right {
-    background-image: url('../img/hero.png');
-    background-size: cover;
-    background-position: center;
+    background: transparent;
     min-height: 50vh;
 }
 
