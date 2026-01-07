@@ -1,122 +1,41 @@
 const plansData = {
-    productivity: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>General Virtual Assistant</strong>
-                <span>Manages complex personal and team calendars, and coordinate times for team meetings.</span>
-            </li>
-            <li>
-                <strong>Personal Assistant</strong>
-                <span>Manages your calendar both at work and outside of it.</span>
-            </li>
-        </ul>
-    `,
-    hr: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>HR Assistant</strong>
-                <span>Handles recruitment, onboarding, and HR documentation.</span>
-            </li>
-            <li>
-                <strong>Payroll Specialist</strong>
-                <span>Manages payroll processing and compliance.</span>
-            </li>
-        </ul>
-    `,
-    sales: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Sales Development Rep</strong>
-                <span>Generates leads and manages CRM updates.</span>
-            </li>
-            <li>
-                <strong>Account Executive Assistant</strong>
-                <span>Supports your sales team with proposals and follow-ups.</span>
-            </li>
-        </ul>
-    `,
-    marketing: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Marketing Assistant</strong>
-                <span>Assists with content creation, campaign execution, and analytics.</span>
-            </li>
-            <li>
-                <strong>Social Media Manager</strong>
-                <span>Manages your brand’s social presence and engagement.</span>
-            </li>
-        </ul>
-    `,
-    customer: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Customer Support Agent</strong>
-                <span>Handles customer inquiries and support tickets.</span>
-            </li>
-            <li>
-                <strong>Live Chat Assistant</strong>
-                <span>Provides real-time support via chat platforms.</span>
-            </li>
-        </ul>
-    `,
-    us: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>US-Based Virtual Assistant</strong>
-                <span>Professional support from US-based talent.</span>
-            </li>
-        </ul>
-    `,
-    healthcare: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Healthcare Assistant</strong>
-                <span>Helps with appointments, billing, and insurance filing.</span>
-            </li>
-        </ul>
-    `,
-    software: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Web Developer</strong>
-                <span>Builds and maintains your website or web app.</span>
-            </li>
-            <li>
-                <strong>Mobile App Developer</strong>
-                <span>Creates mobile solutions for your business.</span>
-            </li>
-        </ul>
-    `,
-    industry: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Legal Assistant</strong>
-                <span>Supports legal professionals with research and documentation.</span>
-            </li>
-            <li>
-                <strong>Logistics Coordinator</strong>
-                <span>Manages supply chain and logistics tasks.</span>
-            </li>
-        </ul>
-    `,
-    realestate: `
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <strong>Real Estate Assistant</strong>
-                <span>Manages listings, client communications, and paperwork.</span>
-            </li>
-        </ul>
-    `
+    productivity: [
+        { title: "General Virtual Assistant", desc: "Manages complex personal and team calendars, and coordinate times for team meetings." },
+        { title: "Personal Assistant", desc: "Manages your calendar both at work and outside of it." }
+    ],
+    hr: [
+        { title: "HR Assistant", desc: "Handles recruitment, onboarding, and HR documentation." },
+        { title: "Payroll Specialist", desc: "Manages payroll processing and compliance." }
+    ],
+    sales: [
+        { title: "Sales Development Rep", desc: "Generates leads and manages CRM updates." },
+        { title: "Account Executive Assistant", desc: "Supports your sales team with proposals and follow-ups." }
+    ],
+    marketing: [
+        { title: "Marketing Assistant", desc: "Assists with content creation, campaign execution, and analytics." },
+        { title: "Social Media Manager", desc: "Manages your brand’s social presence and engagement." }
+    ],
+    customer: [
+        { title: "Customer Support Agent", desc: "Handles customer inquiries and support tickets." },
+        { title: "Live Chat Assistant", desc: "Provides real-time support via chat platforms." }
+    ],
+    us: [
+        { title: "US-Based Virtual Assistant", desc: "Professional support from US-based talent." }
+    ],
+    healthcare: [
+        { title: "Healthcare Assistant", desc: "Helps with appointments, billing, and insurance filing." }
+    ],
+    software: [
+        { title: "Web Developer", desc: "Builds and maintains your website or web app." },
+        { title: "Mobile App Developer", desc: "Creates mobile solutions for your business." }
+    ],
+    industry: [
+        { title: "Legal Assistant", desc: "Supports legal professionals with research and documentation." },
+        { title: "Logistics Coordinator", desc: "Manages supply chain and logistics tasks." }
+    ],
+    realestate: [
+        { title: "Real Estate Assistant", desc: "Manages listings, client communications, and paperwork." }
+    ]
 };
 
 document.querySelectorAll('.accordion-category').forEach((cat, idx) => {
@@ -127,9 +46,35 @@ document.querySelectorAll('.accordion-category').forEach((cat, idx) => {
         // Add to clicked
         this.classList.add('active');
         this.nextElementSibling.classList.add('open');
+        
         // Update plans
         const plansDiv = document.getElementById('plansContent');
         const key = this.getAttribute('data-category');
-        plansDiv.innerHTML = plansData[key] || '';
+        const data = plansData[key];
+
+        if (data) {
+            let html = '<h6>Plans in selected category:</h6><ul>';
+            data.forEach(plan => {
+                // Generar nombre de imagen basado en el título (slugify: "General Virtual Assistant" -> "general-virtual-assistant.png")
+                // Se asume que la extensión es .png y se reemplazan espacios por guiones.
+                const imgName = plan.title.toLowerCase().trim().replace(/\s+/g, '-') + '.png';
+                // Asumimos ruta /static/img/ para las imágenes
+                const imgSrc = '/static/img/' + imgName;
+
+                html += `
+                    <li>
+                        <img src="${imgSrc}" alt="${plan.title}" class="about-plans-icon">
+                        <div>
+                            <strong>${plan.title}</strong>
+                            <span>${plan.desc}</span>
+                        </div>
+                    </li>
+                `;
+            });
+            html += '</ul>';
+            plansDiv.innerHTML = html;
+        } else {
+            plansDiv.innerHTML = '';
+        }
     });
 });
