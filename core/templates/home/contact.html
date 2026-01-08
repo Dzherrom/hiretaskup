@@ -2,145 +2,333 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+<!-- Retaining necessary libraries for calendar functionality -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+
+<style>
+    /* Custom overrides for libraries to match Tailwind theme */
+    .flatpickr-calendar {
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0.75rem !important;
+        background: #ffffff !important;
+        font-family: 'Inter', sans-serif !important;
+        width: 100% !important;
+    }
+    .flatpickr-days {
+        width: 100% !important;
+    }
+    .dayContainer {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+    .flatpickr-day {
+        margin: 0 !important;
+        width: 14.28% !important; /* 7 days */
+        max-width: none !important;
+        height: 48px !important;
+        line-height: 48px !important;
+        border-radius: 0.5rem !important;
+    }
+    .flatpickr-day.selected {
+        background: #0f172a !important; /* slate-900 */
+        border-color: #0f172a !important;
+    }
+    .flatpickr-day:hover {
+        background: #e2e8f0 !important; /* slate-200 */
+    }
+    
+    /* Select2 overrides */
+    .select2-container {
+        width: 100% !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 42px !important;
+        border-color: #e2e8f0 !important; /* slate-200 */
+        border-radius: 0.5rem !important; /* rounded-lg */
+        display: flex;
+        align-items: center;
+        background-color: #f8fafc; /* slate-50 */
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px !important;
+    }
+    .select2-dropdown {
+        border-color: #e2e8f0 !important;
+        border-radius: 0.5rem !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* IntlTelInput overrides */
+    .iti { width: 100%; }
+    .iti__flag-container { border-right: 1px solid #f1f5f9; }
+    .iti__country-list { z-index: 60 !important; border-radius: 0.5rem; border: none; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+
+    /* Time Slots Styling (Injected by JS) */
+    .time-slot-btn {
+        width: 100%;
+        padding: 0.75rem 0;
+        border: 1px solid #cbd5e1; /* slate-300 */
+        border-radius: 0.5rem; /* rounded-lg */
+        background-color: white;
+        color: #334155; /* slate-700 */
+        font-weight: 600;
+        font-size: 0.875rem; /* text-sm */
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    .time-slot-btn:hover {
+        border-color: #94a3b8; /* slate-400 */
+        background-color: #f8fafc; /* slate-50 */
+    }
+    .time-slot-btn.selected {
+        background-color: #0f172a !important; /* slate-900 */
+        color: white !important;
+        border-color: #0f172a !important;
+    }
+    .next-btn {
+        background-color: #2563eb; /* blue-600 */
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .next-btn:hover {
+        background-color: #1d4ed8; /* blue-700 */
+    }
+
+    /* Scrollbar for time slots */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
-<div class="consultation-banner">
-    Book a Consultation Today and Save $200. Ends June 30.
-</div>
-<div class="consultation-container">
-    <div class="consultation-left">
-        <div class="consultation-card">
-            <img src="{% static 'img/hero.png' %}" alt="TaskUp" class="consultation-logo">
-            <h2>TaskUp Specialists Are<br>Available 24/7<br>for Personalized Consultation</h2>
-            <p>Schedule a meeting and:</p>
-            <ul class="consultation-features">
-                <li>Tell us about your project</li>
-                <li>Learn about our recruitment process</li>
-                <li>Discover the TaskUp Workspace app</li>
-            </ul>
-            <div class="consultation-testimonial">
-                <div class="testimonial-header">
-                    <div>
-                        <strong>Sarah Thompson</strong><br>
-                        <span>Founder &amp; Owner<br>Thompson Creative Studio</span>
-                    </div>
-                    <span class="testimonial-stars">★★★★★</span>
-                </div>
-                <p>
-                    TaskUp has been a game changer for our small design studio. Their virtual assistants helped us organize client communications and streamline our project workflow. We’ve saved hours every week and can now focus more on growing our business. Highly recommended for any small team!
-                </p>
-            </div>
-            <div class="consultation-rating">
-                Rated <span>★★★★★</span> on
-                <img src="{% static 'img/google.png' %}" alt="Google">
-                <img src="{% static 'img/goodfirms.png' %}" alt="GoodFirms">
-                <img src="{% static 'img/clutch.png' %}" alt="Clutch">
-                <img src="{% static 'img/producthunt.png' %}" alt="Product Hunt">
-            </div>
-        </div>
+<div class="min-h-screen bg-slate-50 relative">
+    
+    <!-- Dark Header Background / Hero Decoration -->
+    <div class="absolute top-0 left-0 w-full h-[500px] bg-slate-900 z-0 overflow-hidden">
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-50"></div>
+        <!-- Decorative Glows -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute top-10 right-1/4 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl"></div>
     </div>
-    <div class="consultation-right">
-        <div class="calendar-card">
-            <h3>Select a Day</h3>
-            <input type="text" id="calendar" class="calendar-input" readonly>
-            <div class="timezone">
-                <span>Time zone</span>
-                <select id="timezone-select" style="width:100%"></select>
-            </div>
+
+    <div class="container mx-auto px-4 max-w-7xl pt-40 pb-12 relative z-10">
+        <!-- Promo Banner -->
+        <div class="mb-8 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-center py-3 px-4 rounded-xl shadow-lg shadow-blue-500/20 text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Book a Consultation Today and Save $200. Ends June 30.
         </div>
-        <div class="time-selection-card" id="timeSelectionCard" style="display:none;">
-            <button type="button" id="backToCalendar" class="back-btn">&#8592;</button>
-            <div class="selected-date-info">
-                <div class="selected-day" id="selectedDay"></div>
-                <div class="selected-date" id="selectedDate"></div>
-                <div class="selected-timezone">
-                    <span>Time zone</span>
-                    <span id="selectedTimezone"></span>
-                </div>
-            </div>
-            <hr>
-            <h3>Select a Time</h3>
-            <div class="duration">Duration: 20 min</div>
-            <div class="time-slots" id="timeSlots"></div>
-        </div>  
-        <div class="confirmation-form-card" id="confirmationFormCard" style="display:none;">
-            <button type="button" id="backToTimeSelection" class="back-btn">&#8592;</button>
-            <div class="confirmation-summary">
-                <h2>Chat with TaskUp Team</h2>
-                <div class="summary-details">
-                    <div><span><img src="{% static 'img/clock.png' %}"></span> 20 min</div>
-                    <div><span><img src="{% static 'img/calendar.png' %}"></span> <span id="summaryTime"></span></div>
-                    <div><span><img src="{% static 'img/timezone.png' %}"></span> <span id="summaryTimezone"></span></div>
-                </div>
-                <div class="summary-description">
-                    <button type="button" class="desc-toggle">
-                        <span style="font-size:1.2em;">&#9660;</span> Description
-                    </button>
-                    <div class="desc-content">
-                        Welcome to TaskUp! We can get you started in just a few days! Looking forward to meeting you on our Google Meet call!
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[600px]">
+            
+            <!-- Left Sidebar (Info) -->
+            <div class="lg:col-span-4 lg:col-start-2 xl:col-span-3">
+                <div class="sticky top-24 space-y-8">
+                    <!-- Brand Section -->
+                    <div class="text-center lg:text-left">
+                         <img src="{% static 'img/hero.png' %}" alt="TaskUp" class="h-24 w-auto mx-auto lg:mx-0 mb-6 drop-shadow-xl animate-float">
+                         <h1 class="text-3xl font-extrabold text-slate-900 mb-4 leading-tight">
+                            TaskUp Specialists Are<br>
+                            <span class="text-blue-600">Available 24/7</span><br>
+                            for Consultation
+                         </h1>
+                         <p class="text-slate-500 mb-6">Schedule a meeting to:</p>
+                         <ul class="space-y-3 mb-8">
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                Tell us about your project
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+                                Learn about our talent
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                                Discover the TaskUp Workspace
+                            </li>
+                         </ul>
+                    </div>
+
+                    <!-- Testimonial -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm relative">
+                        <div class="absolute -top-3 left-6">
+                            <i data-lucide="quote" class="w-8 h-8 text-blue-200 fill-current"></i>
+                        </div>
+                        <div class="flex items-center justify-between mb-4 mt-2">
+                             <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Sarah Thompson</h4>
+                                <p class="text-xs text-slate-500 text-xs">Founder, Thompson Studio</p>
+                             </div>
+                             <div class="flex text-yellow-400 text-xs gap-0.5">
+                                ★★★★★
+                             </div>
+                        </div>
+                        <p class="text-sm text-slate-600 italic leading-relaxed">
+                            "TaskUp has been a game changer. We’ve saved hours every week and can now focus more on growing our business."
+                        </p>
                     </div>
                 </div>
             </div>
-            <form class="confirmation-form" method="post" action="{% url 'contact' %}">
-                {% csrf_token %}
 
-                {% if form.non_field_errors %}
-                    <div class="error-msg">{{ form.non_field_errors.0 }}</div>
-                {% endif %}
+            <!-- Right Content (App) -->
+            <div class="lg:col-span-7 xl:col-span-7">
+                <div class="bg-white rounded-2xl shadow-2xl shadow-slate-200 border border-slate-100 overflow-hidden min-h-[600px] relative">
+                    
+                    <!-- STEP 1: Calendar View -->
+                    <div class="p-6 md:p-10 calendar-card" id="calendar-card"> <!-- Note: Added class 'calendar-card' -->
+                         <div class="mb-8 border-b border-slate-100 pb-4 flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-slate-900">Select a Date & Time</h3>
+                            <span class="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase">20 Min Meeting</span>
+                         </div>
+                         
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                             <div class="flex justify-center">
+                                 <!-- The Flatpickr input, hidden but initializes the inline calendar -->
+                                 <input type="text" id="calendar" class="hidden"> 
+                                 <!-- Flatpickr will append the calendar container here or after the input -->
+                             </div>
+                             <div class="space-y-6">
+                                 <div>
+                                     <label class="block text-sm font-medium text-slate-700 mb-2">Your Time Zone</label>
+                                     <select id="timezone-select" class="w-full"></select>
+                                     <div class="text-xs text-slate-400 mt-2">Auto-detected for your convenience.</div>
+                                 </div>
+                                 <div class=" bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                     <h4 class="text-sm font-bold text-slate-900 mb-2">Meeting Details</h4>
+                                     <div class="flex items-center gap-2 text-sm text-slate-600 mb-1">
+                                         <i data-lucide="video" class="w-4 h-4"></i> Google Meet
+                                     </div>
+                                     <div class="flex items-center gap-2 text-sm text-slate-600">
+                                         <i data-lucide="clock" class="w-4 h-4"></i> 20 Minutes
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
 
-                <label for="id_name">Name *</label>
-                <input type="text" name="name" id="id_name" value="{{ form.name.value|default_if_none:'' }}" required>
-                {% if form.name.errors %}
-                    <div class="error-msg">{{ form.name.errors.0 }}</div>
-                {% endif %}
+                    <!-- STEP 2: Time Selection (Hidden by default) -->
+                    <div class="p-6 md:p-10 hidden" id="timeSelectionCard">
+                        <button type="button" id="backToCalendar" class="mb-6 flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+                        </button>
+                        
+                        <div class="text-center mb-8">
+                            <h3 class="text-lg font-bold text-slate-900" id="selectedDate"></h3>
+                            <div class="text-slate-500 text-sm mt-1" id="selectedTimezone"></div>
+                        </div>
 
-                <label for="id_email">Email *</label>
-                <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}" required>
-                {% if form.email.errors %}
-                    <div class="error-msg">{{ form.email.errors.0 }}</div>
-                {% endif %}
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar" id="timeSlots">
+                            <!-- Time slots injected by JS -->
+                        </div>
+                    </div>
 
-                <label for="id_guests">Guest Email(s)</label>
-                <input type="text" name="guests" id="id_guests" value="{{ form.guests.value|default_if_none:'' }}">
-                {% if form.guests.errors %}
-                    <div class="error-msg">{{ form.guests.errors.0 }}</div>
-                {% endif %}
+                    <!-- STEP 3: Confirmation Form (Hidden by default) -->
+                    <div class="p-6 md:p-10 hidden" id="confirmationFormCard">
+                         <button type="button" id="backToTimeSelection" class="mb-6 flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+                        </button>
 
-                <label for="id_important">What is one of the most important things that your TaskUp assistant will do for you?</label>
-                <input type="text" name="important" id="id_important" value="{{ form.important.value|default_if_none:'' }}" required>
-                {% if form.important.errors %}
-                    <div class="error-msg">{{ form.important.errors.0 }}</div>
-                {% endif %}
+                        <div class="mb-8 bg-blue-50 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Confirm Appointment</h3>
+                                <div class="text-slate-600 text-sm mt-1 flex items-center gap-2">
+                                    <i data-lucide="calendar" class="w-4 h-4"></i> <span id="summaryTime"></span>
+                                </div>
+                                <div class="text-slate-500 text-xs mt-1" id="summaryTimezone"></div>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm">
+                                <i data-lucide="check" class="w-6 h-6"></i>
+                            </div>
+                        </div>
 
-                <label for="id_phone">Phone *</label>
-                <input type="tel" name="phone" id="id_phone" value="{{ form.phone.value|default_if_none:'' }}" required>
-                {% if form.phone.errors %}
-                    <div class="error-msg">{{ form.phone.errors.0 }}</div>
-                {% endif %}
+                        <form class="space-y-5" method="post" action="{% url 'contact' %}">
+                            {% csrf_token %}
 
-                <!-- Campos ocultos para enviar los datos -->
-                <input type="hidden" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
-                <input type="hidden" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'14:00' }}">
-                <input type="hidden" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
+                            {% if form.non_field_errors %}
+                                <div class="p-3 bg-red-50 text-red-600 text-sm rounded-lg">{{ form.non_field_errors.0 }}</div>
+                            {% endif %}
 
-                {% if form.date.errors %}
-                    <div class="error-msg">{{ form.date.errors.0 }}</div>
-                {% endif %}
-                {% if form.time.errors %}
-                    <div class="error-msg">{{ form.time.errors.0 }}</div>
-                {% endif %}
-                {% if form.timezone.errors %}
-                    <div class="error-msg">{{ form.timezone.errors.0 }}</div>
-                {% endif %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Name <span class="text-red-500">*</span></label>
+                                    <input type="text" name="name" id="id_name" value="{{ form.name.value|default_if_none:'' }}" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                                    {% if form.name.errors %} <div class="text-xs text-red-500 mt-1">{{ form.name.errors.0 }}</div> {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-1">Email <span class="text-red-500">*</span></label>
+                                    <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                                    {% if form.email.errors %} <div class="text-xs text-red-500 mt-1">{{ form.email.errors.0 }}</div> {% endif %}
+                                </div>
+                            </div>
 
-                <button type="submit" class="schedule-btn">Schedule Event</button>
-            </form>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Guest Email(s)</label>
+                                <input type="text" name="guests" id="id_guests" value="{{ form.guests.value|default_if_none:'' }}" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                                {% if form.guests.errors %} <div class="text-xs text-red-500 mt-1">{{ form.guests.errors.0 }}</div> {% endif %}
+                            </div>
+
+                             <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Phone <span class="text-red-500">*</span></label>
+                                <input type="tel" name="phone" id="id_phone" value="{{ form.phone.value|default_if_none:'' }}" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                                {% if form.phone.errors %} <div class="text-xs text-red-500 mt-1">{{ form.phone.errors.0 }}</div> {% endif %}
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">What is the main task for your assistant?</label>
+                                <input type="text" name="important" id="id_important" value="{{ form.important.value|default_if_none:'' }}" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                                {% if form.important.errors %} <div class="text-xs text-red-500 mt-1">{{ form.important.errors.0 }}</div> {% endif %}
+                            </div>
+
+                            <!-- Hidden Inputs -->
+                            <input type="hidden" name="date" id="hiddenDate" value="{{ form.date.value|default_if_none:'' }}">
+                            <input type="hidden" name="time" id="hiddenTime" value="{{ form.time.value|default_if_none:'14:00' }}">
+                            <input type="hidden" name="timezone" id="hiddenTimezone" value="{{ form.timezone.value|default_if_none:'' }}">
+
+                             {% if form.date.errors or form.time.errors or form.timezone.errors %}
+                                <div class="text-xs text-red-500 mt-1 text-center font-bold">Please check the date and time selection.</div>
+                            {% endif %}
+
+                            <button type="submit" class="w-full py-4 bg-slate-900 text-white font-bold rounded-xl shadow-lg hover:bg-slate-800 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                                Confirm Meeting <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
+        
+        <!-- Ratings Footer -->
+        <div class="mt-12 text-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-xs text-slate-400 font-bold mb-4 uppercase tracking-widest">Trusted by top platforms</p>
+            <div class="flex items-center justify-center gap-8 flex-wrap">
+                <img src="{% static 'img/google.png' %}" alt="Google" class="h-6">
+                <img src="{% static 'img/goodfirms.png' %}" alt="GoodFirms" class="h-6">
+                <img src="{% static 'img/clutch.png' %}" alt="Clutch" class="h-6">
+                <img src="{% static 'img/producthunt.png' %}" alt="Product Hunt" class="h-6">
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -150,7 +338,11 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment-timezone@0.5.43/builds/moment-timezone-with-data.min.js"></script>
+<!-- Duplicate moment-timezone removed -->
 <script src="{% static 'js/contact.js' %}"></script>
+<script>
+    // Force some styles for the Flatpickr inline logic if the JS uses 'inline: true'
+    // Depending on contact.js implementation, we might need a container for the input if it appends to parent
+</script>
 {% endblock content %}
 

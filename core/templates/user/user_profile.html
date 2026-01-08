@@ -2,122 +2,237 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+<!-- No external CSS file needed, using Tailwind via base.html -->
+<style>
+    .radial-progress {
+        --value: 0;
+        --size: 8rem;
+        --thickness: 8px;
+        width: var(--size);
+        height: var(--size);
+        border-radius: 9999px;
+        position: relative;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(closest-side, white 85%, transparent 86%),
+                    conic-gradient(var(--color) calc(var(--value) * 1%), #f1f5f9 0);
+    }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
-<div class="profile-wrapper">
-    <div class="profile-left">
-        <div class="card">
-            <div class="card-body">
-                <div class="avatar">
-                    <img src="{% static 'img/user.png' %}" alt="avatar" />
-                </div>
-                <div class="name">{{ user.get_full_name|default:user.username }}</div>
-                <div class="role">{{ user.business_name|default:"Customer" }}</div>
-                <div class="btn-row">
-                    <a class="btn btn-primary" href="{% url 'user_edit' user.id %}">Edit</a>
-                    <a class="btn btn-outline" href="{% url 'contact' %}">Message</a>
-                </div>
-            </div>
-            <div class="list">
-                <div class="progress-card">
-                    {% if sub_progress.has_active %}
-                    <div class="donut" style="--p: {{ sub_progress.percent }};">
-                        <div class="donut-inner">
-                            <div class="donut-number">{{ sub_progress.percent }}%</div>
-                            <div class="donut-label">{{ sub_progress.days_left }} days left</div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="progress-empty">
-                        <div>No active subscription</div>
-                        <a class="btn btn-primary" href="{% url 'plans' %}">Choose plan</a>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="item"><strong>Website</strong><span>{{ user.website|default:"—" }}</span></div>
-                <div class="item"><strong>Email</strong><span>{{ user.email }}</span></div>
-                <div class="item"><strong>Phone</strong><span>{{ user.phone_number|default:"—" }}</span></div>
-            </div>
+<div class="container mx-auto px-6 py-12">
+    <!-- Header -->
+    <div class="mb-8 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-slate-900">My Workspace</h1>
+            <p class="text-slate-500 mt-1">Manage your account, subscriptions, and team.</p>
         </div>
+        <a href="{% url 'contact' %}" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm font-medium">
+            <i data-lucide="message-square" class="w-4 h-4"></i> Support
+        </a>
     </div>
 
-    <div class="profile-right">
-        <div class="card">
-            <div class="header"><h3>User Details</h3><a class="edit-btn" href="{% url 'user_edit' user.id %}">Edit</a></div>
-            <div class="card-body">
-                <div class="info">
-                    <div class="label">Full Name</div>
-                    <div>{{ user.get_full_name|default:"—" }}</div>
-                    <div class="label">Username</div>
-                    <div>{{ user.username }}</div>
-                    <div class="label">Business Name</div>
-                    <div>{{ user.business_name|default:"—" }}</div>
-                    <div class="label">Email</div>
-                    <div>{{ user.email }}</div>
-                    <div class="label">Phone</div>
-                    <div>{{ user.phone_number|default:"—" }}</div>
-                    <div class="label">Website</div>
-                    <div>{{ user.website|default:"—" }}</div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Sidebar: Profile & Status -->
+        <div class="lg:col-span-4 xl:col-span-3 space-y-6">
+            
+            <!-- User Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center">
+                <div class="w-24 h-24 rounded-full bg-slate-100 mx-auto mb-4 overflow-hidden border-4 border-slate-50 shadow-inner">
+                     <img src="{% static 'img/user.png' %}" alt="avatar" class="w-full h-full object-cover">
+                </div>
+                <h2 class="text-xl font-bold text-slate-900">{{ user.get_full_name|default:user.username }}</h2>
+                <p class="text-sm text-slate-500 font-medium mb-6">{{ user.business_name|default:"Member" }}</p>
+                
+                <div class="flex gap-2 justify-center">
+                    <a href="{% url 'user_edit' user.id %}" class="flex-1 px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 transition-colors">Edit Profile</a>
+                    <a href="{% url 'contact' %}" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors sm:hidden">
+                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                    </a>
                 </div>
             </div>
+
+            <!-- Subscription Status Widget -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center">
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-6">Plan Status</h3>
+                
+                {% if sub_progress.has_active %}
+                <div class="radial-progress shadow-xl shadow-blue-100 mb-4" style="--value:{{ sub_progress.percent }}; --color:#3b82f6;">
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold text-slate-900">{{ sub_progress.percent }}%</span>
+                        <span class="text-xs text-slate-400 font-medium">Completed</span>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-600 font-medium bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                    {{ sub_progress.days_left }} days remaining
+                </p>
+                {% else %}
+                <div class="w-32 h-32 rounded-full bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center mb-4">
+                    <i data-lucide="cloud-off" class="w-8 h-8 text-slate-300"></i>
+                </div>
+                <p class="text-slate-500 text-sm mb-4">No active plan</p>
+                <a href="{% url 'plans' %}" class="w-full py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg text-sm font-bold text-center hover:opacity-90 transition-opacity">
+                    Choose a Plan
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Quick Contact Info (Read Only) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-4">Contact Info</h3>
+                <ul class="space-y-4 text-sm">
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="mail" class="w-4 h-4 text-slate-400 mt-1 shrink-0"></i>
+                         <div class="break-all text-slate-600">{{ user.email }}</div>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="phone" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                        <div class="text-slate-600">{{ user.phone_number|default:"—" }}</div>
+                    </li>
+                     <li class="flex items-center gap-3">
+                        <i data-lucide="globe" class="w-4 h-4 text-slate-400 shrink-0"></i>
+                        <a href="{{ user.website|default:'#' }}" target="_blank" class="text-blue-600 hover:underline truncate block max-w-[180px]">{{ user.website|default:"Add website" }}</a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        <div class="profile-container"> 
-            <div class="card mt-12">
-                <div class="header"><h3>Subscriptions</h3></div>
-                <div class="card-body">
+
+        <!-- Right Content -->
+        <div class="lg:col-span-8 xl:col-span-9 space-y-8">
+            
+            <!-- User Details (More detailed grid) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-slate-900">Account Details</h3>
+                    <a href="{% url 'user_edit' user.id %}" class="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                        <i data-lucide="edit-2" class="w-3 h-3"></i> Edit
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                     <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Full Name</label>
+                        <div class="text-slate-900 font-medium">{{ user.get_full_name|default:"—" }}</div>
+                     </div>
+                     <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Username</label>
+                        <div class="text-slate-900 font-medium">{{ user.username }}</div>
+                     </div>
+                     <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Business Name</label>
+                        <div class="text-slate-900 font-medium">{{ user.business_name|default:"—" }}</div>
+                     </div>
+                     <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Email Address</label>
+                        <div class="text-slate-900 font-medium">{{ user.email }}</div>
+                     </div>
+                     <div> // Added Address manually if available in model, keeping consistent with edit page
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Location</label>
+                        <div class="text-slate-900 font-medium">{{ user.address|default:"—" }}</div>
+                     </div>
+                </div>
+            </div>
+
+             <!-- Subscriptions -->
+             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                    <h3 class="text-lg font-bold text-slate-900">Active Subscriptions</h3>
+                    <a href="{% url 'plans' %}" class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full hover:bg-blue-100 transition-colors">
+                        Upgrade / Change
+                    </a>
+                </div>
+                
+                <div class="p-6">
                     {% with subs=active_subscriptions %}
                     {% if subs %}
-                    <div class="grid">
+                        <div class="space-y-4">
                             {% for sub in subs %}
-                        <div class="sub-item">
-                            <div class="sub-title">{{ sub.plan_name }}</div>
-                            <div class="muted">Start: {{ sub.start_date|date:"M d, Y" }}</div>
-                                <div class="muted">End: {{ sub.end_date|date:"M d, Y"|default:"—" }}</div>
-                                <div class="sub-status">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white border border-slate-100 rounded-xl shadow-sm hover:border-blue-200 transition-colors group">
+                                <div class="flex items-center gap-4 mb-4 sm:mb-0">
+                                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                                        <i data-lucide="zap" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900">{{ sub.plan_name }}</h4>
+                                        <div class="text-sm text-slate-500">
+                                            Started: {{ sub.start_date|date:"M d, Y" }}
+                                            {% if sub.end_date %}
+                                             • Ends: {{ sub.end_date|date:"M d, Y" }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
                                     {% if sub.active %}
-                                        <span class="chip chip-active">active</span>
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold border border-green-100">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active
+                                        </span>
                                     {% else %}
-                                        <span class="chip chip-pending">pending</span>
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 text-xs font-bold border border-yellow-100">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Pending
+                                        </span>
                                     {% endif %}
                                 </div>
+                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
                     {% else %}
-                        <div style="color:#6b7280">No subscriptions</div>
+                        <div class="text-center py-12">
+                            <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-3">
+                                <i data-lucide="package" class="w-5 h-5 text-slate-300"></i>
+                            </div>
+                            <h4 class="text-slate-900 font-medium mb-1">No active subscriptions</h4>
+                            <p class="text-slate-500 text-sm">Choose a plan to get started with your assistant.</p>
+                        </div>
                     {% endif %}
                     {% endwith %}
                 </div>
             </div>
-            <div class="card mt-12">
-                <div class="header"><h3>Assigned Virtual Assistants</h3></div>
-                <div class="card-body">
+
+            <!-- Team / VAs -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <h3 class="text-lg font-bold text-slate-900">Assigned Virtual Assistants</h3>
+                </div>
+                <div class="p-6">
                     {% if assigned_assistants %}
-                    <div class="grid">
-                        {% for va in assigned_assistants %}
-                        <div class="va-item">
-                            <div class="va-avatar">
-                                {% if va.avatar_url %}
-                                    <img src="{{ va.avatar_url }}" alt="{{ va.name }}" />
-                                {% else %}
-                                    <img src="{% static 'img/user.png' %}" alt="{{ va.name }}" />
-                                {% endif %}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {% for va in assigned_assistants %}
+                            <div class="flex items-center gap-4 p-4 border border-slate-100 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="w-12 h-12 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
+                                    {% if va.avatar_url %}
+                                        <img src="{{ va.avatar_url }}" alt="{{ va.name }}" class="w-full h-full object-cover"/>
+                                    {% else %}
+                                        <img src="{% static 'img/user.png' %}" alt="{{ va.name }}" class="w-full h-full object-cover opacity-60"/>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900">{{ va.name }}</h4>
+                                    <p class="text-sm text-slate-500">{{ va.email|default:"—" }}</p>
+                                </div>
                             </div>
-                            <div class="va-info">
-                                <div class="va-name">{{ va.name }}</div>
-                                <div class="va-email">{{ va.email|default:"—" }}</div>
-                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
                     {% else %}
-                    <div class="muted">pending</div>
+                        <div class="text-center py-12">
+                             <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-3">
+                                <i data-lucide="users" class="w-5 h-5 text-slate-300"></i>
+                            </div>
+                            <h4 class="text-slate-900 font-medium mb-1">No assistants assigned yet</h4>
+                            <p class="text-slate-500 text-sm">Once you subscribe, your assistant will appear here.</p>
+                        </div>
                     {% endif %}
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<script>
+    lucide.createIcons();
+</script>
 {% endblock content %}
