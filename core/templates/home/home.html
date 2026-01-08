@@ -2,102 +2,162 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 {% endblock extra_css %}
 
 {% block content %}
 
+<!-- Hero Section -->
+<section class="relative pt-48 pb-32 overflow-hidden bg-slate-900">
+    <div class="absolute inset-0 z-0">
+        <img 
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" 
+            alt="Office Collaboration" 
+            class="w-full h-full object-cover opacity-30"
+        >
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-50 relative z-10 h-full w-full opacity-60"></div>
+    </div>
+    
+    <div class="container relative z-10 mx-auto px-6 text-center">
+         <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+            Virtual assistants to help you<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+              Get Things Done.
+            </span>
+          </h1>
+          
+          <p class="max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed mb-10">
+            Delegate your essential tasks to our skilled virtual assistants and focus on what matters the most—growing your business.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="{% url 'plans' %}" class="px-8 py-4 rounded-full bg-cyan-500 text-slate-900 font-bold hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25 flex items-center gap-2 group">
+              Get Started
+              <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            <a href="{% url 'contact' %}" class="px-8 py-4 rounded-full bg-slate-800 text-white font-medium border border-slate-700 hover:bg-slate-700 transition-all">
+              Free Consultation
+            </a>
+          </div>
+    </div>
+</section>
 
-<div class="hero-section"></div>
-<div class="flex-container">
-    <div class="main-text">
-        <h1 style="font-weight: 600;">Virtual assistants for your business to help you<br>
-                <span class="gradient-text"> Get Things Done </span>
-        </h1>
-        <p> Delegate your essential tasks to our skilled virtual assistants and focus on what matters the most-growing your business.</p>
-        <a class="btn btn-dark" href="{% url 'contact' %}">Free Consultation</a> 
-        <a class="btn btn-light" href="{% url 'plans' %}">Get Started</a>
+<!-- Stats Banner -->
+<div class="bg-white border-b border-slate-200">
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
+            <div class="p-4">
+                <span class="block text-4xl font-extrabold text-slate-900 mb-2">+150</span>
+                <span class="text-sm font-semibold text-slate-500 uppercase tracking-widest">Happy Clients</span>
+            </div>
+            <div class="p-4">
+                <span class="block text-4xl font-extrabold text-slate-900 mb-2">+50</span>
+                <span class="text-sm font-semibold text-slate-500 uppercase tracking-widest">Certified Courses</span>
+            </div>
+            <div class="p-4">
+                <span class="block text-4xl font-extrabold text-slate-900 mb-2">+1000</span>
+                <span class="text-sm font-semibold text-slate-500 uppercase tracking-widest">Tasks Completed</span>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="stats-banner">
-    <div class="stats-container">
-        <div class="stat-item">
-            <span class="stat-number">+150</span>
-            <div class="stat-text">
-                <span>HAPPY</span>
-                <span>STUDENTS</span>
-            </div>
+<!-- Solutions Section -->
+<section class="bg-slate-50 py-24">
+    <div class="container mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h3 class="text-3xl font-bold text-slate-900 mb-4">Our Vision</h3>
+            <p class="text-lg text-slate-600">To become the leading provider of virtual assistance enabling companies to work more efficiently while they focus on their core objectives.</p>
         </div>
-        <div class="stat-item">
-            <span class="stat-number">+50</span>
-            <div class="stat-text">
-                <span>CERTIFIED</span>
-                <span>COURSES</span>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:shadow-cyan-100 hover:border-cyan-200 transition-all duration-300 group">
+                <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="search" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">We identify your solution.</h3>
+                <p class="text-slate-500 leading-relaxed">Marketing? Admin? Accounting? All three? We match with purpose, not algorithms.</p>
             </div>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">+1000</span>
-            <div class="stat-text">
-                <span>AWARDS</span>
-                <span>RECEIVED</span>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:shadow-cyan-100 hover:border-cyan-200 transition-all duration-300 group">
+                <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="users" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">You meet your team.</h3>
+                <p class="text-slate-500 leading-relaxed">Pre-vetted. U.S.-based. Briefed on your systems. Ready to hit the ground running.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:shadow-cyan-100 hover:border-cyan-200 transition-all duration-300 group">
+                <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="rocket" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">We streamline onboarding.</h3>
+                <p class="text-slate-500 leading-relaxed">Proven process at your fingertips to ensure nothing falls through the cracks.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white rounded-xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:shadow-cyan-100 hover:border-cyan-200 transition-all duration-300 group">
+                <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="heart-handshake" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">We stay close.</h3>
+                <p class="text-slate-500 leading-relaxed">Ongoing support. Easy adjustments. Regular check-ins.</p>
             </div>
         </div>
     </div>
-</div>
-<div class="solutions-section">
-    <div class="info-text">
-        <div>
-            <h3>Our Vision</h3>
-            <p>To become the leading provider of virtual assistance enabling companies to work more fficiently while they focus on their core objectives.</p>    
-        </div>
-    </div>
-    <div class="solutions-container">
-        <div class="solution-card">
-            <div class="card-content">
-                <div class="icon-wrapper">
-                    <img src="{% static 'img/identify.png' %}" alt="identify solution">
+</section>
+
+<!-- Info Section -->
+<section class="bg-white py-24 border-t border-slate-200">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center gap-12">
+            <div class="flex-1">
+                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider mb-6">
+                    What we do
                 </div>
-                <h3>We identify your solution.</h3>
-                <p>Marketing? Admin? Accounting? All three? We match with purpose, not algorithms.</p>
+                <h2 class="text-4xl font-bold text-slate-900 mb-6">What does a Virtual Assistant Do?</h2>
+                <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    A TaskUp General Virtual Assistant (GVA) will take care of your administrative and personal work and help you streamline your day-to-day operations so you can focus on growing your business and achieving your goals.
+                </p>
+                <div class="flex gap-4">
+                    <a href="{% url 'plans' %}" class="text-blue-600 font-bold hover:text-blue-700 inline-flex items-center gap-2">
+                        View our Services <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="solution-card">
-            <div class="card-content">
-                <div class="icon-wrapper">
-                    <img src="{% static 'img/growth.png' %}" alt="meet your team">
-                </div>
-                <h3>You meet your team.</h3>
-                <p>Pre-vetted. U.S.-based. Briefed on your systems. Ready to hit the ground running.</p>
-            </div>
-        </div>
-        <div class="solution-card">
-            <div class="card-content">
-                <div class="icon-wrapper">
-                    <img src="{% static 'img/collaboration.png' %}" alt="streamline onboarding">
-                </div>
-                <h3>We streamline onboarding.</h3>
-                <p>Proven process at your fingertips to ensure nothing falls through the cracks.</p>
-            </div>
-        </div>
-        <div class="solution-card">
-            <div class="card-content">
-                <div class="icon-wrapper">
-                    <img src="{% static 'img/streamline.png' %}" alt="stay close">
-                </div>
-                <h3>We stay close.</h3>
-                <p>Ongoing support. Easy adjustments. Regular check-ins.</p>
+            <div class="flex-1">
+                 <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80" alt="Virtual Assistant" class="rounded-2xl shadow-2xl shadow-slate-200">
             </div>
         </div>
     </div>
-</div>
-<div class="pattern-banner"></div>
-    <div class="assistant-container">
-        <div class="assistant-header">
-            <h2>What does a Virtual Assistant Do?</h2>
-            <p>
-                A TaskUp General Virtual Assistant (GVA) will take care of your administrative and personal work and help you streamline your day-to-day operations so you can focus on growing your business and achieving your goals.
-                Do you need something else? Jump to: More Virtual Assistant Services
+</section>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock content %}
             </p>
         </div>
         <div class="assistant-grid">

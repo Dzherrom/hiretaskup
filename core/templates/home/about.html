@@ -2,121 +2,206 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+<style>
+    /* Custom styles for scrollbar if needed or specific overrides */
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    .active-sidebar-item {
+        background-color: white;
+        color: #2563eb; /* blue-600 */
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .active-sidebar-indicator {
+        display: block;
+    }
+    .inactive-sidebar-indicator {
+        display: none;
+    }
+</style>
 {% endblock extra_css %}
 
 {% block content %}
-<div class="about-hero">
-    <div class="container">
-        <h5>VIRTUAL ASSISTANT SERVICES</h5>
-        <h1>No matter what you need,<br>we’ve got a plan</h1>
-        <p>
-            We offer 25+ distinct plans covering most functional areas of a business. All of our plans include a dedicated Part-time or Full-time Assistant, a dedicated customer success manager (CSM), and complimentary access to the TaskUp Workspace App.
-        </p>
-    </div>
+<div class="font-sans text-slate-900 bg-slate-50 min-h-screen selection:bg-cyan-200 selection:text-cyan-900">
+
+    <!-- Sticky Header with Backdrop Blur -->
+    <!-- Note: Assuming base.html might have its own header. If so, you might want to hide this or integrate it. 
+         Based on the request, I am implementing the requested header design here. -->
+    <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-lg">T</span>
+                </div>
+                <!-- ID for toggling text color on scroll -->
+                <span id="brand-text" class="text-xl font-bold tracking-tight text-white transition-colors duration-300">TaskUp</span>
+            </div>
+
+            <!-- Navigation Links -->
+             <!-- ID for toggling link color on scroll -->
+            <nav id="nav-links" class="hidden md:flex items-center gap-8 text-slate-200">
+                <a href="#" class="text-sm font-medium transition-colors hover:text-cyan-500">Services</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-cyan-500">Pricing</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-cyan-500">About Us</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-cyan-500">Contact</a>
+            </nav>
+
+            <button id="header-cta" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-lg hover:shadow-cyan-500/25 bg-white text-slate-900 hover:bg-slate-100">
+                Get Started
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-48 pb-32 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <!-- Using Unsplash placeholder for "Modern Office" -->
+            <img 
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80" 
+                alt="Modern Office" 
+                class="w-full h-full object-cover"
+            >
+            <div class="absolute inset-0 bg-slate-900/80 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/50 to-slate-50"></div>
+        </div>
+
+        <div class="container relative z-10 mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 text-sm font-medium mb-6 backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                VIRTUAL ASSISTANT SERVICES
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                No matter what you need,<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                    we’ve got a plan.
+                </span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed mb-10">
+                We offer 25+ distinct plans covering most functional areas of a business. 
+                Dedicated assistants, customer success managers, and enterprise-grade tools included.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button class="px-8 py-4 rounded-full bg-cyan-500 text-slate-900 font-bold hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25 flex items-center gap-2 group">
+                    View Plans
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <button class="px-8 py-4 rounded-full bg-slate-800 text-white font-medium border border-slate-700 hover:bg-slate-700 transition-all">
+                    Talk to Sales
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <section class="bg-slate-50 pb-24 -mt-10 relative z-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+                <!-- Column 1: Sidebar Navigation (3 cols) -->
+                <div class="lg:col-span-3 space-y-2 sticky top-24">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-4">Talent Categories</h3>
+                    <!-- Sidebar Items Container -->
+                    <div id="sidebar-container" class="space-y-1">
+                        <!-- Items injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Column 2: Plan Details (6 cols) -->
+                <div class="lg:col-span-6">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 min-h-[600px]">
+                        <!-- Dynamic Content Header -->
+                        <div class="flex items-center gap-3 mb-6">
+                            <div id="active-icon-container" class="p-3 bg-blue-50 rounded-xl text-blue-600">
+                                <!-- Dynamic Icon -->
+                            </div>
+                            <div>
+                                <h2 id="active-title" class="text-2xl font-bold text-slate-900">Loading...</h2>
+                                <p class="text-slate-500 text-sm mt-1">Select a role to view details</p>
+                            </div>
+                        </div>
+
+                        <p id="active-description" class="text-slate-600 leading-relaxed mb-8 text-lg border-b border-slate-100 pb-8">
+                            <!-- Dynamic Description -->
+                        </p>
+
+                        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-6">Available Roles</h4>
+
+                        <!-- Dynamic Plans Grid -->
+                        <div id="plans-grid" class="grid gap-4">
+                             <!-- Plans injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: CTA Card (3 cols) -->
+                <div class="lg:col-span-3 space-y-6">
+                    <!-- Expert Consultation Card -->
+                    <div class="bg-gradient-to-b from-slate-900 to-slate-800 rounded-2xl p-6 text-white shadow-xl shadow-slate-900/10 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500 rounded-full blur-[60px] opacity-10 group-hover:opacity-20 transition-opacity"></div>
+
+                        <h3 class="text-xl font-bold mb-2 relative z-10">Worried about fit?</h3>
+                        <p class="text-slate-400 text-sm mb-6 relative z-10">
+                            Our team is available 24/7 to learn about your business and guide you to the right solution.
+                        </p>
+
+                        <div class="mb-6 relative z-10">
+                            <img src="{% static 'img/secretary.png' %}" alt="Expert" class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-800 object-cover">
+                            <div class="mt-3 flex items-center gap-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-xs font-semibold text-green-400">Online Now</span>
+                            </div>
+                        </div>
+
+                        <button class="w-full py-3 rounded-lg bg-cyan-500 text-slate-900 font-bold hover:bg-cyan-400 transition-colors flex items-center justify-center gap-2 relative z-10">
+                            Free Consultation
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Secondary CTA / Review -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                        <div class="flex gap-1 text-orange-400 mb-3">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="text-slate-600 text-sm italic mb-4">
+                            "TaskUp changed how our agency operates. The assistants are professional and the platform is seamless."
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold text-slate-500">SJ</div>
+                            <div class="text-xs">
+                                <div class="font-bold text-slate-900">Sarah Jenkins</div>
+                                <div class="text-slate-500">CEO, CreativeWorks</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 </div>
 
-<div class="about-main">
-    <!-- Talent Categories Accordion -->
-    <div class="about-categories" id="categoriesAccordion">
-        <h6>Talent Categories:</h6>
-        <div>
-            <div class="accordion-category active" data-category="productivity">Personal Productivity</div>
-            <div class="accordion-panel open">
-                Maximize your efficiency with dedicated assistants who manage personal tasks, scheduling, and executive support.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="hr">HR, Admin and Finance</div>
-            <div class="accordion-panel">
-                Streamline HR and finance operations with expert assistants for payroll, onboarding, and admin tasks.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="sales">Sales Development</div>
-            <div class="accordion-panel">
-                Boost your sales pipeline with assistants skilled in lead generation, outreach, and CRM management.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="marketing">Marketing</div>
-            <div class="accordion-panel">
-                Drive marketing success with assistants who manage content creation, campaign execution, and performance analysis—keeping your brand ahead of the curve.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="customer">Customer Service</div>
-            <div class="accordion-panel">
-                Enhance customer satisfaction with dedicated support for inquiries, complaints, and feedback.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="us">US-Based Talents</div>
-            <div class="accordion-panel">
-                Access top-tier US-based professionals for specialized business needs and compliance.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="healthcare">Healthcare</div>
-            <div class="accordion-panel">
-                Support your healthcare practice with assistants for appointment scheduling, billing, and patient follow-up.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="software">Software Developers</div>
-            <div class="accordion-panel">
-                Accelerate your tech projects with skilled software developers for web, mobile, and backend solutions.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="industry">Industry-specific Plans</div>
-            <div class="accordion-panel">
-                Find tailored solutions for your industry, from legal to logistics and everything in between.
-            </div>
-        </div>
-        <div>
-            <div class="accordion-category" data-category="realestate">Real Estate</div>
-            <div class="accordion-panel">
-                Manage listings, client communications, and paperwork with real estate virtual assistants.
-            </div>
-        </div>
-    </div>
-    <!-- Plans in selected category -->
-    <div class="about-plans" id="plansContent">
-        <!-- Default: Personal Productivity -->
-        <h6>Plans in selected category:</h6>
-        <ul>
-            <li>
-                <img src="{% static 'img/general-virtual-assistant.png' %}" alt="General Virtual Assistant" class="about-plans-icon">
-                <div>
-                    <strong>General Virtual Assistant</strong>
-                    <span>Manages complex personal and team calendars, and coordinate times for team meetings.</span>
-                </div>
-            </li>
-            <li>
-                <img src="{% static 'img/personal-assistant.png' %}" alt="Personal Assistant" class="about-plans-icon">
-                <div>
-                    <strong>Personal Assistant</strong>
-                    <span>Manages your calendar both at work and outside of it.</span>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="about-fit">
-        <div class="about-fit-text">
-            <div class="about-fit-title">
-                Worried about fit?<br>Speak with an Expert
-            </div>
-            <div class="about-fit-desc">
-                Our team is available 24/7 to learn about your business and guide you to the right solution.
-            </div>
-            <a href="#" class="about-fit-link">
-                Free Consultation &nbsp; &rarr;
-            </a>
-            <img src="{% static 'img/secretary.png' %}" alt="Expert" class="about-fit-icon">
-        </div>
-    </div>
-</div>
-
+<!-- Load Custom Logic -->
 <script src="{% static 'js/about.js' %}"></script>
+
 {% endblock content %}
