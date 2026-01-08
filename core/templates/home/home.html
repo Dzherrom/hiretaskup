@@ -19,6 +19,9 @@
   </script>
 <style>
     body { font-family: 'Inter', sans-serif; }
+    /* Smooth summary transition */
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 {% endblock extra_css %}
@@ -153,233 +156,144 @@
     </div>
 </section>
 
+<!-- FAQ Section -->
+<section class="bg-slate-50 py-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900">Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="space-y-4">
+             <!-- FAQ 1 -->
+             <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">Can I access TaskUp Assistant worldwide?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    You can access TaskUp Assistant anywhere in the world! Please note that TaskUp can only communicate with you and external parties in English (except for bilingual Assistants). Reach out to our sales team if you require an Assistant who can speak other languages.
+                </div>
+            </details>
+
+            <!-- FAQ 2 -->
+            <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">What does “unlimited work” mean?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    You can give as much work as you need to be done within the agreed-upon hours for the day. However, how fast your Assistant completes the tasks depends on several factors. These include the type of work, the complexity of the tasks, and how much other work your Assistant is doing for you.
+                </div>
+            </details>
+
+            <!-- FAQ 3 -->
+            <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">Do you provide 24/7 coverage?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    Although 24/7 coverage is available, we don’t offer it by default. Your Assistants are typically available 4 or 8 hours a day, five days a week. Clients choose the time bracket but can’t break up the hours; each Assistant must have an ongoing block of working hours. If you’d like to inquire about different coverage options (8/7, 16/5, 16/7, 24/5, 24/7), please reach out to us.
+                </div>
+            </details>
+            
+            <!-- FAQ 4 -->
+            <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">How do I communicate with TaskUp?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    <p class="mb-2">TaskUp has the following methods available:</p>
+                    <ul class="list-disc pl-5 mb-2">
+                        <li>Web app</li>
+                        <li>Slack integration</li>
+                        <li>Mobile app for iOS & Android</li>
+                        <li>Dedicated phone number (call & texts)</li>
+                    </ul>
+                    <p>Email, WhatsApp, Microsoft Teams, or custom methods are available upon request.</p>
+                </div>
+            </details>
+
+             <!-- FAQ 5 -->
+             <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">Who are my assistants?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    TaskUp Assistants are based worldwide – they are typically college-educated, fluent English speakers who have undergone a rigorous vetting process and an in-depth training and testing program. All Assistants are supervised by talented Managers and have a team they can rely on for help. Our Assistants are compensated at higher-than-market salaries and incentivized by your happiness!
+                </div>
+            </details>
+
+             <!-- FAQ 6 -->
+             <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">How long does it take to get replies?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    TaskUp guarantees a reply time of 3 minutes. Within this time, your Assistant should be able to notify you when they’ll start working on your request or provide an update on their progress. How long the work itself takes depends on how complex the tasks are. Nevertheless, you can be sure your Assistant will do high-quality work. TaskUp Assistants undergo weeks of training, are highly educated, and speak English (mostly on top of at least another language).
+                </div>
+            </details>
+
+             <!-- FAQ 7 -->
+             <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">Can TaskUp integrate with software I use?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    Yes. TaskUp can use any software you use, e.g., Salesforce, Trello, Later, Hootsuite, etc.
+                </div>
+            </details>
+
+             <!-- FAQ 8 -->
+             <details class="group bg-white rounded-xl border border-slate-200 open:border-cyan-200 open:ring-4 open:ring-cyan-50 transition-all">
+                <summary class="flex items-center justify-between p-6 cursor-pointer select-none">
+                    <span class="font-bold text-slate-900 group-open:text-cyan-700">How does customer support work?</span>
+                    <span class="transition-transform duration-300 group-open:rotate-180">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed">
+                    <p class="mb-2">TaskUp has excellent Customer Support, available round the clock on all plans. TaskUp guarantees a reply within one business day on any support matter, but you typically get a reply within a few hours. You can contact TaskUp Support via the web app or ask your Assistant to relay a concern, question, or item of feedback to TaskUp Support.</p>
+                    <p class="mb-2">You also get a dedicated Client Success Manager who can help you with any aspect of the TaskUp experience.</p>
+                    <p>Enterprise Priority Support is also available and guarantees a response time of 10 minutes within business hours.</p>
+                </div>
+            </details>
+
+        </div>
+    </div>
+</section>
+
 <script>
     lucide.createIcons();
+    // Add simple listener for details to create a proper accordion feel (optional)
+    const details = document.querySelectorAll("details");
+    details.forEach((targetDetail) => {
+        targetDetail.addEventListener("click", () => {
+            details.forEach((detail) => {
+                if (detail !== targetDetail) {
+                    detail.removeAttribute("open");
+                }
+            });
+        });
+    });
 </script>
 
-{% endblock content %}
-            </p>
-        </div>
-        <div class="assistant-grid">
-            <div class="assistant-card">
-                <img src="{% static 'img/calendar.png' %}" alt="Calendar Management">
-                <div class="card-content">
-                    <h5>Calendar Management</h5>
-                    <p>Our virtual assistants can help you manage your calendar, schedule appointments, and send reminders.</p>
-                </div>
-            </div>
-            <div class="assistant-card">
-                <img src="{% static 'img/research.png' %}" alt="Basic research">
-                <div class="card-content">
-                    <h5>Basic research and reports</h5>
-                    <p>Gather data from different platforms and produce reports and insights as required</p>
-                </div>
-            </div>
-            <div class="assistant-card">
-                <img src="{% static 'img/calls.png' %}" alt="Recieve your calls">
-                <div class="card-content">
-                    <h5>Recieve your calls</h5>
-                    <p>Your assistant can handle your phone calls, take notes, and attend/route them as required.</p>
-                </div>
-            </div>
-            <div class="assistant-card">
-                <img src="{% static 'img/travel.png' %}" alt="Travel arrangements">
-                <div class="card-content"> 
-                    <h5>Make travel arrangements</h5>
-                    <p>TaskUp Assistant prepares itineraries for company executives, books hotels and cars, and more.</p>
-                </div>
-            </div>
-            <div class="assistant-card">
-                <img src="{% static 'img/order.png' %}" alt="Order products">
-                <div class="card-content">
-                    <h5>Order products and supplies</h5>
-                    <p>Take care of miscellaneous needs such as ordering office supplies, furniture, team lunch, etc.</p>
-                </div>
-            </div>
-            <div class="assistant-card">
-                <img src="{% static 'img/invoices.webp' %}" alt="Track expenses">
-                <div class="card-content">
-                    <h5>Track expenses and invoices</h5>
-                    <p>Creates or sends statements or invoices, track payments, and record company expenses.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="mid-banner"></div>
-<div class="reviews-container">
-    <h2>Hundreds of Stellar Client Reviews</h2>
-    <p>TaskUp has been recognized as a top virtual assistant service provider by Clutch, Google, and other platforms.</p>
-    <div class="testimonials-cards">
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <span>★★★★★</span>
-            </div>
-            <p class="testimonial-text">Overall, I have been very pleased with each aspect of hiring my TaskUp VA. The process was smooth and the results have been fantastic.</p>
-            <div class="testimonial-footer">
-                <div class="testimonial-user">
-                    <img src="{% static 'img/user.png' %}" alt="Christine Mulvey">
-                    <div>
-                        <strong>Christine Mulvey</strong><br>
-                        <span style="font-size: 0.8rem; color: #666;">Director of Marketing</span><br>
-                        <span>Google</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <span>★★★★★</span>
-            </div>
-            <p class="testimonial-text">Amazing service! Excellent customer support and the work done by my assistant has exceeded my expectations in every way.</p>
-            <div class="testimonial-footer">
-                <div class="testimonial-user">
-                    <img src="{% static 'img/user.png' %}" alt="Chris Mullaly">
-                    <div>
-                        <strong>Chris Mullaly</strong><br>
-                        <span style="font-size: 0.8rem; color: #666;">CEO</span><br>
-                        <span>Facebook</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <span>★★★★★</span>
-            </div>
-            <p class="testimonial-text">TaskUp provides exceptional Virtual Assistant services and an accompanying productivity platform that has helped us scale efficiently.</p>
-            <div class="testimonial-footer">
-                <div class="testimonial-user">
-                    <img src="{% static 'img/user.png' %}" alt="Dylan Schiemann">
-                    <div>
-                        <strong>Dylan Schiemann</strong><br>
-                        <span style="font-size: 0.8rem; color: #666;">Co-Founder & CEO</span><br>
-                        <span>TechNova</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <span>★★★★★</span>
-            </div>
-            <p class="testimonial-text">TaskUp has been a game-changer for our business. Their assistants are professional, reliable, and always go the extra mile.</p>
-            <div class="testimonial-footer">
-                <div class="testimonial-user">
-                    <img src="{% static 'img/user.png' %}" alt="Alex Johnson">
-                    <div>
-                        <strong>Alex Johnson</strong><br>
-                        <span style="font-size: 0.8rem; color: #666;">Operations Manager</span><br>
-                        <span>FutureCorp</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="faqs">
-    <div class="faqs-container">
-        <h2>Popular Questions:</h2>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                Is my TaskUp Assistant dedicated?
-            </button>
-            <div class="faq-content">
-                <p>Yes, your TaskUp Assistant only works on your tasks during the agreed-upon hours.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                What hours will my assistant work?
-            </button>
-            <div class="faq-content">
-                <p>That's your choice! TaskUp Assistants work for clients worldwide - we can handle any timezone.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                Can I access TaskUp Assistant worldwide?
-            </button>
-            <div class="faq-content">
-                <p>You can access TaskUp Assistant anywhere in the world! Please note that TaskUp can only communicate with you and external parties in English (except for bilingual Assistants). Reach out to our sales team if you require an Assistant who can speak other languages.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                What does “unlimited work” mean?
-            </button>
-            <div class="faq-content">
-                <p>You can give as much work as you need to be done within the agreed-upon hours for the day. However, how fast your Assistant completes the tasks depends on several factors. These include the type of work, the complexity of the tasks, and how much other work your Assistant is doing for you.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                Do you provide 24/7 coverage?
-            </button>
-            <div class="faq-content">
-                <p>Although 24/7 coverage is available, we don’t offer it by default. Your Assistants are typically available 4 or 8 hours a day, five days a week. Clients choose the time bracket but can’t break up the hours; each Assistant must have an ongoing block of working hours. If you’d like to inquire about different coverage options (8/7, 16/5, 16/7, 24/5, 24/7), please reach out to us.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                How do I communicate with TaskUp?
-            </button>
-            <div class="faq-content">
-                <p>TaskUp has the following methods available:</p>
-                <ul>
-                    <li>Web app</li>
-                    <li>Slack integration</li>
-                    <li>Mobile app for iOS & Android</li>
-                    <li>Dedicated phone number (call & texts)</li>
-                </ul>
-                <p>Email, WhatsApp, Microsoft Teams, or custom methods are available upon request.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                Who are my assistants?
-            </button>
-            <div class="faq-content">
-                <p>TaskUp Assistants are based worldwide – they are typically college-educated, fluent English speakers who have undergone a rigorous vetting process and an in-depth training and testing program. All Assistants are supervised by talented Managers and have a team they can rely on for help. Our Assistants are compensated at higher-than-market salaries and incentivized by your happiness!</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                How long does it take to get replies?
-            </button>
-            <div class="faq-content">
-                <p>TaskUp guarantees a reply time of 3 minutes. Within this time, your Assistant should be able to notify you when they’ll start working on your request or provide an update on their progress. How long the work itself takes depends on how complex the tasks are. Nevertheless, you can be sure your Assistant will do high-quality work. TaskUp Assistants undergo weeks of training, are highly educated, and speak English (mostly on top of at least another language).</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                Can TaskUp integrate with software I use?
-            </button>
-            <div class="faq-content">
-                <p>Yes. TaskUp can use any software you use, e.g., Salesforce, Trello, Later, Hootsuite, etc.</p>
-            </div>
-        </div>
-        <div class="faq">
-            <button class="faq-header">
-                <span class="faq-icon">+</span>
-                How does customer support work?
-            </button>
-            <div class="faq-content">
-                <p>TaskUp has excellent Customer Support, available round the clock on all plans. TaskUp guarantees a reply within one business day on any support matter, but you typically get a reply within a few hours. You can contact TaskUp Support via the web app or ask your Assistant to relay a concern, question, or item of feedback to TaskUp Support.</p>
-                <p>You also get a dedicated Client Success Manager who can help you with any aspect of the TaskUp experience.</p>
-                <p>Enterprise Priority Support is also available and guarantees a response time of 10 minutes within business hours.</p>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="{% static 'js/chooseAccordion.js' %}"></script>
 {% endblock content %}

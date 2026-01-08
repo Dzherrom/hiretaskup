@@ -1,143 +1,196 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/plans.css' %}">
-{% endblock extra_css %}
-{% block content %}
-<div class="plans-bg-wrapper">
-    <div class="plans-container">
-        <div class="plans-header">
-            <h1>Choose your plan</h1>
-        </div>
-        <div class="choose-plan-dropdown" id="choosePlanDropdown">
-        <button class="dropdown-plan-btn ">Full-Time 2X - Get Your Team</button>
-        <button class="dropdown-plan-btn ">Full-Time - Get Your Assistant</button>
-        <button class="dropdown-plan-btn ">Part-Time - Get Your Assistant</button>
-    </div>
-    <div class="plans-cards">
-        <!-- Part-Time Plan -->
-        <div class="plans-main-card">
-            <div class="plans-type">Part-Time Assistant</div>
-            <div class="plans-price">$799<span>/Month</span></div>
-            <a class="plans-btn" href="{% url 'onboarding_checkout' %}?amount=79900&name=Part-Time%20Assistant">Get Your Assistant</a>
-            <ul>
-                <li>20 hours per week (part-time)</li>
-                <li>Flexible or fixed schedule as needed</li>
-                <li>Dedicated virtual assistant</li>
-                <li>Basic administrative assistance</li>
-                <li>Customer support via email and chat</li>
-                <li>Calendar and schedule management</li>
-                <li>Basic social media support</li>
-                <li>Weekly activity reports</li>
-            </ul>
-        </div>
-        <!-- Full-Time Plan -->
-        <div class="plans-main-card">
-            <div class="plans-type">Full-Time Assistant <span class="recommended">RECOMMENDED</span></div>
-            <div class="plans-price">$1,199<span>/Month</span></div>
-            <a class="plans-btn primary" href="{% url 'onboarding_checkout' %}?amount=119900&name=Full-Time%20Assistant">Get Your Assistant</a>
-            <ul>
-                <li>40 hours per week (full-time)</li>
-                <li>Personalized schedule to your convenience</li>
-                <li>Customer support via phone call</li>
-                <li>Advanced email management</li>
-                <li>Comprehensive social media management (posting, interaction)</li>
-                <li>Meeting organization and coordination</li>
-                <li>Additional executive support (reports, presentations, etc.)</li>
-                <li>Detailed daily reports</li>
-            </ul>
-        </div>
-        <!-- Full-Time 2X Plan -->
-         <div class="plans-main-card">
-        <div class="plans-type">Full-Time Team <span class="recommended">PREMIUM</span></div>
-        <div class="plans-price">$1,899<span>/Month</span></div>
-    <a class="plans-btn primary" href="{% url 'onboarding_checkout' %}?amount=189900&name=Full-Time%20Team">Get Your Team</a>
-        <ul>
-            <li>80+ hours per week (2 dedicated assistants)</li>
-            <li>Fully customized schedule for your business</li>
-            <li>Everything in the Full-Time Plan, plus:</li>
-            <li>Exclusive team dedicated to your company</li>
-            <li>Complete management of specific projects</li>
-            <li>Training tailored to your requirements</li>
-            <li>Priority 24/7 support</li>
-            <li>Access to advanced productivity tools</li>
-        </ul>
-        </div>
-    </div>
-</div>
-<div class="section-separator"></div>
-<!-- BENEFICIOS 
- 
- 
 
-            <div class="plans-main-card">
-                <div class="plans-type">Part-Time Assistant</div>
-                <div class="plans-price">$799<span>/Month</span></div>
-                <button class="plans-btn">Get Your Assistant</button>
-                <ul>
-                    <li>20 hours per week (part-time)</li>
-                    <li>Flexible or fixed schedule as needed</li>
-                    <li>Dedicated virtual assistant</li>
-                    <li>Basic administrative assistance</li>
-                    <li>Customer support via email and chat</li>
-                    <li>Calendar and schedule management</li>
-                    <li>Basic social media support</li>
-                    <li>Weekly activity reports</li>
+{% block extra_css %}
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="font-sans text-slate-900 bg-slate-50 min-h-screen selection:bg-cyan-200 selection:text-cyan-900 pb-24">
+    
+    <!-- Header -->
+    <div class="bg-slate-900 pt-32 pb-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/90 z-10"></div>
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#4b5563 1px, transparent 1px); background-size: 32px 32px;"></div>
+        
+        <div class="container mx-auto px-6 relative z-20 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Simple, transparent pricing</h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+                No hidden fees. Scale up or down at any time. Choose the plan that fits your business needs.
+            </p>
+        </div>
+    </div>
+
+    <!-- Plans Cards -->
+    <div class="container mx-auto px-6 -mt-16 relative z-30">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            
+            <!-- Part-Time Plan -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 flex flex-col hover:border-blue-300 transition-colors duration-300">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-900">Part-Time Assistant</h3>
+                    <p class="text-slate-500 text-sm mt-1">Perfect for getting started</p>
+                </div>
+                <div class="mb-6">
+                    <span class="text-4xl font-extrabold text-slate-900">$799</span>
+                    <span class="text-slate-500 font-medium">/month</span>
+                </div>
+                <a href="{% url 'onboarding_checkout' %}?amount=79900&name=Part-Time%20Assistant" class="block w-full py-3 px-4 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-lg text-center hover:border-slate-300 hover:text-slate-900 transition-all mb-8">
+                    Get Started
+                </a>
+                <ul class="space-y-4 mb-8 flex-1">
+                    <li class="flex items-start gap-3 text-sm text-slate-600">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500 shrink-0"></i>
+                        20 hours per week
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-600">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500 shrink-0"></i>
+                        Dedicated virtual assistant
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-600">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500 shrink-0"></i>
+                        Customer support via email & chat
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-600">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500 shrink-0"></i>
+                         Basic admin & social support
+                    </li>
                 </ul>
             </div>
-        </div>
 
- Beneficios Incluidos en Todos los Planes:
-Asistentes altamente capacitados y bilingües (Español-Inglés)
-Comunicación directa vía Slack, WhatsApp, Email o plataforma preferida
-Reemplazo inmediato si es necesario
-Facturación sencilla y transparente mediante Stripe
-Posibilidad de escalar el servicio según crecimiento de la empresa
-<div class="testimonials-section">
-    <h2>Onboarding is smooth and easy</h2>
-    <div class="testimonials-cards">
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <span>★★★★★</span>
-            </div>
-            <p class="testimonial-text">
-                Overall, I have been very pleased with each aspect of hiring my TaskUp VA. We were looking at a variety of virtual assistant programs; what made us choose TaskUp was the fact that their talent had specific marketing experience... Working with TaskUp is seamless. They have a robust platform that makes communicating with our VA incredibly easy. It also helps that they act quickly and are incredibly responsive...
-            </p>
-            <div class="testimonial-footer">
-                <div class="testimonial-user">
-                    <img src="{% static 'img/user.png' %}" alt="Christine Mulvey">
-                    <div>
-                        <strong>Christine Mulvey</strong><br>
-                        <span>Director of Marketing, Charlesgate Real Estate</span>
-                    </div>
+            <!-- Full-Time Plan (Recommended) -->
+            <div class="bg-white rounded-2xl shadow-2xl border-2 border-blue-500 p-8 flex flex-col relative transform md:-translate-y-4">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                    Most Popular
                 </div>
-                <a href="https://www.charlesgaterealty.com/" target="_blank">https://www.charlesgaterealty.com/</a>
-                <span class="testimonial-source">Clutch</span>
+                <div class="mb-4 mt-2">
+                    <h3 class="text-lg font-bold text-slate-900">Full-Time Assistant</h3>
+                    <p class="text-blue-600 text-sm mt-1 font-medium">Best value for growing businesses</p>
+                </div>
+                <div class="mb-6">
+                    <span class="text-5xl font-extrabold text-slate-900">$1,199</span>
+                    <span class="text-slate-500 font-medium">/month</span>
+                </div>
+                <a href="{% url 'onboarding_checkout' %}?amount=119900&name=Full-Time%20Assistant" class="block w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-lg text-center hover:shadow-lg hover:shadow-blue-500/25 transition-all mb-8">
+                    Get Your Assistant
+                </a>
+                <ul class="space-y-4 mb-8 flex-1">
+                    <li class="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-500 shrink-0"></i>
+                        40 hours per week
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-500 shrink-0"></i>
+                        Personalized schedule
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-500 shrink-0"></i>
+                        Support via phone, email & chat
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-500 shrink-0"></i>
+                        Advanced email & social management
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-500 shrink-0"></i>
+                        Meeting organization
+                    </li>
+                </ul>
             </div>
+
+            <!-- Team Plan -->
+            <div class="bg-slate-900 rounded-2xl shadow-xl border border-slate-700 p-8 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-white">Full-Time Team</h3>
+                    <p class="text-slate-400 text-sm mt-1">For enterprise scale needs</p>
+                </div>
+                <div class="mb-6">
+                    <span class="text-4xl font-extrabold text-white">$1,899</span>
+                    <span class="text-slate-500 font-medium">/month</span>
+                </div>
+                <a href="{% url 'onboarding_checkout' %}?amount=189900&name=Full-Time%20Team" class="block w-full py-3 px-4 bg-slate-800 border border-slate-600 text-white font-bold rounded-lg text-center hover:bg-slate-700 transition-all mb-8">
+                    Contact Sales
+                </a>
+                <ul class="space-y-4 mb-8 flex-1">
+                    <li class="flex items-start gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-5 h-5 text-purple-400 shrink-0"></i>
+                        80+ hours (2 dedicated assistants)
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-5 h-5 text-purple-400 shrink-0"></i>
+                        Exclusive dedicated team
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-5 h-5 text-purple-400 shrink-0"></i>
+                        Project management included
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-300">
+                        <i data-lucide="check" class="w-5 h-5 text-purple-400 shrink-0"></i>
+                        Priority 24/7 support
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <span>★★★★★</span>
-            </div>
-            <p class="testimonial-text">
-                TaskUp provides exceptional Virtual Assistant services and an accompanying productivity platform. Using TaskUp has been incredibly beneficial for our business, allowing us to explore some things in far more depth, or scale up some operations more effectively. Some of the benefits far exceed what you might expect from a virtual assistant in terms of capabilities and outside traditional administrative work.
-            </p>
-            <div class="testimonial-footer">
-                <div class="testimonial-user">
-                    <img src="{% static 'img/user.png' %}" alt="Dylan Schiemann">
-                    <div>
-                        <strong>Dylan Schiemann</strong><br>
-                        <span>Co-Founder &amp; CEO<br>Living Spec</span>
+    </div>
+    
+    <!-- FAQ or Benefit Section -->
+    <div class="container mx-auto px-6 mt-24">
+        <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-2xl font-bold text-slate-900 mb-6 text-center">Included in all plans</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i data-lucide="user-check" class="w-5 h-5"></i>
                     </div>
-                </div>
-                <a href="https://www.livingspec.com/" target="_blank">https://www.livingspec.com/</a>
-                <span class="testimonial-source">Fake Enterprise</span>
+                    <span class="text-sm font-medium text-slate-700">Pre-vetted Bilingual Talent</span>
+                 </div>
+                 <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-sm font-medium text-slate-700">Slack, WhatsApp & Email</span>
+                 </div>
+                 <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-sm font-medium text-slate-700">Immediate Replacement</span>
+                 </div>
+                 <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-sm font-medium text-slate-700">Easy Stripe Billing</span>
+                 </div>
             </div>
         </div>
     </div>
+
 </div>
-<script src="{% static 'js/plans.js' %}"></script>
--->
-    </div>
-</div>
+
+<script>
+    lucide.createIcons();
+    // No JS needed for dropdown anymore as we use a grid layout
+</script>
+
 {% endblock content %} 
