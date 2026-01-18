@@ -12,6 +12,7 @@ from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from django.conf import settings
 from django.utils import timezone
+from django.core.mail import send_mail
 import stripe 
 
 def home(request):
@@ -287,7 +288,33 @@ def contact(request):
         form = MeetingForm(request.POST)
         if form.is_valid():
             try:
-                form.save()
+                meeting = form.save()
+
+                # --- START EMAIL SENDING LOGIC ---
+                subject = f"New Meeting Request: {meeting.name}"
+                message = f"""
+                You have received a new meeting request.
+
+                Details:
+                Name: {meeting.name}
+                Email: {meeting.email}
+                Phone: {meeting.phone}
+                Date: {meeting.date}
+                Time: {meeting.time}
+                Timezone: {meeting.timezone}
+                Guests: {meeting.guests}
+                Important Info: {meeting.important}
+                """
+                from_email = settings.DEFAULT_FROM_EMAIL
+                recipient_list = [settings.EMAIL_HOST_USER]  # Send to the admin/configured email
+
+                try:
+                    send_mail(subject, message, from_email, recipient_list)
+                    print("Email sent successfully.")
+                except Exception as e:
+                    print(f"Error sending email: {e}")
+                # --- END EMAIL SENDING LOGIC ---
+
                 return render(request, 'home/contact.html', {
                     'form': MeetingForm(),
                     'success': True, 
