@@ -2,256 +2,204 @@
 {% load static %}
 
 {% block extra_css %}
-<!-- Retaining necessary libraries for calendar functionality -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-
 <style>
-    /* Custom overrides for libraries to match Tailwind theme */
-    .flatpickr-calendar {
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0.75rem !important;
-        background: #ffffff !important;
-        font-family: 'Inter', sans-serif !important;
-        width: 100% !important;
-    }
-    .flatpickr-days {
-        width: 100% !important;
-    }
-    .dayContainer {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-    .flatpickr-day {
-        margin: 0 !important;
-        width: 14.28% !important; /* 7 days */
-        max-width: none !important;
-        height: 48px !important;
-        line-height: 48px !important;
-        border-radius: 0.5rem !important;
-    }
-    .flatpickr-day.selected {
-        background: #0f172a !important; /* slate-900 */
-        border-color: #0f172a !important;
-    }
-    .flatpickr-day:hover {
-        background: #e2e8f0 !important; /* slate-200 */
-    }
-    
-    /* Select2 overrides */
-    .select2-container {
-        width: 100% !important;
-    }
-    .select2-container .select2-selection--single {
-        height: 42px !important;
-        border-color: #e2e8f0 !important; /* slate-200 */
-        border-radius: 0.5rem !important; /* rounded-lg */
-        display: flex;
-        align-items: center;
-        background-color: #f8fafc; /* slate-50 */
-    }
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 40px !important;
-    }
-    .select2-dropdown {
-        border-color: #e2e8f0 !important;
-        border-radius: 0.5rem !important;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
-    }
-    
-    /* IntlTelInput overrides */
-    .iti { width: 100%; }
-    .iti__flag-container { border-right: 1px solid #f1f5f9; }
-    .iti__country-list { z-index: 60 !important; border-radius: 0.5rem; border: none; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-
-    /* Time Slots Styling (Injected by JS) */
-    .time-slot-btn {
-        width: 100%;
-        padding: 0.75rem 0;
-        border: 1px solid #cbd5e1; /* slate-300 */
-        border-radius: 0.5rem; /* rounded-lg */
-        background-color: white;
-        color: #334155; /* slate-700 */
-        font-weight: 600;
-        font-size: 0.875rem; /* text-sm */
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-    .time-slot-btn:hover {
-        border-color: #94a3b8; /* slate-400 */
-        background-color: #f8fafc; /* slate-50 */
-    }
-    .time-slot-btn.selected {
-        background-color: #0f172a !important; /* slate-900 */
-        color: white !important;
-        border-color: #0f172a !important;
-    }
-    .next-btn {
-        background-color: #2563eb; /* blue-600 */
-        color: white;
-        border: none;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        font-size: 0.875rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-    .next-btn:hover {
-        background-color: #1d4ed8; /* blue-700 */
-    }
-
-    /* Scrollbar for time slots */
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+    /* Custom glow effect for inputs */
+    .input-glow:focus {
+        box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1); /* cyan-500 with opacity */
+        border-color: #06b6d4; /* cyan-500 */
     }
 </style>
 {% endblock extra_css %}
 
 {% block content %}
-<div class="min-h-screen bg-slate-50 relative">
-    
-    <!-- Dark Header Background / Hero Decoration -->
-    <div class="absolute top-0 left-0 w-full h-[500px] bg-slate-900 z-0 overflow-hidden">
-        <!-- Gradient Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-50"></div>
-        <!-- Decorative Glows -->
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
-        <div class="absolute top-10 right-1/4 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl"></div>
-    </div>
-
-    <div class="container mx-auto px-4 max-w-7xl pt-40 pb-12 relative z-10">
-        <!-- Promo Banner -->
-        <div class="mb-8 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-center py-3 px-4 rounded-xl shadow-lg shadow-blue-500/20 text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
-            <i data-lucide="sparkles" class="w-4 h-4"></i> Book a Consultation Today and Save $200. Ends June 30.
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[600px]">
-            
-            <!-- Left Sidebar (Info) -->
-            <div class="lg:col-span-4 lg:col-start-2 xl:col-span-3">
-                <div class="sticky top-24 space-y-8">
-                    <!-- Brand Section -->
-                    <div class="text-center lg:text-left">
-                         <img src="{% static 'img/hero.png' %}" alt="TaskUp" class="h-24 w-auto mx-auto lg:mx-0 mb-6 drop-shadow-xl animate-float">
-                         <h1 class="text-3xl font-extrabold text-slate-900 mb-4 leading-tight">
-                            TaskUp Specialists Are<br>
-                            <span class="text-blue-600">Available 24/7</span><br>
-                            for Consultation
-                         </h1>
-                         <p class="text-slate-500 mb-6">Schedule a meeting to:</p>
-                         <ul class="space-y-3 mb-8">
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                                Tell us about your project
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
-                                Learn about our talent
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <div class="w-2 h-2 rounded-full bg-purple-400"></div>
-                                Discover the TaskUp Workspace
-                            </li>
-                         </ul>
-                    </div>
-
-                    <!-- Testimonial -->
-                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm relative">
-                        <div class="absolute -top-3 left-6">
-                            <i data-lucide="quote" class="w-8 h-8 text-blue-200 fill-current"></i>
-                        </div>
-                        <div class="flex items-center justify-between mb-4 mt-2">
-                             <div>
-                                <h4 class="font-bold text-slate-900 text-sm">Sarah Thompson</h4>
-                                <p class="text-xs text-slate-500 text-xs">Founder, Thompson Studio</p>
-                             </div>
-                             <div class="flex text-yellow-400 text-xs gap-0.5">
-                                ★★★★★
-                             </div>
-                        </div>
-                        <p class="text-sm text-slate-600 italic leading-relaxed">
-                            "TaskUp has been a game changer. We’ve saved hours every week and can now focus more on growing our business."
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Content (App) -->
-            <div class="lg:col-span-7 xl:col-span-7">
-                <div class="bg-white rounded-2xl shadow-2xl shadow-slate-200 border border-slate-100 overflow-hidden min-h-[600px] relative">
-                    
-                    <div class="p-8 md:p-12 contact-form-container">
-                        <div class="mb-10 text-center">
-                            <h3 class="text-3xl font-bold text-slate-900 mb-3">Get in Touch</h3>
-                            <p class="text-slate-600">Send us a message and we'll get back to you shortly.</p>
-                        </div>
-
-                        <form id="contactForm" class="space-y-6">
-                            <div class="form-group">
-                                <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
-                                <input type="text" id="name" name="name" class="custom-input w-full" placeholder="John Doe" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="subject" class="block text-sm font-semibold text-slate-700 mb-2">Subject</label>
-                                <input type="text" id="subject" name="subject" class="custom-input w-full" placeholder="Project Inquiry" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
-                                <textarea id="message" name="message" rows="5" class="custom-input w-full resize-none" placeholder="Tell us about your project..." required></textarea>
-                            </div>
-
-                            <button type="submit" class="submit-btn w-full" style="display: flex; align-items: center; flex-direction: row; justify-content: center;">
-                                <span>Send Message</span>
-                                <i data-lucide="send" class="w-5 h-5 ml-2"></i>
-                            </button>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        
-        <!-- Ratings Footer -->
-        <div class="mt-12 text-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            <p class="text-xs text-slate-400 font-bold mb-4 uppercase tracking-widest">Trusted by top platforms</p>
-            <div class="flex items-center justify-center gap-8 flex-wrap">
-                <img src="{% static 'img/google.png' %}" alt="Google" class="h-6">
-                <img src="{% static 'img/goodfirms.png' %}" alt="GoodFirms" class="h-6">
-                <img src="{% static 'img/clutch.png' %}" alt="Clutch" class="h-6">
-                <img src="{% static 'img/producthunt.png' %}" alt="Product Hunt" class="h-6">
-            </div>
-        </div>
-
-    </div>
+<!-- Decorative Background -->
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-cyan-50 rounded-full blur-[100px] opacity-50"></div>
+    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] opacity-50"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment-timezone@0.5.43/builds/moment-timezone-with-data.min.js"></script>    
-<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<!-- Duplicate moment-timezone removed -->
-<script src="{% static 'js/contact.js' %}"></script>
-<script>
-    // Force some styles for the Flatpickr inline logic if the JS uses 'inline: true'
-    // Depending on contact.js implementation, we might need a container for the input if it appends to parent
-</script>
+<section class="relative z-10 py-20 lg:py-32">
+    <div class="container mx-auto px-6 max-w-7xl">
+        <div class="flex flex-col lg:flex-row gap-16 items-start">
+            
+            <!-- Context / Info Column -->
+            <div class="lg:w-5/12 pt-10">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-bold uppercase tracking-wider mb-6">
+                    Contact Us
+                </span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                    Let's start a conversation.
+                </h1>
+                <p class="text-lg text-slate-600 leading-relaxed mb-10">
+                    Whether you have questions about our plans, need a custom solution, or just want to say hello, we're ready to answer.
+                </p>
+
+                <div class="space-y-8">
+                    <!-- Info Item 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center shadow-sm text-cyan-600 shrink-0">
+                            <i data-lucide="mail" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg mb-1">Email</h3>
+                            <p class="text-slate-500 mb-2">For general inquiries and support.</p>
+                            <a href="mailto:contact.taskup@gmail.com" class="text-slate-900 font-semibold hover:text-cyan-600 transition-colors">contact.taskup@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <!-- Info Item 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center shadow-sm text-cyan-600 shrink-0">
+                             <i data-lucide="message-square" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg mb-1">Live Chat</h3>
+                            <p class="text-slate-500 mb-2">Available Mon-Fri from 9am to 6pm EST.</p>
+                            <a href="#" class="text-slate-900 font-semibold hover:text-cyan-600 transition-colors inline-flex items-center gap-1">
+                                Start Chat <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Column -->
+            <div class="lg:w-7/12 w-full">
+                <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100 p-8 md:p-10 relative overflow-hidden">
+                    
+                    {% if success %}
+                    <div class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center text-center p-10 animate-fade-in">
+                        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+                            <i data-lucide="check" class="w-10 h-10"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
+                        <p class="text-slate-600 max-w-md mx-auto">Thank you for reaching out. A member of our team will get back to you shortly.</p>
+                        <a href="{% url 'home' %}" class="mt-8 px-8 py-3 bg-slate-900 text-white font-medium rounded-full hover:bg-slate-800 transition-all">Back to Home</a>
+                    </div>
+                    {% endif %}
+
+                    <form id="contactForm" method="POST" action="{% url 'contact' %}" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Name -->
+                            <div class="group">
+                                <label for="name" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Full Name</label>
+                                <input type="text" id="name" name="name" 
+                                    class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
+                                    placeholder="John Doe">
+                                <p class="hidden text-red-500 text-xs mt-1 error-msg">Please enter your full name.</p>
+                            </div>
+
+                             <!-- Email/Phone -->
+                             <div class="group">
+                                <label for="contact_info" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Email or Phone</label>
+                                <input type="text" id="contact_info" name="contact_info" 
+                                    class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
+                                    placeholder="john@example.com">
+                                <p class="hidden text-red-500 text-xs mt-1 error-msg">Please enter a valid email or phone number.</p>
+                            </div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="group">
+                            <label for="subject" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Subject</label>
+                            <input type="text" id="subject" name="subject" 
+                                class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
+                                placeholder="How can we help?">
+                            <p class="hidden text-red-500 text-xs mt-1 error-msg">The subject cannot be empty.</p>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="group">
+                            <label for="message" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Message</label>
+                            <textarea id="message" name="message" rows="5"
+                                class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300 resize-none"
+                                placeholder="Tell us more about your needs..."></textarea>
+                            <p class="hidden text-red-500 text-xs mt-1 error-msg">Please enter a message.</p>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="pt-2">
+                            <button type="submit" id="submitBtn" class="w-full py-4 px-6 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2">
+                                <span>Send Message</span>
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock content %}
 
+{% block extra_js %}
+<script>
+    // Simple Client-Side Validation
+    const form = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const contactInput = document.getElementById('contact_info');
+    const subjectInput = document.getElementById('subject');
+    const messageInput = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+        
+        // Reset errors
+        document.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
+        
+        // Validate Name
+        if (!nameInput.value.trim()) {
+            showError(nameInput);
+            isValid = false;
+        }
+
+        // Validate Contact (Email or Phone basic check)
+        if (!contactInput.value.trim()) {
+            showError(contactInput);
+            isValid = false;
+        }
+
+        // Validate Subject
+        if (!subjectInput.value.trim()) {
+            showError(subjectInput);
+            isValid = false;
+        }
+
+        // Validate Message
+        if (!messageInput.value.trim()) {
+            showError(messageInput);
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        } else {
+            // Optional: Show loading state
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sending...';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+        }
+    });
+
+    function showError(inputElement) {
+        // Find the p tag in the parent div
+        const parent = inputElement.parentElement;
+        const error = parent.querySelector('.error-msg');
+        if (error) {
+            error.classList.remove('hidden');
+        }
+        inputElement.classList.add('border-red-300');
+        inputElement.classList.remove('border-slate-200');
+        
+        // Remove error styling on input
+        inputElement.addEventListener('input', function() {
+            error.classList.add('hidden');
+            inputElement.classList.remove('border-red-300');
+            inputElement.classList.add('border-slate-200');
+        }, {once: true});
+    }
+</script>
+{% endblock extra_js %}

@@ -284,55 +284,48 @@ def onboarding_create_checkout(request):
 @login_required
 def contact(request):
     if request.method == 'POST':
-        print(request.POST)
-        form = MeetingForm(request.POST)
-        if form.is_valid():
+        name = request.POST.get('name')
+        subject = request.POST.get('subject')
+        contact_info = request.POST.get('contact_info')
+        message_body = request.POST.get('message')
+
+        if name and subject and contact_info and message_body:
+            # Prepare email content
+            email_subject = f"New Contact Request: {subject}"
+            email_message = f"""
+            You have received a new message from the contact form.
+
+            Details:
+            ---------
+            Name: {name}
+            Email/Phone: {contact_info}
+            Subject: {subject}
+            
+            Message:
+            {message_body}
+            """
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = [settings.EMAIL_HOST_USER]  # Send to the admin/configured email
+
             try:
-                meeting = form.save()
+                send_mail(email_subject, email_message, from_email, recipient_list)
+                print("Email sent successfully.")
+            except Exception as e:
+                print(f"Error sending email: {e}")
 
-                # --- START EMAIL SENDING LOGIC ---
-                subject = f"New Meeting Request: {meeting.name}"
-                message = f"""
-                You have received a new meeting request.
+            return render(request, 'home/contact.html', {
+                'success': True, 
+                'user_is_authenticated': request.user.is_authenticated
+            })
+        else:
+             return render(request, 'home/contact.html', {
+                'error': "Please fill in all fields.",
+                'user_is_authenticated': request.user.is_authenticated
+            })
 
-                Details:
-                Name: {meeting.name}
-                Email: {meeting.email}
-                Phone: {meeting.phone}
-                Date: {meeting.date}
-                Time: {meeting.time}
-                Timezone: {meeting.timezone}
-                Guests: {meeting.guests}
-                Important Info: {meeting.important}
-                """
-                from_email = settings.DEFAULT_FROM_EMAIL
-                recipient_list = [settings.EMAIL_HOST_USER]  # Send to the admin/configured email
-
-                try:
-                    send_mail(subject, message, from_email, recipient_list)
-                    print("Email sent successfully.")
-                except Exception as e:
-                    print(f"Error sending email: {e}")
-                # --- END EMAIL SENDING LOGIC ---
-
-                return render(request, 'home/contact.html', {
-                    'form': MeetingForm(),
-                    'success': True, 
-                    'user_is_authenticated': request.user.is_authenticated
-                })
-            except IntegrityError:
-                form.add_error(None, "This meeting already exists.")
-
-    else:
-        form = MeetingForm()
-        return render(request, 'home/contact.html', {
-            'form': form,
-            'user_is_authenticated': request.user.is_authenticated})
     return render(request, 'home/contact.html', {
-            'form': form,
-            'error': "This meeting already exists",
             'user_is_authenticated': request.user.is_authenticated})
-    
+
 # payments
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
