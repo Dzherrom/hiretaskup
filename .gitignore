@@ -8,3 +8,5 @@ core/migrations/__pycache__
 core/__pycache__
 
 stripe.txt
+# Database
+db.sqlite3
