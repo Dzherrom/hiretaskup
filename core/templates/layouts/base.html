@@ -102,10 +102,6 @@
                                     <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
                                     Profile
                                 </a>
-                                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-lg hover:bg-white hover:text-slate-900 hover:shadow-sm transition-all duration-200 group">
-                                    <i data-lucide="credit-card" class="w-4 h-4 text-slate-400 group-hover:text-cyan-600 transition-colors"></i>
-                                    Billing & Plans
-                                </a>
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}
                                     <button type="submit" class="flex items-center w-full gap-3 px-3 py-2.5 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors">

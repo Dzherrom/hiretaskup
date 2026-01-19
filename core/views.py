@@ -139,19 +139,42 @@ def user_create(request):
 @login_required
 def user_edit(request, id):
     user = get_object_or_404(CustomUser, id=id)
+    error = None
+    
     if request.method == 'POST':
-        user.last_name = request.POST['last_name']
-        user.first_name = request.POST['first_name']
-        user.username = request.POST['username']
-        user.email = request.POST['email']
-        user.phone_number = request.POST['phone_number']
-        user.address = request.POST['address']
-        new_password = request.POST['password']
+        # Validar contraseña actual solo si se intenta cambiar la contraseña
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
         if new_password:
-            user.password = make_password(new_password)
-        user.save()
-        return redirect('user_profile')
-    return render(request, 'user/user_edit.html', {'user': user})
+            if not current_password:
+                error = "Please enter your current password to set a new one."
+            elif not user.check_password(current_password):
+                 error = "Incorrect current password."
+            elif new_password != confirm_password:
+                 error = "New passwords do not match."
+            else:
+                 user.set_password(new_password)
+                 # Keep user logged in after password change (optional but good UX)
+                 from django.contrib.auth import update_session_auth_hash
+                 update_session_auth_hash(request, user)
+
+        if not error:
+            user.last_name = request.POST.get('last_name', user.last_name)
+            user.first_name = request.POST.get('first_name', user.first_name)
+            # Username should likely be read-only or handled carefully
+            # user.username = request.POST.get('username', user.username) 
+            user.email = request.POST.get('email', user.email)
+            user.phone_number = request.POST.get('phone_number', user.phone_number)
+            user.address = request.POST.get('address', user.address)
+            user.business_name = request.POST.get('business_name', user.business_name)
+            user.website = request.POST.get('website', user.website)
+            
+            user.save()
+            return redirect('user_profile')
+
+    return render(request, 'user/user_edit.html', {'user': user, 'error': error})
 
 @login_required
 def user_delete(request, id):
