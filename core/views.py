@@ -245,6 +245,9 @@ def onboarding_create_checkout(request):
     email = request.POST.get('email', request.user.email)
     phone = request.POST.get('phone', '')
     website = request.POST.get('website', '')
+    company_type = request.POST.get('company_type', '')
+    client_needs = request.POST.get('client_needs', '')
+    va_tasks = request.POST.get('va_tasks', '')
 
     # Update the logged-in user's profile with submitted info
     user = request.user
@@ -262,6 +265,12 @@ def onboarding_create_checkout(request):
         setattr(user, 'phone_number', phone)
     if website:
         setattr(user, 'website', website)
+    if company_type:
+        setattr(user, 'company_type', company_type)
+    if client_needs:
+        setattr(user, 'client_needs', client_needs)
+    if va_tasks:
+        setattr(user, 'va_tasks', va_tasks)
     if email and email != user.email:
         user.email = email
     # Optionally set a composite full_name field if present in model
@@ -287,13 +296,14 @@ def onboarding_create_checkout(request):
     # Create Stripe Checkout Session
     stripe.api_key = settings.STRIPE_SECRET_KEY
     session = stripe.checkout.Session.create(
-        mode='payment',
+        mode='subscription',
         payment_method_types=['card'],
         line_items=[{
             'price_data': {
                 'currency': 'usd',
                 'product_data': {'name': plan_name},
                 'unit_amount': amount_cents,
+                'recurring': {'interval': 'month'},
             },
             'quantity': qty,
         }],
@@ -480,6 +490,12 @@ def create_paypal_order(request):
             setattr(user, 'phone_number', form_data['phone'])
         if form_data.get('website'): 
             setattr(user, 'website', form_data['website'])
+        if form_data.get('company_type'): 
+            setattr(user, 'company_type', form_data['company_type'])
+        if form_data.get('client_needs'): 
+            setattr(user, 'client_needs', form_data['client_needs'])
+        if form_data.get('va_tasks'): 
+            setattr(user, 'va_tasks', form_data['va_tasks'])
         
         user.save()
 

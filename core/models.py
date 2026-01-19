@@ -13,6 +13,12 @@ class CustomUser(AbstractUser):
     business_name = models.CharField(max_length=100, default="No Business Name")
     website = models.URLField(blank=True, null=True)
     
+    # New onboarding fields
+    client_needs = models.TextField(blank=True, null=True, help_text="What are your main needs?")
+    company_type = models.CharField(max_length=100, blank=True, null=True, help_text="Type of company/industry")
+    va_tasks = models.TextField(blank=True, null=True, help_text="Tasks you want the VA to perform")
+    time_zone = models.CharField(max_length=100, blank=True, null=True, help_text="Preferred Time Zone")
+    
     def __str__(self):
         return self.first_name
         return self.last_name

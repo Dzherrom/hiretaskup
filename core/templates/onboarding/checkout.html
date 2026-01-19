@@ -160,6 +160,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Extra Info -->
+                    <div>
+                         <label class="block text-sm font-semibold text-slate-700 mb-2">Type of Company</label>
+                         <input type="text" id="company_type" name="company_type" placeholder="e.g. Real Estate, E-commerce..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow">
+                    </div>
+                    <div>
+                         <label class="block text-sm font-semibold text-slate-700 mb-2">Preferred Time Zone</label>
+                         <input type="text" id="time_zone" name="time_zone" placeholder="e.g. EST (New York), GMT (London), or UTC-5" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">What are your main needs?</label>
+                        <textarea id="client_needs" name="client_needs" rows="2" placeholder="Briefly describe what you need help with..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Tasks for the VA</label>
+                        <textarea id="va_tasks" name="va_tasks" rows="3" placeholder="- Email Management\n- Scheduling\n- Data Entry" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"></textarea>
+                    </div>
                 </form>
             </div>
 
@@ -320,7 +338,11 @@ document.addEventListener('DOMContentLoaded', () => {
             business_name: document.getElementById('business_name').value,
             email: document.getElementById('email').value,
             phone: phoneInput.value,
-            website: document.getElementById('website').value
+            website: document.getElementById('website').value,
+            company_type: document.getElementById('company_type').value,
+            time_zone: document.getElementById('time_zone').value,
+            client_needs: document.getElementById('client_needs').value,
+            va_tasks: document.getElementById('va_tasks').value
         };
 
         fetch("{% url 'create_paypal_order' %}", {

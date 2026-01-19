@@ -1,4 +1,8 @@
-{% extends 'layouts/base.html' %}
+import os
+
+path = r"c:\Users\skrea\Documents\Code\hiretaskup\core\templates\plans\plans.html"
+
+new_content = r"""{% extends 'layouts/base.html' %}
 {% load static %}
 
 {% block extra_css %}
@@ -198,7 +202,7 @@
         <div class="container mx-auto px-6">
             <div class="text-center max-w-3xl mx-auto mb-16">
                  <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">Trusted by growing lenders and agencies</h2>
-                 <p class="text-lg text-slate-500">Join hundreds of companies that have scaled their operations with TaskUp.</p>
+                 <p class="text-lg text-slate-500">Join hundreds of companies that have scaled their operations with HireTaskUp.</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -211,7 +215,7 @@
                         <i data-lucide="star" class="w-5 h-5 fill-current"></i>
                         <i data-lucide="star" class="w-5 h-5 fill-current"></i>
                     </div>
-                    <p class="text-slate-600 mb-6 italic">"TaskUp provided us with an incredibly talented assistant who immediately adapted to our workflow. It's been a game changer for our productivity."</p>
+                    <p class="text-slate-600 mb-6 italic">"HireTaskUp provided us with an incredibly talented assistant who immediately adapted to our workflow. It's been a game changer for our productivity."</p>
                     <div class="flex items-center gap-4">
                          <div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
                              <img src="https://ui-avatars.com/api/?name=Sarah+J&background=random" alt="Reviewer" />
@@ -270,3 +274,7 @@
 
 </div>
 {% endblock content %}
+"""
+
+with open(path, "w", encoding="utf-8") as f:
+    f.write(new_content)
