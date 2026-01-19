@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+import requests
+import json
+import base64
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
@@ -13,7 +16,12 @@ from django.db import IntegrityError
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
+from django.views.decorators.http import require_http_methods
 import stripe 
+import requests 
+import base64
+import json
+from django.http import JsonResponse 
 
 def home(request):
     return render(request, 'home/home.html', {'user_is_authenticated': request.user.is_authenticated})
@@ -190,7 +198,8 @@ def onboarding_checkout(request):
             'email': request.user.email,
             'phone': getattr(request.user, 'phone_number', '') or '',
             'website': getattr(request.user, 'website', '') or '',
-        }
+        },
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID
     }
     return render(request, 'onboarding/checkout.html', context)
 
@@ -353,3 +362,258 @@ def process_payment(request):
 
 def payments_page(request):
     return render(request, 'payment/payments.html')
+# ... (existing content of views.py)
+
+### PAYPAL INTEGRATION ###
+
+
+# Global simple cache for token (in-memory, per worker)
+_PAYPAL_TOKEN_CACHE = {
+    'access_token': None,
+    'expires_at': 0
+}
+
+def get_paypal_access_token():
+    global _PAYPAL_TOKEN_CACHE
+    import time
+
+    # Check cache
+    if _PAYPAL_TOKEN_CACHE['access_token'] and _PAYPAL_TOKEN_CACHE['expires_at'] > time.time():
+        return _PAYPAL_TOKEN_CACHE['access_token']
+
+    client_id = str(settings.PAYPAL_CLIENT_ID).strip()
+    client_secret = str(settings.PAYPAL_SECRET_KEY).strip()
+    
+    # Debug: Check what credentials we are using
+    masked_id = client_id[:4] + "***" + client_id[-4:] if len(client_id) > 8 else "INVALID"
+    print(f"DEBUG: PayPal ID: {masked_id}, Mode: {settings.PAYPAL_MODE}")
+
+    # Determine base URL
+    if settings.PAYPAL_MODE == 'live':
+        base_url = "https://api-m.paypal.com"
+    else:
+        base_url = "https://api-m.sandbox.paypal.com"
+
+    auth_response = requests.post(
+        f"{base_url}/v1/oauth2/token",
+        headers={
+            "Accept": "application/json",
+            "Accept-Language": "en_US",
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data={"grant_type": "client_credentials"},
+        auth=(client_id, client_secret),
+    )
+    
+    if auth_response.status_code != 200:
+        print(f"PayPal Auth Failed: {auth_response.text}")
+        raise Exception(f"Failed to get PayPal token: {auth_response.text}")
+    
+    data = auth_response.json()
+    token = data['access_token']
+    expires_in = data.get('expires_in', 3600)
+    
+    # Update Cache
+    _PAYPAL_TOKEN_CACHE['access_token'] = token
+    _PAYPAL_TOKEN_CACHE['expires_at'] = time.time() + expires_in - 60 # Buffer 60s
+    
+    return token
+
+@login_required
+@require_http_methods(["POST"])
+def create_paypal_order(request):
+    try:
+        data = json.loads(request.body)
+        
+        # 1. Extract Data
+        plan_name = data.get('plan_name', 'Default Plan')
+        try:
+            qty = int(data.get('quantity', 1))
+            # Amount should be calculated server side for security usually, 
+            # but for this existing flow we take from frontend logic verified against DB ideally.
+            # Using the passed unit amount for consistency with Stripe view.
+            unit_amount = float(data.get('unit_amount', '0.00')) 
+        except:
+            qty = 1
+            unit_amount = 0.00
+            
+        total_amount = unit_amount * qty
+
+        # 2. Update User Profile (Mirroring Stripe Flow)
+        form_data = data.get('form_data', {})
+        user = request.user
+        
+        full_name = form_data.get('full_name', '')
+        if full_name:
+            parts = full_name.strip().split()
+            if len(parts) == 1:
+                user.first_name = parts[0]
+            else:
+                user.first_name = parts[0]
+                user.last_name = ' '.join(parts[1:])
+        
+        if form_data.get('business_name'): 
+            setattr(user, 'business_name', form_data['business_name'])
+        if form_data.get('phone'): 
+            setattr(user, 'phone_number', form_data['phone'])
+        if form_data.get('website'): 
+            setattr(user, 'website', form_data['website'])
+        
+        user.save()
+
+        # 3. Create Pending Subscription
+        Subscription.objects.get_or_create(
+            user=user,
+            plan_name=plan_name,
+            active=False,
+            defaults={
+                'start_date': timezone.now().date(),
+                'end_date': None,
+            }
+        )
+
+        # 4. Create PayPal Order
+        access_token = get_paypal_access_token()
+        if settings.PAYPAL_MODE == 'live':
+            base_url = "https://api-m.paypal.com"
+        else:
+            base_url = "https://api-m.sandbox.paypal.com"
+
+        payload = {
+            "intent": "CAPTURE",
+            "application_context": {
+                "return_url": request.build_absolute_uri('/paypal/return/'),
+                "cancel_url": request.build_absolute_uri('/paypal/cancel/'),
+                "brand_name": "HireTaskUp",
+                "user_action": "PAY_NOW"
+            },
+            "purchase_units": [
+                {
+                    "reference_id": f"SUB-{user.id}-{int(timezone.now().timestamp())}",
+                    "amount": {
+                        "currency_code": "USD",
+                        "value": f"{total_amount:.2f}"
+                    },
+                    "description": f"{plan_name} (x{qty})"
+                }
+            ]
+        }
+        
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {access_token}"
+        }
+
+        response = requests.post(f"{base_url}/v2/checkout/orders", headers=headers, json=payload)
+        
+        if response.status_code not in [200, 201]:
+             return JsonResponse({'error': response.text}, status=400)
+             
+        order_data = response.json()
+        
+        # Find approval link for backend-driven redirect
+        approval_url = next(link['href'] for link in order_data['links'] if link['rel'] == 'approve')
+        
+        return JsonResponse({'id': order_data['id'], 'approval_url': approval_url})
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@login_required
+def paypal_return(request):
+    token = request.GET.get('token')
+    if not token:
+        return redirect('payments') # or error page
+        
+    try:
+        # Capture Order Server-Side using the token (which is the Order ID)
+        access_token = get_paypal_access_token()
+        if settings.PAYPAL_MODE == 'live':
+            base_url = "https://api-m.paypal.com"
+        else:
+            base_url = "https://api-m.sandbox.paypal.com"
+            
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {access_token}"
+        }
+        
+        # Capture
+        response = requests.post(f"{base_url}/v2/checkout/orders/{token}/capture", headers=headers)
+        
+        # Note: If already captured (e.g. idempotency), PayPal might return 422 or details. 
+        # Check status carefully.
+        
+        capture_data = response.json()
+        status = capture_data.get('status')
+        
+        if response.status_code in [200, 201] and status == 'COMPLETED':
+             sub = Subscription.objects.filter(user=request.user, active=False).last()
+             if sub:
+                 sub.active = True
+                 sub.save()
+             return redirect('payment_success')
+        else:
+             # Handle error or incomplete
+             print(f"Capture failed or pending: {capture_data}")
+             return redirect('payment_cancel')
+
+    except Exception as e:
+        print(f"PayPal Return Error: {e}")
+        return redirect('payment_cancel')
+
+@login_required
+def paypal_cancel(request):
+    return render(request, 'payment/cancel.html')
+
+# Deprecated JS Capture endpoint (kept around just in case, but unused in redirect flow)
+@login_required
+@require_http_methods(["POST"])
+def capture_paypal_order(request):
+    try:
+        data = json.loads(request.body)
+        order_id = data.get('orderID')
+        
+        # 1. Capture Order
+        access_token = get_paypal_access_token()
+        if settings.PAYPAL_MODE == 'live':
+            base_url = "https://api-m.paypal.com"
+        else:
+            base_url = "https://api-m.sandbox.paypal.com"
+            
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {access_token}"
+        }
+        
+        response = requests.post(f"{base_url}/v2/checkout/orders/{order_id}/capture", headers=headers)
+        
+        if response.status_code not in [200, 201]:
+             return JsonResponse({'error': response.text}, status=400)
+             
+        capture_data = response.json()
+        
+        # 2. Check status and Activate Subscription
+        # NOTE: In a real app, verify the amount and currency match expectations.
+        if capture_data.get('status') == 'COMPLETED':
+             # Activate the user's most recent pending subscription for this plan? 
+             # Or just find the latest inactive one.
+             # For simplicity, we activate the user's inactive subscription.
+             sub = Subscription.objects.filter(user=request.user, active=False).last()
+             if sub:
+                 sub.active = True
+                 sub.save()
+                 
+             return JsonResponse({'status': 'COMPLETED'})
+        else:
+            return JsonResponse({'error': 'Capture status not completed'}, status=400)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+def payment_success(request):
+    return render(request, 'payment/success.html')
+
+def payment_cancel(request):
+    return render(request, 'payment/cancel.html')

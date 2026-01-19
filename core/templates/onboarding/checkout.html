@@ -20,8 +20,9 @@
 .ob-qty button{width:28px;height:28px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}
 .ob-total{font-weight:700;color:#1d4ed8;font-size:24px}
 .ob-next{position:sticky;bottom:0;display:flex;justify-content:center;padding:16px;background:transparent;margin-top:12px}
-.ob-next-right{display:flex;justify-content:center;margin-top:12px}
-.ob-next button, .ob-next-right button{min-width:240px;padding:12px 16px;border:none;border-radius:9999px;background:linear-gradient(90deg,#26a8ff,#1d4ed8);color:#fff;font-weight:600}
+.ob-next-right{margin-top:20px;}
+.ob-next button, .ob-next-right button{width:100%; padding:14px 16px;border:none;border-radius:9999px;background:linear-gradient(90deg,#26a8ff,#1d4ed8);color:#fff;font-weight:600; font-size: 16px; cursor: pointer; transition: opacity 0.2s;}
+.ob-next-right button:hover { opacity: 0.9; }
 @media(max-width:900px){.ob-wrapper{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
@@ -38,15 +39,15 @@
       <input type="hidden" name="quantity" id="qtyField" value="{{ qty }}"/>
       <div class="full ob-group">
         <label>Full Name</label>
-        <input class="ob-input" type="text" name="full_name" placeholder="Full Name" value="{{ prefill.full_name }}" required />
+        <input class="ob-input" type="text" id="full_name" name="full_name" placeholder="Full Name" value="{{ prefill.full_name }}" required />
       </div>
       <div class="ob-group">
         <label>Business Name</label>
-        <input class="ob-input" type="text" name="business_name" placeholder="Business Name" value="{{ prefill.business_name }}" required />
+        <input class="ob-input" type="text" id="business_name" name="business_name" placeholder="Business Name" value="{{ prefill.business_name }}" required />
       </div>
       <div class="ob-group">
         <label>Email Address</label>
-        <input class="ob-input" type="email" name="email" placeholder="Email Address" value="{{ prefill.email|default:request.user.email }}" required />
+        <input class="ob-input" type="email" id="email" name="email" placeholder="Email Address" value="{{ prefill.email|default:request.user.email }}" required />
       </div>
       <div class="full ob-group">
         <label>Phone Number</label>
@@ -54,7 +55,7 @@
       </div>
       <div class="full ob-group">
         <label>Website</label>
-        <input class="ob-input" type="url" name="website" placeholder="yourwebsite.com" value="{{ prefill.website }}" />
+        <input class="ob-input" type="url" id="website" name="website" placeholder="yourwebsite.com" value="{{ prefill.website }}" />
       </div>
       
     </form>
@@ -81,27 +82,65 @@
       <div>Total:</div>
       <div class="ob-total" id="total">${{ amount_dollars|floatformat:2 }}</div>
     </div>
-    <div class="ob-next-right"><button type="submit" form="onboardingForm">Next</button></div>
+    
+    <div class="ob-next-right space-y-4">
+        <!-- Stripe Button -->
+        <button type="submit" form="onboardingForm" class="mb-4 flex justify-center items-center gap-2">
+            <span>Pay with Card</span>
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+        </button>
+        
+        <div class="flex items-center gap-4 my-2">
+            <div class="h-px bg-slate-200 flex-1"></div>
+            <span class="text-xs text-slate-400 font-bold uppercase">Or pay with</span>
+            <div class="h-px bg-slate-200 flex-1"></div>
+        </div>
+
+        <!-- PayPal Manual Button for Redirect Flow -->
+        <div class="mt-4">
+            <button type="button" id="paypal-manual-btn" style="width:100%; padding:14px 16px; border:none; border-radius:9999px; background:#FFC439; color:#000; font-weight:700; font-size:16px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition: opacity 0.2s;">
+               <span>Pay with</span> 
+               <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" height="24">
+            </button>
+        </div>
+    </div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // QTY Logic
   const plus = document.getElementById('plus');
   const minus = document.getElementById('minus');
   const qtyEl = document.getElementById('qty');
   const totalEl = document.getElementById('total');
   const unit = parseFloat(document.getElementById('unit').textContent || '0');
   const qtyField = document.getElementById('qtyField');
-  function updateTotal(q){ totalEl.textContent = `$${(unit * q).toFixed(2)}`; qtyEl.textContent = q; qtyField.value = q; }
-  plus?.addEventListener('click', () => { const q = Math.min(99, (parseInt(qtyEl.textContent)||1)+1); updateTotal(q); });
-  minus?.addEventListener('click', () => { const q = Math.max(1, (parseInt(qtyEl.textContent)||1)-1); updateTotal(q); });
+  
+  function updateTotal(q){ 
+      totalEl.textContent = `$${(unit * q).toFixed(2)}`; 
+      qtyEl.textContent = q; 
+      qtyField.value = q; 
+  }
+  
+  plus?.addEventListener('click', () => { 
+      const q = Math.min(99, (parseInt(qtyEl.textContent)||1)+1); 
+      updateTotal(q); 
+  });
+  
+  minus?.addEventListener('click', () => { 
+      const q = Math.max(1, (parseInt(qtyEl.textContent)||1)-1); 
+      updateTotal(q); 
+  });
 
-  // Initialize international telephone input
+  // Phone Input
   const phoneInput = document.getElementById('phone');
+  let iti;
   if (phoneInput && window.intlTelInput) {
-    const iti = window.intlTelInput(phoneInput, {
+    iti = window.intlTelInput(phoneInput, {
       initialCountry: 'auto',
       preferredCountries: ['us','mx','co','es'],
       geoIpLookup: function(callback) {
@@ -114,12 +153,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const form = document.getElementById('onboardingForm');
     form.addEventListener('submit', () => {
-      const formatted = iti.getNumber(); // E.164 format
-      if (formatted) {
-        phoneInput.value = formatted;
+      if(iti) {
+          const formatted = iti.getNumber();
+          if (formatted) phoneInput.value = formatted;
       }
     });
   }
+
+  // --- Manual PayPal Logic (Redirect Flow) ---
+  const ppBtn = document.getElementById('paypal-manual-btn');
+  ppBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const form = document.getElementById('onboardingForm');
+      if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+      }
+      
+      // Loading State
+      ppBtn.style.opacity = '0.7';
+      ppBtn.innerHTML = '<span>Processing...</span>';
+      
+      const qty = parseInt(qtyEl.textContent) || 1;
+      const unitPrice = unit;
+      const formData = {
+          full_name: document.getElementById('full_name').value,
+          business_name: document.getElementById('business_name').value,
+          email: document.getElementById('email').value,
+          phone: iti ? iti.getNumber() : document.getElementById('phone').value,
+          website: document.getElementById('website').value
+      };
+
+      fetch("{% url 'create_paypal_order' %}", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+          },
+          body: JSON.stringify({
+              plan_name: "{{ plan_name }}",
+              quantity: qty,
+              unit_amount: unitPrice,
+              form_data: formData
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if(data.error) {
+              alert('Error creating order: ' + data.error);
+              ppBtn.style.opacity = '1';
+              ppBtn.innerHTML = '<span>Pay with</span> <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" height="24">';
+          } else if (data.approval_url) {
+              // Redirect to PayPal
+              window.location.href = data.approval_url;
+          }
+      })
+      .catch(err => {
+          console.error(err);
+          alert('Something went wrong. Please try again.');
+          ppBtn.style.opacity = '1';
+          ppBtn.innerHTML = '<span>Pay with</span> <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" height="24">';
+      });
+  });
 });
 </script>
 {% endblock content %}

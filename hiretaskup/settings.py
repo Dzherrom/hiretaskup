@@ -199,4 +199,9 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Your Gmail address
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Your Gmail App Password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# PayPal Configuration
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID', 'sb') # Default to 'sb' dummy
+PAYPAL_SECRET_KEY = os.getenv('PAYPAL_SECRET_KEY')
+PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox') # sandbox or live
+
 
