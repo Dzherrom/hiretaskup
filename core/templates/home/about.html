@@ -77,18 +77,18 @@
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button class="px-8 py-4 rounded-full bg-cyan-500 text-slate-900 font-bold hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25 flex items-center gap-2 group">
-                    View Plans
+                    <a href="{% url 'plans' %}"> View Plans </a>
                     <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 </button>
                 <button class="px-8 py-4 rounded-full bg-slate-800 text-white font-medium border border-slate-700 hover:bg-slate-700 transition-all">
-                    Talk to Sales
+                    <a href="{% url 'contact' %}"> Contact Us </a>
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Main Content Grid -->
-    <section class="bg-slate-50 pb-24 -mt-10 relative z-20">
+    <section class="bg-slate-50 pb-24 mt-16 relative z-20">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
@@ -104,26 +104,28 @@
                 <!-- Column 2: Plan Details (6 cols) -->
                 <div class="lg:col-span-6">
                     <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 min-h-[600px]">
-                        <!-- Dynamic Content Header -->
-                        <div class="flex items-center gap-3 mb-6">
-                            <div id="active-icon-container" class="p-3 bg-blue-50 rounded-xl text-blue-600">
-                                <!-- Dynamic Icon -->
+                        <div id="content-wrapper" class="transition-all duration-300 ease-in-out">
+                            <!-- Dynamic Content Header -->
+                            <div class="flex items-center gap-3 mb-6">
+                                <div id="active-icon-container" class="p-3 bg-blue-50 rounded-xl text-blue-600">
+                                    <!-- Dynamic Icon -->
+                                </div>
+                                <div>
+                                    <h2 id="active-title" class="text-2xl font-bold text-slate-900">Loading...</h2>
+                                    <p class="text-slate-500 text-sm mt-1">Select a role to view details</p>
+                                </div>
                             </div>
-                            <div>
-                                <h2 id="active-title" class="text-2xl font-bold text-slate-900">Loading...</h2>
-                                <p class="text-slate-500 text-sm mt-1">Select a role to view details</p>
+
+                            <p id="active-description" class="text-slate-600 leading-relaxed mb-8 text-lg border-b border-slate-100 pb-8">
+                                <!-- Dynamic Description -->
+                            </p>
+
+                            <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-6">Available Roles</h4>
+
+                            <!-- Dynamic Plans Grid -->
+                            <div id="plans-grid" class="grid gap-4">
+                                <!-- Plans injected by JS -->
                             </div>
-                        </div>
-
-                        <p id="active-description" class="text-slate-600 leading-relaxed mb-8 text-lg border-b border-slate-100 pb-8">
-                            <!-- Dynamic Description -->
-                        </p>
-
-                        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-6">Available Roles</h4>
-
-                        <!-- Dynamic Plans Grid -->
-                        <div id="plans-grid" class="grid gap-4">
-                             <!-- Plans injected by JS -->
                         </div>
                     </div>
                 </div>
@@ -148,7 +150,7 @@
                         </div>
 
                         <button class="w-full py-3 rounded-lg bg-cyan-500 text-slate-900 font-bold hover:bg-cyan-400 transition-colors flex items-center justify-center gap-2 relative z-10">
-                            Free Consultation
+                            <a href="{% url 'Contact' %}"> Chat with an Expert </a>
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>

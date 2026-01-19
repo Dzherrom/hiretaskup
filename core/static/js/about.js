@@ -46,14 +46,6 @@ const plansData = {
             { title: "Live Chat Assistant", desc: "Provides real-time support via chat platforms." }
         ]
     },
-    us: {
-        label: "US-Based Talents",
-        iconName: "flag",
-        description: "Access top-tier US-based professionals for specialized business needs and compliance.",
-        plans: [
-            { title: "US-Based Virtual Assistant", desc: "Professional support from US-based talent." }
-        ]
-    },
     healthcare: {
         label: "Healthcare",
         iconName: "stethoscope",
@@ -165,9 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }`;
             
             btn.onclick = () => {
+                if (activeCategory === key) return; // Prevent reload if same category
                 activeCategory = key;
                 renderSidebar();
-                renderContent();
+                renderContent(true);
             };
 
             const indicator = isActive ? `<div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-l-lg"></div>` : '';
@@ -189,45 +182,75 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Render Main Content
-    function renderContent() {
+    function renderContent(animate = false) {
         if(!plansGrid) return;
+        const contentWrapper = document.getElementById('content-wrapper');
         const data = plansData[activeCategory];
         
-        // Update Header
-        if(activeIconContainer) activeIconContainer.innerHTML = `<i data-lucide="${data.iconName}" class="w-5 h-5"></i>`;
-        if(activeTitle) activeTitle.textContent = data.label;
-        if(activeDescription) activeDescription.textContent = data.description;
-        
-        // Update Grid
-        plansGrid.innerHTML = '';
-        data.plans.forEach(plan => {
-            const card = document.createElement('div');
-            card.className = "group relative bg-slate-50 hover:bg-white rounded-xl p-6 border border-slate-200 hover:border-cyan-200 hover:shadow-lg hover:shadow-cyan-100 transition-all duration-300 cursor-pointer";
+        const updateDOM = () => {
+            // Update Header
+            if(activeIconContainer) activeIconContainer.innerHTML = `<i data-lucide="${data.iconName}" class="w-5 h-5"></i>`;
+            if(activeTitle) activeTitle.textContent = data.label;
+            if(activeDescription) activeDescription.textContent = data.description;
             
-            card.innerHTML = `
-                <div class="flex items-start gap-4">
-                    <div class="mt-1 w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-cyan-500 group-hover:border-cyan-200 transition-colors">
-                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+            // Update Grid
+            plansGrid.innerHTML = '';
+            data.plans.forEach((plan, index) => {
+                const card = document.createElement('div');
+                // Removed opacity-0 and complex animation styles to ensure visibility
+                // Using simple transition class for hover effects
+                card.className = "group relative bg-slate-50 hover:bg-white rounded-xl p-6 border border-slate-200 hover:border-cyan-200 hover:shadow-lg hover:shadow-cyan-100 transition-all duration-300 cursor-pointer opacity-0 translate-y-4";
+                
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="mt-1 w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-cyan-500 group-hover:border-cyan-200 transition-colors">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-slate-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
+                                ${plan.title}
+                            </h3>
+                            <p class="text-slate-500 mt-2 leading-relaxed text-sm group-hover:text-slate-600">
+                                ${plan.desc}
+                            </p>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-5 h-5 text-slate-300 absolute top-6 right-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></i>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
-                            ${plan.title}
-                        </h3>
-                        <p class="text-slate-500 mt-2 leading-relaxed text-sm group-hover:text-slate-600">
-                            ${plan.desc}
-                        </p>
-                    </div>
-                    <i data-lucide="arrow-right" class="w-5 h-5 text-slate-300 absolute top-6 right-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></i>
-                </div>
-            `;
-            plansGrid.appendChild(card);
-        });
+                `;
+                plansGrid.appendChild(card);
+                
+                // Simple entry animation using setTimeout
+                setTimeout(() => {
+                    card.classList.remove('opacity-0', 'translate-y-4');
+                }, 50 + (index * 100));
+            });
 
-        // Re-init icons
-        if (window.lucide) lucide.createIcons();
+            // Re-init icons
+            if (window.lucide) lucide.createIcons();
+        };
+
+        if (animate && contentWrapper) {
+            contentWrapper.classList.add('opacity-0', 'translate-y-4');
+            setTimeout(() => {
+                updateDOM();
+                contentWrapper.classList.remove('opacity-0', 'translate-y-4');
+            }, 300);
+        } else {
+            updateDOM();
+        }
     }
+
+    // Add Keyframes for children
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
 
     // Initial Render
     renderSidebar();
-    renderContent();
+    renderContent(false);
 });
