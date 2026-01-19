@@ -12,22 +12,28 @@
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Decorative Background -->
-<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-cyan-50 rounded-full blur-[100px] opacity-50"></div>
-    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] opacity-50"></div>
+<!-- Background Image with Overlay -->
+<div class="fixed inset-0 z-0">
+    <!-- Clear, sharp business image -->
+    <img 
+        src="{% static 'img/mid-bg.png' %}" 
+        alt="Office Background" 
+        class="w-full h-full object-cover"
+    >
+    <!-- Dark overlay for contrast with white cards -->
+    <div class="absolute inset-0 bg-slate-900/60 transition-opacity"></div>
 </div>
 
-<section class="relative z-10 py-20 lg:py-32">
+<section class="relative z-10 py-24 lg:py-32 min-h-screen flex items-center">
     <div class="container mx-auto px-6 max-w-7xl">
-        <div class="flex flex-col lg:flex-row gap-16 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             
-            <!-- Context / Info Column -->
-            <div class="lg:w-5/12 pt-10">
+            <!-- Context / Info Column - Now in a White Card -->
+            <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-2xl border border-white/20 animate-fade-in-up">
                 <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-bold uppercase tracking-wider mb-6">
                     Contact Us
                 </span>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight mb-6">
                     Let's start a conversation.
                 </h1>
                 <p class="text-lg text-slate-600 leading-relaxed mb-10">
@@ -36,104 +42,151 @@
 
                 <div class="space-y-8">
                     <!-- Info Item 1 -->
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center shadow-sm text-cyan-600 shrink-0">
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-12 h-12 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center shadow-sm text-blue-600 shrink-0 group-hover:scale-110 transition-transform">
                             <i data-lucide="mail" class="w-6 h-6"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-slate-900 text-lg mb-1">Email</h3>
-                            <p class="text-slate-500 mb-2">For general inquiries and support.</p>
-                            <a href="mailto:contact.taskup@gmail.com" class="text-slate-900 font-semibold hover:text-cyan-600 transition-colors">contact.taskup@gmail.com</a>
+                            <p class="text-slate-500 mb-1 text-sm">For general inquiries and support.</p>
+                            <a href="mailto:contact.taskup@gmail.com" class="text-blue-600 font-bold hover:text-blue-700 transition-colors">contact.taskup@gmail.com</a>
                         </div>
                     </div>
 
                     <!-- Info Item 2 -->
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center shadow-sm text-cyan-600 shrink-0">
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-12 h-12 bg-cyan-50 border border-cyan-100 rounded-xl flex items-center justify-center shadow-sm text-cyan-600 shrink-0 group-hover:scale-110 transition-transform">
                              <i data-lucide="message-square" class="w-6 h-6"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-slate-900 text-lg mb-1">Live Chat</h3>
-                            <p class="text-slate-500 mb-2">Available Mon-Fri from 9am to 6pm EST.</p>
-                            <a href="#" class="text-slate-900 font-semibold hover:text-cyan-600 transition-colors inline-flex items-center gap-1">
+                            <p class="text-slate-500 mb-1 text-sm">Available Mon-Fri from 9am to 6pm EST.</p>
+                            <a href="#" class="text-cyan-600 font-bold hover:text-cyan-700 transition-colors inline-flex items-center gap-1">
                                 Start Chat <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </a>
+                        </div>
+                    </div>
+
+                    <!-- Info Item 3 (Added for balance) -->
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-12 h-12 bg-green-50 border border-green-100 rounded-xl flex items-center justify-center shadow-sm text-green-600 shrink-0 group-hover:scale-110 transition-transform">
+                             <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg mb-1">Headquarters</h3>
+                            <p class="text-slate-500 mb-1 text-sm">Miami, FL. Serving clients worldwide.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Form Column -->
-            <div class="lg:w-7/12 w-full">
-                <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100 p-8 md:p-10 relative overflow-hidden">
-                    
-                    {% if success %}
-                    <div class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center text-center p-10 animate-fade-in">
-                        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
-                            <i data-lucide="check" class="w-10 h-10"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
-                        <p class="text-slate-600 max-w-md mx-auto">Thank you for reaching out. A member of our team will get back to you shortly.</p>
-                        <a href="{% url 'home' %}" class="mt-8 px-8 py-3 bg-slate-900 text-white font-medium rounded-full hover:bg-slate-800 transition-all">Back to Home</a>
+            <div class="bg-white rounded-2xl shadow-2xl shadow-slate-900/20 border border-slate-200 p-8 md:p-10 relative overflow-hidden h-full">
+                
+                {% if success %}
+                <div class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center text-center p-10 animate-fade-in">
+                    <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 animate-bounce">
+                        <i data-lucide="check" class="w-10 h-10"></i>
                     </div>
-                    {% endif %}
-
-                    <form id="contactForm" method="POST" action="{% url 'contact' %}" class="space-y-6">
-                        {% csrf_token %}
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Name -->
-                            <div class="group">
-                                <label for="name" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Full Name</label>
-                                <input type="text" id="name" name="name" 
-                                    class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
-                                    placeholder="John Doe">
-                                <p class="hidden text-red-500 text-xs mt-1 error-msg">Please enter your full name.</p>
-                            </div>
-
-                             <!-- Email/Phone -->
-                             <div class="group">
-                                <label for="contact_info" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Email or Phone</label>
-                                <input type="text" id="contact_info" name="contact_info" 
-                                    class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
-                                    placeholder="john@example.com">
-                                <p class="hidden text-red-500 text-xs mt-1 error-msg">Please enter a valid email or phone number.</p>
-                            </div>
-                        </div>
-
-                        <!-- Subject -->
-                        <div class="group">
-                            <label for="subject" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Subject</label>
-                            <input type="text" id="subject" name="subject" 
-                                class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
-                                placeholder="How can we help?">
-                            <p class="hidden text-red-500 text-xs mt-1 error-msg">The subject cannot be empty.</p>
-                        </div>
-
-                        <!-- Message -->
-                        <div class="group">
-                            <label for="message" class="block text-sm font-bold text-slate-700 mb-2 group-focus-within:text-cyan-600 transition-colors">Message</label>
-                            <textarea id="message" name="message" rows="5"
-                                class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300 resize-none"
-                                placeholder="Tell us more about your needs..."></textarea>
-                            <p class="hidden text-red-500 text-xs mt-1 error-msg">Please enter a message.</p>
-                        </div>
-
-                        <!-- Button -->
-                        <div class="pt-2">
-                            <button type="submit" id="submitBtn" class="w-full py-4 px-6 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2">
-                                <span>Send Message</span>
-                                <i data-lucide="send" class="w-5 h-5"></i>
-                            </button>
-                        </div>
-                    </form>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
+                    <p class="text-slate-600 max-w-md mx-auto">Thank you for reaching out. A member of our team will get back to you shortly.</p>
+                    <a href="{% url 'home' %}" class="mt-8 px-8 py-3 bg-slate-900 text-white font-medium rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl">Back to Home</a>
                 </div>
+                {% endif %}
+
+                <form id="contactForm" method="POST" action="{% url 'contact' %}" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Name -->
+                        <div class="group">
+                            <label for="name" class="block text-sm font-bold text-slate-700 mb-2">Full Name</label>
+                            <input type="text" id="name" name="name" 
+                                class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
+                                placeholder="John Doe">
+                            <p class="hidden text-red-500 text-xs mt-1 error-msg font-medium">Please enter your full name.</p>
+                        </div>
+
+                         <!-- Email/Phone -->
+                         <div class="group">
+                            <label for="contact_info" class="block text-sm font-bold text-slate-700 mb-2">Email or Phone</label>
+                            <input type="text" id="contact_info" name="contact_info" 
+                                class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
+                                placeholder="john@example.com">
+                            <p class="hidden text-red-500 text-xs mt-1 error-msg font-medium">Please enter a valid email or phone number.</p>
+                        </div>
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="group">
+                        <label for="subject" class="block text-sm font-bold text-slate-700 mb-2">Subject</label>
+                        <input type="text" id="subject" name="subject" 
+                            class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300"
+                            placeholder="How can we help?">
+                        <p class="hidden text-red-500 text-xs mt-1 error-msg font-medium">The subject cannot be empty.</p>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="group">
+                        <label for="message" class="block text-sm font-bold text-slate-700 mb-2">Message</label>
+                        <textarea id="message" name="message" rows="5"
+                            class="input-glow w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all duration-300 resize-none"
+                            placeholder="Tell us more about your needs..."></textarea>
+                        <p class="hidden text-red-500 text-xs mt-1 error-msg font-medium">Please enter a message.</p>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="pt-4">
+                        <button type="submit" id="submitBtn" class="w-full py-4 px-6 bg-slate-900 text-white font-bold rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2">
+                            <span>Send Message</span>
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-xs text-slate-400">By sending this message, you agree to our Terms of Service and Privacy Policy.</p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
 {% endblock content %}
+
+{% block footer %}
+<footer class="bg-white border-t border-slate-200 py-12 relative z-20">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                <a href="#" class="block mb-6">
+                    <img src="{% static 'img/logo-footer.png' %}" alt="Hire TaskUp" class="h-8 opacity-80 grayscale hover:grayscale-0 transition-all">
+                </a>
+                <p class="text-slate-500 mb-2">The Right Hire. Right Now.</p>
+                <p class="text-sm text-slate-400">Virtual Assistants. Accounting Services. Marketing Assistants.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-900 mb-6">Services</h4>
+                <ul class="space-y-4 text-sm text-slate-500">
+                    <li><a href="{% url 'plans' %}" class="hover:text-cyan-600 transition-colors">Get Started</a></li>
+                    <li><a href="{% url 'about' %}" class="hover:text-cyan-600 transition-colors">Virtual Assistants</a></li>
+                    <li><a href="{% url 'about' %}" class="hover:text-cyan-600 transition-colors">Marketing Assistants</a></li>
+                </ul>
+            </div>
+             <div>
+                <h4 class="font-bold text-slate-900 mb-6">Company</h4>
+                <ul class="space-y-4 text-sm text-slate-500">
+                    <li><a href="{% url 'about' %}" class="hover:text-cyan-600 transition-colors">About Us</a></li>
+                    <li><a href="{% url 'contact' %}" class="hover:text-cyan-600 transition-colors">Careers</a></li>
+                    <li><a href="#" class="hover:text-cyan-600 transition-colors">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-slate-100 mt-12 pt-8 text-center text-sm text-slate-400">
+            &copy; 2025 Hire TaskUp. All rights reserved. made with &hearts;
+        </div>
+    </div>
+</footer>
+{% endblock footer %}
 
 {% block extra_js %}
 <script>
@@ -149,6 +202,10 @@
         
         // Reset errors
         document.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.classList.remove('border-red-300', 'bg-red-50');
+            el.classList.add('border-slate-200', 'bg-slate-50');
+        });
         
         // Validate Name
         if (!nameInput.value.trim()) {
@@ -176,11 +233,14 @@
 
         if (!isValid) {
             e.preventDefault();
+            // Shake effect logic or just scroll to error could go here
         } else {
-            // Optional: Show loading state
+            // Show loading state
             const btn = document.getElementById('submitBtn');
-            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sending...';
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processing...';
             btn.classList.add('opacity-75', 'cursor-not-allowed');
+            // Allow submission
         }
     });
 
@@ -191,15 +251,33 @@
         if (error) {
             error.classList.remove('hidden');
         }
-        inputElement.classList.add('border-red-300');
-        inputElement.classList.remove('border-slate-200');
+        inputElement.classList.add('border-red-300', 'bg-red-50');
+        inputElement.classList.remove('border-slate-200', 'bg-slate-50');
         
         // Remove error styling on input
         inputElement.addEventListener('input', function() {
             error.classList.add('hidden');
-            inputElement.classList.remove('border-red-300');
-            inputElement.classList.add('border-slate-200');
+            inputElement.classList.remove('border-red-300', 'bg-red-50');
+            inputElement.classList.add('border-slate-200', 'bg-slate-50');
         }, {once: true});
     }
+
+    // Initialize icons
+    lucide.createIcons();
+    
+    // Add simple fade animation
+    document.addEventListener('DOMContentLoaded', () => {
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in-up {
+                animation: fadeInUp 0.6s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(style);
+    });
 </script>
 {% endblock extra_js %}
