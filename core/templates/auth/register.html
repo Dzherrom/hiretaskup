@@ -3,21 +3,12 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock extra_css %}
-{% block header %}{% endblock header %}
+
 {% block content %}
 <div class="login-split">
+    <!-- Left: form -->
     <div class="login-left">
         <div class="login-left-inner">
-            <div class="login-topbar">
-                <div class="brand">
-                    <img src="{% static 'img/logo.png' %}" alt="TaskUp" />
-                </div>
-                <div class="top-cta">
-                    <span>¿Ya tienes cuenta?</span>
-                    <a href="{% url 'login' %}">Inicia sesión</a>
-                </div>
-            </div>
-
             <div class="login-content">
                 <h1 class="login-heading">Create your <a href="/" class="brand-link">TaskUp</a> account</h1>
                 <p class="login-subtitle">Start your journey with a dedicated virtual assistant.</p>
@@ -39,20 +30,25 @@
                         {{ form.email }}
                     </div>
 
-                                <div class="input-group password-wrap">
-                                    {{ form.password1.errors }}
-                                    {{ form.password1 }}
-                                    <button type="button" class="toggle-pass" aria-label="Show password">👁️</button>
-                                </div>
+                    <div class="input-group password-wrap">
+                        {{ form.password1.errors }}
+                        {{ form.password1 }}
+                        <button type="button" class="toggle-pass" style="background:none; border:none; cursor:pointer;" aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #6B7280;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                    </div>
 
-                                <div class="input-group password-wrap">
-                                    {{ form.password2.errors }}
-                                    {{ form.password2 }}
-                                    <button type="button" class="toggle-pass" aria-label="Show password">👁️</button>
-                                </div>
+                    <div class="input-group password-wrap">
+                        {{ form.password2.errors }}
+                        {{ form.password2 }}
+                        <button type="button" class="toggle-pass" style="background:none; border:none; cursor:pointer;" aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #6B7280;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                    </div>
 
                     <button type="submit" class="login-btn">Sign Up</button>
                 </form>
+
+                <div class="top-cta">
+                    <span>¿Already have an account?</span>
+                    <a href="{% url 'login' %}">Login</a>
+                </div>
 
                 <div class="terms">
                     <span>By signing up, you agree to our</span>
@@ -63,10 +59,11 @@
             </div>
         </div>
     </div>
-
+    <!-- Right: image -->
     <div class="login-right" aria-hidden="true"></div>
 </div>
 {% endblock content %}
+
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -74,7 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const input = wrap.querySelector('input[type="password"], input[type="text"]');
         const btn = wrap.querySelector('.toggle-pass');
         if (!input || !btn) return;
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent form submission if inside form
             const isPwd = input.type === 'password';
             input.type = isPwd ? 'text' : 'password';
             btn.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
@@ -83,4 +81,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 {% endblock extra_js %}
-{% block footer %}{% endblock footer %}

@@ -26,13 +26,14 @@ def create_checkout_session(request):
     product_name = data.get("name", "Test Product")
 
     session = stripe.checkout.Session.create(
-        mode="payment",
+        mode="subscription",
         payment_method_types=["card"],
         line_items=[{
             "price_data": {
                 "currency": currency,
                 "product_data": {"name": product_name},
                 "unit_amount": int(price),
+                "recurring": {"interval": "month"},
             },
             "quantity": 1,
         }],
