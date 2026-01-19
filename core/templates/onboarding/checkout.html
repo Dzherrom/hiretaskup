@@ -1,221 +1,373 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block extra_css %}
-<style>
-.ob-wrapper{max-width:1050px;margin:30px auto 40px auto;border:1px solid #e5e7eb;border-radius:12px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;background:#fff}
-.ob-left{padding:24px 28px}
-.ob-right{padding:24px 28px;border-left:1px solid #e5e7eb;font-size:16px}
-.ob-title{font-size:28px;font-weight:600;text-align:center;margin:130px 0 6px;color:#f9f9f9}
-.ob-sub{color:#f9f9f9;text-align:center;margin-bottom:18px}
-.ob-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.ob-group{display:flex;flex-direction:column;gap:6px}
-.ob-group label{font-size:13px;color:#374151;font-weight:600}
-.ob-form .full{grid-column:1/-1}
-.ob-input{padding:12px 14px;border:1px solid #d1d5db;border-radius:8px;background:#f9fafb}
-.ob-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
-.ob-item{display:flex;gap:12px;margin-bottom:18px}
-.ob-item h4{margin:0 0 4px;font-size:16px;color:#111827}
-.ob-item p{margin:0;color:#6b7280;font-size:13px}
-.ob-qty{display:flex;align-items:center;gap:6px}
-.ob-qty button{width:28px;height:28px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}
-.ob-total{font-weight:700;color:#1d4ed8;font-size:24px}
-.ob-next{position:sticky;bottom:0;display:flex;justify-content:center;padding:16px;background:transparent;margin-top:12px}
-.ob-next-right{margin-top:20px;}
-.ob-next button, .ob-next-right button{width:100%; padding:14px 16px;border:none;border-radius:9999px;background:linear-gradient(90deg,#26a8ff,#1d4ed8);color:#fff;font-weight:600; font-size: 16px; cursor: pointer; transition: opacity 0.2s;}
-.ob-next-right button:hover { opacity: 0.9; }
-@media(max-width:900px){.ob-wrapper{grid-template-columns:1fr}}
-</style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
-{% endblock extra_css %}
-{% block content %}
-<h2 class="ob-title">Let's get you set up</h2>
-<p class="ob-sub">Tell us a little bit about yourself</p>
-<div class="ob-wrapper">
-  <div class="ob-left">
-  <form id="onboardingForm" method="post" action="{% url 'onboarding_create_checkout' %}" class="ob-form">
-      {% csrf_token %}
-      <input type="hidden" name="plan_name" value="{{ plan_name }}"/>
-      <input type="hidden" name="amount_cents" value="{{ amount_cents }}"/>
-      <input type="hidden" name="quantity" id="qtyField" value="{{ qty }}"/>
-      <div class="full ob-group">
-        <label>Full Name</label>
-        <input class="ob-input" type="text" id="full_name" name="full_name" placeholder="Full Name" value="{{ prefill.full_name }}" required />
-      </div>
-      <div class="ob-group">
-        <label>Business Name</label>
-        <input class="ob-input" type="text" id="business_name" name="business_name" placeholder="Business Name" value="{{ prefill.business_name }}" required />
-      </div>
-      <div class="ob-group">
-        <label>Email Address</label>
-        <input class="ob-input" type="email" id="email" name="email" placeholder="Email Address" value="{{ prefill.email|default:request.user.email }}" required />
-      </div>
-      <div class="full ob-group">
-        <label>Phone Number</label>
-        <input class="ob-input" id="phone" type="tel" name="phone" placeholder="Phone number" value="{{ prefill.phone }}" required />
-      </div>
-      <div class="full ob-group">
-        <label>Website</label>
-        <input class="ob-input" type="url" id="website" name="website" placeholder="yourwebsite.com" value="{{ prefill.website }}" />
-      </div>
-      
-    </form>
-  </div>
-  <div class="ob-right">
-    <h3 style="margin-top:0; color:#6b7280; font-weight:600;">SELECTED PRODUCTS</h3>
-    <div class="ob-item">
-      <div style="width:40px;height:40px;border-radius:50%;background:#eaf3ff"></div>
-      <div style="flex:1">
-        <h4>{{ plan_name }}</h4>
-        <p>Includes 1 user account</p>
-        <div class="ob-row">
-          <div>$<span id="unit">{{ amount_dollars|floatformat:2 }}</span>/month</div>
-          <div class="ob-qty">
-            <button type="button" id="minus">–</button>
-            <span id="qty">{{ qty }}</span>
-            <button type="button" id="plus">+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr/>
-    <div class="ob-row">
-      <div>Total:</div>
-      <div class="ob-total" id="total">${{ amount_dollars|floatformat:2 }}</div>
-    </div>
-    
-    <div class="ob-next-right space-y-4">
-        <!-- Stripe Button -->
-        <button type="submit" form="onboardingForm" id="stripe-btn" class="mb-4" style="width:100%; padding:14px 16px; border:none; border-radius:9999px; background:#1CC6FF; color:#fff; font-weight:700; font-size:16px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition: opacity 0.2s;">
-            <span>Pay with</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style="height:22px; filter: brightness(0) invert(1);">
-        </button>
-        
-        <div class="flex items-center gap-4 my-2">
-            <div class="h-px bg-slate-200 flex-1"></div>
-            <span class="text-xs text-slate-400 font-bold uppercase">Or</span>
-            <div class="h-px bg-slate-200 flex-1"></div>
-        </div>
 
-        <!-- PayPal Manual Button for Redirect Flow -->
-        <div class="mt-4">
-            <button type="button" id="paypal-manual-btn" style="width:100%; padding:14px 16px; border:none; border-radius:9999px; background:#FFC439; color:#000; font-weight:700; font-size:16px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition: opacity 0.2s;">
-               <span>Pay with</span> 
-               <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" height="24">
-            </button>
-        </div>
-    </div>
-  </div>
+{% block extra_css %}
+<!-- Intl Tel Input CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
+<style>
+    /* Ensure Footer is visible above fixed background */
+    footer {
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Custom override for Intl Tel Input to match Tailwind Inputs */
+    .iti { width: 100%; }
+    .iti__flag-container { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem; }
+    .iti__selected-flag { background-color: transparent; }
+    
+    /* Fix overlap: Override Tailwind padding for the phone input inside ITI */
+    .iti input { 
+        padding-left: 52px !important; /* Make space for the flag container */
+    }
+
+    /* Input Glow */
+    .input-glow:focus {
+        box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1); 
+        border-color: #06b6d4;
+    }
+    
+    /* Smooth fade in */
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Background Image with Overlay (Consistent with Contact/About) -->
+<!-- z-[-1] ensures it stays behind everything including the footer from base.html -->
+<div class="fixed inset-0 z-[-1]">
+    <!-- Professional / Virtual Assistant Vibe Background -->
+    <img 
+        src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1950&q=80" 
+        alt="Virtual Assistant Background" 
+        class="w-full h-full object-cover"
+    >
+    <div class="absolute inset-0 bg-slate-900/60 transition-opacity"></div>
 </div>
 
+<section class="relative z-10 py-24 lg:py-32 min-h-screen flex items-center">
+    <div class="container mx-auto px-4 max-w-6xl">
+        
+        <!-- Main Checkout Card -->
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 overflow-hidden grid grid-cols-1 lg:grid-cols-12 animate-fade-in-up">
+            
+            <!-- Left Column: User Details Form (Span 7) -->
+            <div class="lg:col-span-7 p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-slate-200">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-bold uppercase tracking-wider mb-6">
+                    Checkout
+                </span>
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-2">Let's get you set up</h1>
+                <p class="text-slate-500 mb-8">Complete your details to activate your plan.</p>
+
+                <form id="onboardingForm" method="post" action="{% url 'onboarding_create_checkout' %}" class="space-y-5">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan_name" value="{{ plan_name }}"/>
+                    <input type="hidden" name="amount_cents" value="{{ amount_cents }}"/>
+                    <input type="hidden" name="quantity" id="qtyField" value="{{ qty }}"/>
+
+                    <!-- Full Name -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="user" class="w-5 h-5"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="full_name" 
+                                name="full_name" 
+                                value="{{ prefill.full_name }}" 
+                                required
+                                placeholder="John Doe"
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Business Name & Email Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Business Name</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="building-2" class="w-5 h-5"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="business_name" 
+                                    name="business_name" 
+                                    value="{{ prefill.business_name }}" 
+                                    required
+                                    placeholder="Company, Inc."
+                                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"
+                                >
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    value="{{ prefill.email|default:request.user.email }}" 
+                                    required
+                                    placeholder="john@example.com"
+                                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone & Website Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
+                            <!-- Padding handled by custom CSS now -->
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                value="{{ prefill.phone }}" 
+                                required
+                                class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Website</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                </div>
+                                <input 
+                                    type="url" 
+                                    id="website" 
+                                    name="website" 
+                                    value="{{ prefill.website }}"
+                                    placeholder="https://example.com"
+                                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white transition-all input-glow"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Column: Order Summary (Span 5) -->
+            <div class="lg:col-span-5 bg-slate-50 p-8 lg:p-12 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-6">Order Summary</h3>
+                    
+                    <!-- Product Card -->
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-start gap-4 mb-8">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                            <i data-lucide="package" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-900 text-lg">{{ plan_name }}</h4>
+                            <p class="text-slate-500 text-xs mb-3">Includes 1 user account access</p>
+                            
+                            <!-- Quantity & Price Row -->
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="text-slate-700 font-medium">
+                                    $<span id="unit">{{ amount_dollars|floatformat:2 }}</span> <span class="text-xs text-slate-400">/mo</span>
+                                </div>
+                                
+                                <!-- Qty Controls -->
+                                <div class="flex items-center gap-3 bg-slate-100 rounded-lg p-1">
+                                    <button type="button" id="minus" class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-slate-600 hover:text-blue-600 transition-colors">
+                                        <i data-lucide="minus" class="w-3 h-3"></i>
+                                    </button>
+                                    <span id="qty" class="text-sm font-bold text-slate-900 w-4 text-center">{{ qty }}</span>
+                                    <button type="button" id="plus" class="w-7 h-7 flex items-center justify-center bg-white rounded shadow-sm text-slate-600 hover:text-blue-600 transition-colors">
+                                        <i data-lucide="plus" class="w-3 h-3"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-200 pt-6 flex items-center justify-between mb-8">
+                        <span class="text-slate-600 font-medium">Total due today</span>
+                        <span class="text-3xl font-extrabold text-blue-600" id="total">${{ amount_dollars|floatformat:2 }}</span>
+                    </div>
+                </div>
+
+                <!-- Payment Buttons Section -->
+                <div class="space-y-4">
+                    <!-- Stripe Button -->
+                    <button type="submit" form="onboardingForm" id="stripe-btn" class="w-full flex items-center justify-center gap-3 py-3.5 px-6 rounded-xl bg-[#635BFF] hover:bg-[#5851e3] text-white font-bold transition-transform active:scale-[0.98] shadow-lg shadow-indigo-500/20 group">
+                        <span>Pay with</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" class="h-6 brightness-0 invert">
+                    </button>
+                    
+                    <div class="relative flex py-2 items-center">
+                        <div class="flex-grow border-t border-slate-300"></div>
+                        <span class="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold uppercase">Or Securely Pay With</span>
+                        <div class="flex-grow border-t border-slate-300"></div>
+                    </div>
+
+                    <!-- PayPal Manual Button -->
+                    <button type="button" id="paypal-manual-btn" class="w-full flex items-center justify-center gap-3 py-3.5 px-6 rounded-xl bg-[#FFC439] hover:brightness-105 text-black font-bold transition-transform active:scale-[0.98] shadow-lg shadow-yellow-500/20">
+                        <span>Pay with</span> 
+                        <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" class="h-6">
+                    </button>
+
+                    <p class="text-center text-xs text-slate-400 mt-4">
+                        <i data-lucide="lock" class="w-3 h-3 inline-block mr-1"></i>
+                        Payments are secure and encrypted.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // QTY Logic
-  const plus = document.getElementById('plus');
-  const minus = document.getElementById('minus');
-  const qtyEl = document.getElementById('qty');
-  const totalEl = document.getElementById('total');
-  const unit = parseFloat(document.getElementById('unit').textContent || '0');
-  const qtyField = document.getElementById('qtyField');
+    // === Quantity Logic ===
+    const plus = document.getElementById('plus');
+    const minus = document.getElementById('minus');
+    const qtyEl = document.getElementById('qty');
+    const totalEl = document.getElementById('total');
+    const qtyField = document.getElementById('qtyField');
+    const unit = parseFloat(document.getElementById('unit').textContent || '0');
   
-  function updateTotal(q){ 
-      totalEl.textContent = `$${(unit * q).toFixed(2)}`; 
-      qtyEl.textContent = q; 
-      qtyField.value = q; 
-  }
+    function updateTotal(q){ 
+        const newVal = (unit * q).toFixed(2);
+        totalEl.textContent = `$${newVal}`; 
+        qtyEl.textContent = q; 
+        qtyField.value = q; 
+    }
   
-  plus?.addEventListener('click', () => { 
-      const q = Math.min(99, (parseInt(qtyEl.textContent)||1)+1); 
-      updateTotal(q); 
-  });
-  
-  minus?.addEventListener('click', () => { 
-      const q = Math.max(1, (parseInt(qtyEl.textContent)||1)-1); 
-      updateTotal(q); 
-  });
-
-  // Phone Input
-  const phoneInput = document.getElementById('phone');
-  let iti;
-  if (phoneInput && window.intlTelInput) {
-    iti = window.intlTelInput(phoneInput, {
-      initialCountry: 'auto',
-      preferredCountries: ['us','mx','co','es'],
-      geoIpLookup: function(callback) {
-        fetch('https://ipinfo.io/json?token=6db1cea8941122')
-          .then(resp => resp.json())
-          .then(data => callback(data && data.country ? data.country.toLowerCase() : 'us'))
-          .catch(() => callback('us'));
-      },
-      utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js'
+    plus?.addEventListener('click', () => { 
+        const current = parseInt(qtyEl.textContent) || 1;
+        const q = Math.min(99, current + 1); 
+        updateTotal(q); 
     });
-    const form = document.getElementById('onboardingForm');
-    form.addEventListener('submit', () => {
-      if(iti) {
-          const formatted = iti.getNumber();
-          if (formatted) phoneInput.value = formatted;
-      }
+  
+    minus?.addEventListener('click', () => { 
+        const current = parseInt(qtyEl.textContent) || 1;
+        const q = Math.max(1, current - 1); 
+        updateTotal(q); 
     });
-  }
 
-  // --- Manual PayPal Logic (Redirect Flow) ---
-  const ppBtn = document.getElementById('paypal-manual-btn');
-  ppBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      const form = document.getElementById('onboardingForm');
-      if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-      }
-      
-      // Loading State
-      ppBtn.style.opacity = '0.7';
-      ppBtn.innerHTML = '<span>Processing...</span>';
-      
-      const qty = parseInt(qtyEl.textContent) || 1;
-      const unitPrice = unit;
-      const formData = {
-          full_name: document.getElementById('full_name').value,
-          business_name: document.getElementById('business_name').value,
-          email: document.getElementById('email').value,
-          phone: iti ? iti.getNumber() : document.getElementById('phone').value,
-          website: document.getElementById('website').value
-      };
+    // === Intl Tel Input ===
+    const phoneInput = document.getElementById('phone');
+    let iti;
+    if (phoneInput && window.intlTelInput) {
+        iti = window.intlTelInput(phoneInput, {
+            initialCountry: 'auto',
+            preferredCountries: ['us','mx','co','es'],
+            geoIpLookup: function(callback) {
+                fetch('https://ipinfo.io/json?token=6db1cea8941122')
+                .then(resp => resp.json())
+                .then(data => callback(data && data.country ? data.country.toLowerCase() : 'us'))
+                .catch(() => callback('us'));
+            },
+            utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js',
+            customContainer: "w-full"
+        });
+        
+        // Ensure input field styling isn't broken by ITI injection
+        phoneInput.parentElement.classList.add('w-full');
+    }
 
-      fetch("{% url 'create_paypal_order' %}", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
-          },
-          body: JSON.stringify({
-              plan_name: "{{ plan_name }}",
-              quantity: qty,
-              unit_amount: unitPrice,
-              form_data: formData
-          })
-      })
-      .then(response => response.json())
-      .then(data => {
-          if(data.error) {
-              alert('Error creating order: ' + data.error);
-              ppBtn.style.opacity = '1';
-              ppBtn.innerHTML = '<span>Pay with</span> <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" height="24">';
-          } else if (data.approval_url) {
-              // Redirect to PayPal
-              window.location.href = data.approval_url;
-          }
-      })
-      .catch(err => {
-          console.error(err);
-          alert('Something went wrong. Please try again.');
-          ppBtn.style.opacity = '1';
-          ppBtn.innerHTML = '<span>Pay with</span> <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" height="24">';
-      });
-  });
+    // === PayPal Redirect Flow ===
+    const ppBtn = document.getElementById('paypal-manual-btn');
+    ppBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const form = document.getElementById('onboardingForm');
+        
+        // HTML5 Validation Check
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        // Handle ITI number formatting
+        if (iti) {
+            const formatted = iti.getNumber(); 
+            if (formatted) phoneInput.value = formatted;
+        }
+        
+        // UI Loading State
+        const originalContent = ppBtn.innerHTML;
+        ppBtn.style.opacity = '0.7';
+        ppBtn.pointerEvents = 'none';
+        ppBtn.innerHTML = '<span>Processing Payment...</span>';
+        
+        const qty = parseInt(qtyEl.textContent) || 1;
+        
+        const formData = {
+            full_name: document.getElementById('full_name').value,
+            business_name: document.getElementById('business_name').value,
+            email: document.getElementById('email').value,
+            phone: phoneInput.value,
+            website: document.getElementById('website').value
+        };
+
+        fetch("{% url 'create_paypal_order' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                plan_name: "{{ plan_name }}",
+                quantity: qty,
+                unit_amount: unit,
+                form_data: formData
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.error) {
+                alert('Error starting PayPal: ' + data.error);
+                resetBtn();
+            } else if (data.approval_url) {
+                // Redirect user to PayPal
+                window.location.href = data.approval_url;
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('A connection error occurred. Please try again.');
+            resetBtn();
+        });
+
+        function resetBtn() {
+            ppBtn.style.opacity = '1';
+            ppBtn.pointerEvents = 'auto';
+            ppBtn.innerHTML = originalContent;
+        }
+    });
+
+    // === Stripe Button Click Handler (Just to ensure ITI number is synced) ===
+    const stripeBtn = document.getElementById('stripe-btn');
+    stripeBtn.addEventListener('click', (e) => {
+        if (iti) {
+            // Before form submit, sync full number
+            const formatted = iti.getNumber();
+            if (formatted) phoneInput.value = formatted;
+        }
+    });
 });
 </script>
 {% endblock content %}
