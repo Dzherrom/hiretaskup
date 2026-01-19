@@ -47,7 +47,7 @@ def payment_success(request):
 
 
 def payment_cancel(request):
-    return render(request, "payment/cancel.html")
+    return redirect('plans')
 
 
 @csrf_exempt

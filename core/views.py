@@ -360,8 +360,7 @@ def process_payment(request):
         return redirect(session.url, code=303)
     return render(request, 'payment/stripe_redirect.html')
 
-def payments_page(request):
-    return render(request, 'payment/payments.html')
+
 # ... (existing content of views.py)
 
 ### PAYPAL INTEGRATION ###
@@ -613,7 +612,7 @@ def capture_paypal_order(request):
 
 
 def payment_success(request):
-    return render(request, 'payment/success.html')
+    return redirect('user_profile')
 
 def payment_cancel(request):
-    return render(request, 'payment/cancel.html')
+    return redirect('plans')

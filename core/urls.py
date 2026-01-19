@@ -13,7 +13,6 @@ urlpatterns = [
     path('paypal/return/', views.paypal_return, name='paypal_return'),
     path('paypal/cancel/', views.paypal_cancel, name='paypal_cancel'),
     path('contact/', views.contact, name='contact'),
-    path('payments/', views.payments_page, name='payments'),
     path('payments/success/', views.payment_success, name='payment_success'),
     path('payments/cancel/', views.payment_cancel, name='payment_cancel'),
     #auth urls
