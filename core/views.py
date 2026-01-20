@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 import requests
 import json
 import base64
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, PasswordResetRequestForm, PasswordResetVerifyForm, ContactForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
@@ -16,18 +17,23 @@ from django.db import IntegrityError
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_http_methods
 import stripe 
 import requests 
 import base64
 import json
-from django.http import JsonResponse 
+import random
+from django.http import JsonResponse  
 
 def home(request):
     return render(request, 'home/home.html', {'user_is_authenticated': request.user.is_authenticated})
 
 ## AUTHENTICATION VIEWS ##
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -39,6 +45,9 @@ def register_view(request):
     return render(request, 'auth/register.html', {'form': form})
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         form = CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -48,6 +57,66 @@ def login_view(request):
     else:
         form = CustomAuthenticationForm()
     return render(request, 'auth/login.html', {'form': form})
+
+def forgot_password_request(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            otp = str(random.randint(100000, 999999))
+            
+            # Guardar OTP en sesión con expiración (5 mins)
+            request.session['reset_otp'] = otp
+            request.session['reset_email'] = email
+            request.session.set_expiry(300)
+            
+            try:
+                send_mail(
+                    'Código de Recuperación TaskUp',
+                    f'Tu código de seguridad es: {otp}',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                # Log error if needed
+                pass
+                
+            return redirect('forgot_password_verify')
+    else:
+        form = PasswordResetRequestForm()
+    
+    return render(request, 'auth/forgot_password.html', {'form': form})
+
+def forgot_password_verify(request):
+    if 'reset_email' not in request.session:
+        return redirect('forgot_password_request')
+
+    if request.method == 'POST':
+        form = PasswordResetVerifyForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['otp'] == request.session.get('reset_otp'):
+                email = request.session['reset_email']
+                try:
+                    user = CustomUser.objects.get(email=email)
+                    user.set_password(form.cleaned_data['new_password'])
+                    user.save()
+                    
+                    del request.session['reset_otp']
+                    del request.session['reset_email']
+                    return redirect('login')
+                except CustomUser.DoesNotExist:
+                     form.add_error(None, 'Error interno: usuario no encontrado.')
+            else:
+                form.add_error('otp', 'Código incorrecto o expirado.')
+    else:
+        form = PasswordResetVerifyForm()
+
+    return render(request, 'auth/forgot_password_verify.html', {'form': form})
+
 
 @login_required
 def logout_view(request):
@@ -138,6 +207,9 @@ def user_create(request):
 
 @login_required
 def user_edit(request, id):
+    if request.user.id != id and not request.user.is_superuser:
+        raise PermissionDenied("No tienes permisos para editar este perfil.")
+
     user = get_object_or_404(CustomUser, id=id)
     error = None
     
@@ -178,6 +250,9 @@ def user_edit(request, id):
 
 @login_required
 def user_delete(request, id):
+    if request.user.id != id and not request.user.is_superuser:
+        raise PermissionDenied("No tienes permisos para eliminar este perfil.")
+
     user = get_object_or_404(CustomUser, id=id)
     if request.method == 'POST':
         user.delete()
@@ -193,30 +268,75 @@ def about(request):
 @login_required
 def plans(request):
     return render(request, 'plans/plans.html', {'user_is_authenticated': request.user.is_authenticated})
-    
-# ONBOARDING CHECKOUT
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_protect
+
+## TERMS OF SERVICE ##
+@login_required
+def accept_terms(request):
+    """
+    Forces user to scroll through terms and accept them.
+    Preserves GET parameters to redirect back to checkout smoothly.
+    """
+    if request.method == 'POST':
+        if 'agreed' in request.POST:
+            request.user.terms_accepted = True
+            request.user.terms_accepted_at = timezone.now()
+            request.user.save()
+            
+            # Construct redirect URL with original query parameters
+            # (e.g., plan_id, quantity) kept in the URL query string
+            base_url = reverse('onboarding_checkout')
+            query_string = request.GET.urlencode()
+            if query_string:
+                return redirect(f"{base_url}?{query_string}")
+            return redirect('onboarding_checkout')
+
+    return render(request, 'onboarding/accept_terms.html')
 
 @login_required
 @require_http_methods(["GET"])
 def onboarding_checkout(request):
-    plan_name = request.GET.get('name') or 'Selected Plan'
+    # --- SECURITY: TERMS CHECK ---
+    if not request.user.terms_accepted:
+        # Redirect to terms page, passing current params (plan_id, qty) along
+        query_params = request.GET.urlencode()
+        redirect_url = reverse('accept_terms')
+        if query_params:
+            redirect_url += f"?{query_params}"
+        return redirect(redirect_url)
+
+    plan_id = request.GET.get('plan_id')
+    
+# ONBOARDING CHECKOUT
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
+from .models import Plan  # Import Plan model
+
+@login_required
+@require_http_methods(["GET"])
+def onboarding_checkout(request):
+    plan_id = request.GET.get('plan_id')
+    # Try to find plan in DB. If not found, handle gracefully or show 404
+    plan = get_object_or_404(Plan, id=plan_id) if plan_id else None
+    
+    # If using existing logic for fallback:
+    plan_name = plan.name if plan else (request.GET.get('name') or 'Selected Plan')
     try:
-        amount_cents = int(request.GET.get('amount') or 0)
+        amount_cents = plan.price_cents if plan else int(request.GET.get('amount') or 0)
     except ValueError:
         amount_cents = 0
+        
     qty = int(request.GET.get('qty') or 1)
     if qty < 1:
         qty = 1
+        
     context = {
+        'plan': plan, # Pass plan object
         'plan_name': plan_name,
         'amount_cents': amount_cents,
         'amount_dollars': amount_cents / 100 if amount_cents else 0,
         'qty': qty,
-        # Prefill form from user data where possible
         'prefill': {
-            'full_name': request.user.get_full_name() if hasattr(request.user, 'get_full_name') else '',
+            'full_name': request.user.get_full_name(),
             'business_name': getattr(request.user, 'business_name', '') or '',
             'email': request.user.email,
             'phone': getattr(request.user, 'phone_number', '') or '',
@@ -231,15 +351,31 @@ def onboarding_checkout(request):
 @require_http_methods(["POST"])
 @csrf_protect
 def onboarding_create_checkout(request):
-    # Collect form data
-    plan_name = request.POST.get('plan_name', 'Selected Plan')
+    # --- SECURITY: PLAN LIMIT CHECK ---
+    active_subs = Subscription.objects.filter(user=request.user, active=True).count()
+    if active_subs >= 3:
+         return render(request, 'onboarding/checkout.html', {
+             'error': "You cannot have more than 3 active plans. Please contact support or cancel an existing plan.",
+             'prefill': {}, # You might want to pass existing data back
+             'plan_name': 'Error' 
+         })
+
+    # --- SECURITY: DATA INTEGRITY ---
+    # Retrieve Plan ID from hidden field. DO NOT TRUST amount/name from POST.
+    plan_id = request.POST.get('plan_id')
+    plan = get_object_or_404(Plan, id=plan_id)
+    
+    # Use REAL price from DB
+    price_cents = plan.price_cents
+    plan_name = plan.name
+    
     try:
-        amount_cents = int(request.POST.get('amount_cents', '0'))
         qty = int(request.POST.get('quantity', '1'))
     except ValueError:
-        amount_cents, qty = 0, 1
+        qty = 1
     qty = max(1, qty)
 
+    # Collect other form data
     full_name = request.POST.get('full_name', '')
     business_name = request.POST.get('business_name', '')
     email = request.POST.get('email', request.user.email)
@@ -248,37 +384,34 @@ def onboarding_create_checkout(request):
     company_type = request.POST.get('company_type', '')
     client_needs = request.POST.get('client_needs', '')
     va_tasks = request.POST.get('va_tasks', '')
+    
+    # Capture Timezone
+    user_tz = request.POST.get('timezone')
 
-    # Update the logged-in user's profile with submitted info
+    # Update User Profile
     user = request.user
-    # Split full_name into first/last if possible
     if full_name:
         parts = full_name.strip().split()
         if len(parts) == 1:
-            user.first_name = parts[0]
+             user.first_name = parts[0]
         else:
-            user.first_name = parts[0]
-            user.last_name = ' '.join(parts[1:])
-    if business_name:
-        setattr(user, 'business_name', business_name)
-    if phone:
-        setattr(user, 'phone_number', phone)
-    if website:
-        setattr(user, 'website', website)
-    if company_type:
-        setattr(user, 'company_type', company_type)
-    if client_needs:
-        setattr(user, 'client_needs', client_needs)
-    if va_tasks:
-        setattr(user, 'va_tasks', va_tasks)
+             user.first_name = parts[0]
+             user.last_name = ' '.join(parts[1:])
+    
+    if business_name: setattr(user, 'business_name', business_name)
+    if phone: setattr(user, 'phone_number', phone)
+    if website: setattr(user, 'website', website)
+    if company_type: setattr(user, 'company_type', company_type)
+    if client_needs: setattr(user, 'client_needs', client_needs)
+    if va_tasks: setattr(user, 'va_tasks', va_tasks)
+    if user_tz: setattr(user, 'time_zone', user_tz) # Save timezone
+    
     if email and email != user.email:
-        user.email = email
-    # Optionally set a composite full_name field if present in model
-    if hasattr(user, 'full_name') and full_name:
-        setattr(user, 'full_name', full_name)
+         user.email = email
+    
     user.save()
 
-    # Ensure a pending subscription exists so the profile shows "espera" immediately
+    # Create Pending Subscription (Wait for Webhook to Activate)
     try:
         Subscription.objects.get_or_create(
             user=user,
@@ -290,49 +423,66 @@ def onboarding_create_checkout(request):
             }
         )
     except Exception:
-        # Non-fatal: if something goes wrong, still proceed to Stripe
         pass
 
-    # Create Stripe Checkout Session
+    # Create Secure Stripe Session
     stripe.api_key = settings.STRIPE_SECRET_KEY
-    session = stripe.checkout.Session.create(
-        mode='subscription',
+    
+    checkout_session = stripe.checkout.Session.create(
+        customer_email=user.email,
         payment_method_types=['card'],
         line_items=[{
             'price_data': {
                 'currency': 'usd',
-                'product_data': {'name': plan_name},
-                'unit_amount': amount_cents,
-                'recurring': {'interval': 'month'},
+                'product_data': {
+                    'name': plan_name,
+                },
+                'unit_amount': price_cents, # IDEMPOTENT PRICE FROM DB
+                'recurring': {
+                    'interval': 'month',
+                },
             },
             'quantity': qty,
         }],
-        customer_email=email or None,
+        mode='subscription',
         success_url=request.build_absolute_uri('/payments/success/'),
         cancel_url=request.build_absolute_uri('/payments/cancel/'),
         metadata={
-            'user_id': str(request.user.id),
-            'full_name': full_name,
-            'business_name': business_name,
-            'phone': phone,
-            'website': website,
+            'user_id': user.id,
             'plan_name': plan_name,
-            'qty': str(qty),
-            'amount_cents': str(amount_cents),
+            'plan_id': plan.id # Track ID for analytics/ref
         }
     )
-    return redirect(session.url, code=303)
+    
+    return redirect(checkout_session.url)
+
 ### CONTACT ###
 @login_required
 def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        subject = request.POST.get('subject')
-        contact_info = request.POST.get('contact_info')
-        message_body = request.POST.get('message')
+    # RATE LIMITING: Check IP/Session cooldown (30 minutes)
+    # Using session based limiting for simplicity as IP might be shared or behind proxy headers mess
+    last_contact = request.session.get('last_contact_time')
+    if last_contact:
+        import time
+        elapsed = time.time() - last_contact
+        if elapsed < 1800: # 1800 seconds = 30 minutes
+             return render(request, 'home/contact.html', {
+                 'form': ContactForm(),
+                 'error': "You are sending messages too quickly. Please wait 30 minutes.",
+                 'user_is_authenticated': request.user.is_authenticated
+             })
 
-        if name and subject and contact_info and message_body:
-            # Prepare email content
+    form = ContactForm(request.POST or None)
+    success = False
+    
+    if request.method == 'POST':
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            subject = form.cleaned_data['subject']
+            # contact_info is validated (email or phone)
+            contact_info = form.cleaned_data['contact_info']
+            message_body = form.cleaned_data['message']
+
             email_subject = f"New Contact Request: {subject}"
             email_message = f"""
             You have received a new message from the contact form.
@@ -347,23 +497,22 @@ def contact(request):
             {message_body}
             """
             from_email = settings.DEFAULT_FROM_EMAIL
-            recipient_list = [settings.EMAIL_HOST_USER]  # Send to the admin/configured email
+            recipient_list = [settings.EMAIL_HOST_USER]
 
             try:
-                send_mail(email_subject, email_message, from_email, recipient_list)
-                print("Email sent successfully.")
-            except Exception as e:
-                print(f"Error sending email: {e}")
+                send_mail(email_subject, email_message, from_email, recipient_list, fail_silently=False)
+                success = True
+                # Set cooldown timestamp
+                import time
+                request.session['last_contact_time'] = time.time()
+            except Exception:
+                pass
 
-            return render(request, 'home/contact.html', {
-                'success': True, 
-                'user_is_authenticated': request.user.is_authenticated
-            })
-        else:
-             return render(request, 'home/contact.html', {
-                'error': "Please fill in all fields.",
-                'user_is_authenticated': request.user.is_authenticated
-            })
+    return render(request, 'home/contact.html', {
+        'form': form,
+        'success': success,
+        'user_is_authenticated': request.user.is_authenticated
+    })
 
     return render(request, 'home/contact.html', {
             'user_is_authenticated': request.user.is_authenticated})
@@ -655,3 +804,6 @@ def payment_success(request):
 
 def payment_cancel(request):
     return redirect('plans')
+
+def custom_page_not_found_view(request, exception):
+    return render(request, "404.html", status=404)

@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core import views_stripe as stripe_views
+from django.conf.urls import handler404
+
+handler404 = 'core.views.custom_page_not_found_view'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

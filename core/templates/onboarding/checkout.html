@@ -68,9 +68,9 @@
 
                 <form id="onboardingForm" method="post" action="{% url 'onboarding_create_checkout' %}" class="space-y-5">
                     {% csrf_token %}
-                    <input type="hidden" name="plan_name" value="{{ plan_name }}"/>
-                    <input type="hidden" name="amount_cents" value="{{ amount_cents }}"/>
+                    <input type="hidden" name="plan_id" value="{{ plan.id }}"/>
                     <input type="hidden" name="quantity" id="qtyField" value="{{ qty }}"/>
+                    <input type="hidden" name="timezone" id="timezoneInput" value=""/>
 
                     <!-- Full Name -->
                     <div>

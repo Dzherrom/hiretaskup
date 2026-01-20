@@ -1,0 +1,306 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .legal-container {
+        max-height: 480px; 
+        overflow-y: scroll;
+        background-color: #f8fafc; /* Slate-50 */
+        border: 1px solid #e2e8f0; /* Slate-200 */
+        border-radius: 0.75rem;
+        padding: 2rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #334155; /* Slate-700 */
+        position: relative;
+    }
+
+    .legal-container h1, .legal-container h2, .legal-container h3 {
+        color: #0f172a; /* Slate-900 */
+        font-weight: 700;
+        margin-top: 1.5em;
+        margin-bottom: 0.75em;
+    }
+    
+    .legal-container h4 {
+        font-weight: 600;
+        color: #0f172a;
+        margin-top: 1em;
+    }
+
+    .scroll-notice {
+        position: sticky;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(4px);
+        padding: 10px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #ef4444;
+        font-weight: 600;
+        border-top: 1px solid #e2e8f0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* Disabled state for button */
+    .btn-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(1);
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="min-h-screen bg-white py-20">
+    <div class="container mx-auto px-4 max-w-4xl">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-2">Terms of Service & Privacy Policy</h1>
+            <p class="text-slate-500">Please review and accept our terms before continuing to payment.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 lg:p-8">
+            
+            <!-- Legal Text Scroll Box -->
+            <div class="relative mb-8">
+                <div id="legal-box" class="legal-container shadow-inner">
+                    <!-- BEGIN LEGAL TEXT -->
+                    <p class="font-bold mb-4">PART 1: TERMS OF SERVICE</p>
+
+                    <p><strong>Title:</strong> TaskUp Terms of Service<br>
+                    <strong>Effective Date:</strong> [Insert Date]<br>
+                    <strong>Last Updated:</strong> [Insert Date]</p>
+
+                    <h4>1. Agreement to Terms</h4>
+                    <p>These Terms of Service (“Terms”) govern your access to and use of TaskUp’s services (“Services”). By purchasing, subscribing to, or using TaskUp, you agree to these Terms. If you do not agree, do not use the Services.</p>
+
+                    <h4>2. About TaskUp</h4>
+                    <p>TaskUp provides virtual assistant staffing and operational support services to businesses and professionals. TaskUp is not a law firm, accounting firm, financial advisory firm, or medical provider.</p>
+
+                    <h4>3. Eligibility</h4>
+                    <p>You represent that you are at least 18 years old and have the legal authority to enter into this agreement on behalf of yourself or your organization.</p>
+
+                    <h4>4. Services Provided</h4>
+                    <p>TaskUp provides virtual assistant support based on the plan selected by the client, which may include administrative support, scheduling, research, customer support assistance, CRM updates, and other operational tasks agreed upon during onboarding. TaskUp may update or modify the Services at any time.</p>
+
+                    <h4>4.1 Out of Scope Services</h4>
+                    <p>TaskUp does not provide: Legal advice or legal representation; Medical advice or services; Accounting, tax filing, or financial advisory services; Services requiring professional licensing unless explicitly agreed in writing; Any illegal, deceptive, or unethical tasks. TaskUp may refuse or terminate tasks that violate these Terms.</p>
+
+                    <h4>5. Plans, Hours & Usage</h4>
+                    <p>Your subscription includes a set number of service hours per week based on your selected plan. Unused hours do not roll over unless explicitly stated in writing. Task completion time depends on task complexity, urgency, and available working hours.</p>
+
+                    <h4>5.1 U.S. Holiday Policy</h4>
+                    <p>TaskUp observes major United States federal holidays. On these dates, assistant availability may be limited and work is not guaranteed unless previously agreed. If a client requests assistant coverage on a U.S. holiday and TaskUp approves the request, the assistant may be compensated at double pay (2x) for that day. In such cases, TaskUp may charge an additional holiday coverage fee to the client. This may be applied as an adjustment on the client’s next billing cycle, or an additional invoice/payment request. Holiday availability is subject to assistant scheduling and prior approval by TaskUp.</p>
+
+                    <h4>6. Onboarding & Matching Timeline</h4>
+                    <p>After successful payment and completion of onboarding, TaskUp will begin the matching process. Typical assistant matching time is 3–5 business days, though timelines may vary depending on availability, client requirements, and workload.</p>
+
+                    <h4>7. Communication</h4>
+                    <p>TaskUp adapts to the client’s preferred communication channels (e.g., email, WhatsApp, Slack, Microsoft Teams). TaskUp does not guarantee a specific response time unless explicitly stated in writing.</p>
+
+                    <h4>8. Client Responsibilities</h4>
+                    <p>You agree to: Provide accurate information during onboarding; Provide clear instructions and timely feedback; Not request illegal or prohibited tasks; Maintain the security of your own systems and accounts; Use secure password practices and enable two-factor authentication where possible.</p>
+
+                    <h4>9. Payments, Billing & Subscription Terms</h4>
+                    <p>All payments are processed through third-party payment processors (e.g., Stripe, PayPal). By subscribing, you authorize recurring billing according to your plan.</p>
+
+                    <h4>9.1 Refund Policy</h4>
+                    <p>All sales are final unless otherwise required by law. TaskUp may offer replacements or service credits at its discretion.</p>
+
+                    <h4>9.2 Replacement Guarantee</h4>
+                    <p>If the assigned assistant is not a good fit within the first 7 days, TaskUp will offer a replacement assistant at no additional cost. This guarantee applies once per onboarding period unless otherwise approved by TaskUp.</p>
+
+                    <h4>10. Cancellation</h4>
+                    <p>You may cancel your subscription at any time. Your subscription will remain active until the end of the current billing period unless otherwise stated. No prorated refunds are provided for partial periods.</p>
+
+                    <h4>11. Confidentiality</h4>
+                    <p>TaskUp understands that clients may share confidential information. TaskUp will take reasonable steps to maintain confidentiality and ensure assistants follow confidentiality guidelines. You agree not to share TaskUp internal processes, documentation, or training materials with third parties.</p>
+
+                    <h4>12. Non-Solicitation / No Direct Hiring & Payment Policies</h4>
+                    <p>To protect TaskUp’s business model, you agree that during the term of your subscription and for twelve (12) months after termination, you will not directly or indirectly hire, contract, or engage any assistant introduced by TaskUp outside of TaskUp.</p>
+                    <p>If violated, you agree to pay a placement fee equal to:<br>
+                    $2,500 (Part-Time plan)<br>
+                    $4,500 (Full-Time plan)<br>
+                    This clause applies regardless of whether the assistant is hired as an employee, contractor, freelancer, or through a third party.</p>
+
+                    <h4>12.1 No Direct Payments / No Off-Platform Payments</h4>
+                    <p>The client agrees not to send any payments directly to any TaskUp assistant, including but not limited to wages, bonuses, gifts, reimbursements, or payments for additional work, unless explicitly authorized in writing by TaskUp. All payments related to TaskUp services must be processed through TaskUp. If the client requests additional hours or expanded support, the client must contact TaskUp to adjust the plan or billing accordingly.</p>
+
+                    <h4>12.2 Tips, Bonuses & Gifts Policy</h4>
+                    <p>If a client wishes to provide a tip, bonus, or gift to an assistant, the client must notify TaskUp first. TaskUp may collect the tip/bonus and deliver it to the assistant on the client’s behalf.</p>
+
+                    <h4>12.3 No Circumvention / Continuing Work After Termination</h4>
+                    <p>The client agrees not to bypass TaskUp by continuing to work directly with any TaskUp assistant after termination of the subscription or services. This includes any direct or indirect engagement outside TaskUp during the subscription and for twelve (12) months after termination. Any such arrangement is considered a violation and will trigger the applicable placement fee.</p>
+
+                    <h4>12.4 Communication & Contact After Termination</h4>
+                    <p>After termination, the client may not request or require ongoing work from the assistant. General communication related to closing out active tasks may occur only if approved by TaskUp.</p>
+
+                    <h4>12.5 Plan Changes, Upgrades & Billing Requests</h4>
+                    <p>All plan changes—including upgrades, downgrades, pauses, or holiday coverage requests—must be requested directly through TaskUp by emailing: billing@hiretaskup.com or support@hiretaskup.com.</p>
+
+                    <h4>13. Intellectual Property</h4>
+                    <p>All materials provided by TaskUp (processes, templates, training content, brand assets, and internal documentation) remain the property of TaskUp unless otherwise stated. Client content remains owned by the client.</p>
+
+                    <h4>14. Disclaimer of Warranties</h4>
+                    <p>TaskUp provides services “as is” and “as available.” TaskUp does not guarantee specific business results, revenue increases, or outcomes.</p>
+
+                    <h4>15. Limitation of Liability</h4>
+                    <p>To the fullest extent permitted by law, TaskUp shall not be liable for any indirect, incidental, special, consequential, or punitive damages. TaskUp’s total liability shall not exceed the amount paid by the client to TaskUp in the last 30 days.</p>
+
+                    <h4>16. Termination</h4>
+                    <p>TaskUp may suspend or terminate your access to the Services at any time if you violate these Terms or if continued service creates legal, ethical, or operational risk.</p>
+
+                    <h4>17. Governing Law</h4>
+                    <p>These Terms are governed by the laws of the State of Wyoming, United States, without regard to conflict of laws principles.</p>
+
+                    <h4>18. Changes to These Terms</h4>
+                    <p>TaskUp may update these Terms at any time. Updates will be posted on this page with a revised “Last Updated” date. Continued use of the Services constitutes acceptance of updated Terms.</p>
+
+                    <h4>19. Contact</h4>
+                    <p>Email: [Insert Support Email] | Company: TaskUp LLC</p>
+
+                    <hr class="my-8 border-slate-200">
+
+                    <p class="font-bold mb-4">PART 2: PRIVACY POLICY</p>
+
+                    <p><strong>Title:</strong> TaskUp Privacy Policy<br>
+                    <strong>Effective Date:</strong> [Insert Date]<br>
+                    <strong>Last Updated:</strong> [Insert Date]</p>
+
+                    <h4>1. Introduction</h4>
+                    <p>TaskUp (“we”, “our”, “us”) respects your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information when you access our website or purchase our services.</p>
+
+                    <h4>2. Information We Collect</h4>
+                    <p>We may collect:<br>
+                    2.1 Personal Information: Full name, Email address, Phone number, Company name, Job title, Billing and subscription details.<br>
+                    2.2 Business & Onboarding Information: Task requests, preferences, tools you use, working hours.<br>
+                    2.3 Payment Information: Payments are processed by third parties (Stripe, PayPal). TaskUp does not store full credit card details.<br>
+                    2.4 Technical Data: IP address, Browser type, Pages visited.</p>
+
+                    <h4>3. How We Use Your Information</h4>
+                    <p>We use collected information to: Provide and manage our services; Match you with an assistant; Process payments; Communicate updates; Improve our website; Prevent fraud.</p>
+
+                    <h4>4. Sharing of Information</h4>
+                    <p>We may share your information with: Your assigned assistant(s); Service providers; Legal authorities if required by law. We do not sell your personal information.</p>
+
+                    <h4>5. Data Security</h4>
+                    <p>We take reasonable steps to protect your information. However, no system can be guaranteed 100% secure.</p>
+
+                    <h4>6. Data Retention</h4>
+                    <p>We retain your information as long as necessary to provide services and comply with legal obligations.</p>
+
+                    <h4>7. International Users</h4>
+                    <p>By using our services, you understand your information may be processed in the United States or other jurisdictions.</p>
+
+                    <h4>8. Cookies & Analytics</h4>
+                    <p>We may use cookies to analyze website usage. You may disable cookies through your browser settings.</p>
+
+                    <h4>9. Your Rights</h4>
+                    <p>Depending on your location, you may have the right to request access to, correction of, or deletion of your personal data. Contact us at: [Insert Support Email].</p>
+
+                    <h4>10. Updates to This Policy</h4>
+                    <p>We may update this Privacy Policy at any time.</p>
+
+                    <h4>11. Contact</h4>
+                    <p>For privacy questions, contact: [Insert Support Email] | Company: TaskUp LLC</p>
+                    
+                    <!-- END LEGAL TEXT -->
+                    <div style="height: 40px;"></div> <!-- Spacer to ensure bottom is reachable -->
+                </div>
+                
+                <!-- Scroll Notice -->
+                <div id="scroll-notice" class="scroll-notice rounded-b-xl">
+                    <i data-lucide="arrow-down" class="w-4 h-4 inline-block mr-1"></i>
+                    Please scroll to the bottom to continue
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form method="post" action="{% url 'accept_terms' %}?{{ request.GET.urlencode }}">
+                {% csrf_token %}
+                
+                <div class="flex items-start gap-4 mb-8 p-4 bg-slate-50 rounded-xl border border-slate-200 transition-colors" id="checkbox-container">
+                    <div class="relative flex items-start">
+                        <input type="checkbox" name="agreed" id="agreed" disabled required class="peer h-5 w-5 mt-1 cursor-not-allowed rounded border-slate-300 text-cyan-600 focus:ring-cyan-600 disabled:opacity-50">
+                    </div>
+                    <label for="agreed" class="text-slate-600 cursor-not-allowed peer-disabled:opacity-50 select-none">
+                        I have read and agree to the <span class="font-bold text-slate-900">TaskUp Terms of Service</span> and <span class="font-bold text-slate-900">Privacy Policy</span>. I understand the non-solicitation policies and replacement guarantees.
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <a href="{% url 'plans' %}" class="text-slate-500 hover:text-slate-700 font-medium px-4">Cancel</a>
+                    
+                    <button type="submit" id="submit-btn" disabled class="btn-disabled flex items-center gap-2 px-8 py-4 bg-cyan-500 text-white font-bold rounded-xl shadow-lg transition-all hover:bg-cyan-400">
+                        Continue to Payment
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const box = document.getElementById('legal-box');
+        const notice = document.getElementById('scroll-notice');
+        const checkbox = document.getElementById('agreed');
+        const submitBtn = document.getElementById('submit-btn');
+        const checkboxLabel = document.querySelector('label[for="agreed"]');
+
+        let hasScrolled toBottom = false;
+
+        function checkScroll() {
+            // Tolerance of 5px to account for browser zoom/rounding
+            if (box.scrollTop + box.clientHeight >= box.scrollHeight - 25) {
+                if (!hasScrolled) {
+                    hasScrolled = true;
+                    enableControls();
+                }
+            }
+        }
+
+        function enableControls() {
+            // Enable Inputs
+            checkbox.disabled = false;
+            checkbox.classList.remove('cursor-not-allowed');
+            checkboxLabel.classList.remove('cursor-not-allowed');
+            
+            // Hide Notice
+            notice.style.opacity = '0';
+            setTimeout(() => notice.remove(), 300);
+            
+            // Visual feedback
+            const container = document.getElementById('checkbox-container');
+            container.classList.add('ring-2', 'ring-cyan-500', 'bg-cyan-50', 'border-cyan-200');
+            setTimeout(() => container.classList.remove('ring-2'), 1000);
+        }
+
+        // Logic to enable button only when checkbox is checked
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('btn-disabled');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('btn-disabled');
+            }
+        });
+
+        // Event Listener
+        box.addEventListener('scroll', checkScroll);
+        
+        // Initial check in case content is short enough to not scroll
+        if (box.scrollHeight <= box.clientHeight) {
+            enableControls();
+        }
+    });
+</script>
+{% endblock content %}

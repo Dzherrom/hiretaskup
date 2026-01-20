@@ -40,91 +40,106 @@
     </head>
     <body class="bg-slate-50 min-h-screen flex flex-col">
         {% block header %}
-        <header>
-            <div class="header-container">
-                <div class="left-section">
-                    <div class="logo">
-                        <a href="{% url 'home' %}">
-                            <img src="{% static 'img/logo.png' %}" alt="TaskUp">
-                        </a>
-                    </div>
-                </div>
+        <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
+            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
                 
-                <nav>
-                    <ul>
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'plans' %}">Plans & Pricing</a></li>
-                        <li><a href="{% url 'about' %}">About Us</a></li>
-                        <li><a href="{% url 'contact' %}">Contact</a></li>
-                    </ul>
+                <!-- Logo -->
+                <div class="logo">
+                     <a href="{% url 'home' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="TaskUp" class="h-10 hover:opacity-90 transition-opacity">
+                    </a>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex gap-8">
+                    <a href="{% url 'home' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="{% url 'plans' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
+                        Plans & Pricing
+                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="{% url 'about' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
+                        About Us
+                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="{% url 'contact' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
+                        Contact
+                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+                    </a>
                 </nav>
 
-                <div class="right-section flex items-center justify-end gap-6">
+                <!-- Desktop User Actions -->
+                <div class="hidden md:flex items-center gap-6">
                     {% if request.user.is_authenticated %}
-                    
-                    <!-- Search / Notifications (Optional placeholders for UI fullness) -->
-                    <!-- <button class="text-white/70 hover:text-white transition-colors"><i data-lucide="bell" class="w-5 h-5"></i></button> -->
-
-                    <!-- User Profile Dropdown -->
-                    <div class="relative z-50">
-                        <button id="userDropdownToggle" class="flex items-center gap-3 focus:outline-none group">
-                             <!-- Avatar Container -->
-                             <div class="relative transition-transform duration-300 group-hover:scale-105">
-                                 <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center overflow-hidden backdrop-blur-sm group-hover:border-white/50 group-hover:bg-white/20 transition-all">
-                                    <!-- Fallback to initials or static icon -->
-                                    <span class="text-white font-semibold text-sm select-none">{{ request.user.username|make_list|first|upper }}</span>
-                                 </div>
-                                 <!-- Online Status Dot -->
-                                 <div class="absolute bottom-0.5 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-slate-900 rounded-full"></div>
-                             </div>
-                        </button>
-                        
-                        <!-- Dropdown Menu -->
-                        <div id="userDropdownMenu" class="absolute right-0 top-full mt-4 w-80 bg-white/90 backdrop-blur-2xl rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/20 opacity-0 invisible scale-95 transition-all duration-200 origin-top-right transform p-2 overflow-hidden ring-1 ring-black/5">
-                             
-                             <!-- Header -->
-                             <div class="px-4 py-4 mb-1 bg-gradient-to-br from-white/60 to-white/30 rounded-xl border border-white/50 mx-1 mt-1">
-                                <div class="flex items-center gap-4">
-                                    <div class="shrink-0 w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold text-lg shadow-inner border border-white">
-                                        {{ request.user.username|make_list|first|upper }}
-                                    </div>
-                                    <div class="overflow-hidden min-w-0">
-                                        <h4 class="font-bold text-slate-800 text-sm truncate leading-tight">{{ request.user.get_full_name|default:request.user.username }}</h4>
-                                        <p class="text-xs text-slate-500 truncate mt-0.5 font-medium">{{ request.user.email }}</p>
-                                    </div>
+                         <!-- User Profile Dropdown -->
+                        <div class="relative z-50 user-dropdown-container">
+                             <button id="userDropdownToggle" class="flex items-center gap-3 focus:outline-none group">
+                                <!-- Avatar -->
+                                <div class="w-9 h-9 rounded-full bg-cyan-600 border border-white/20 flex items-center justify-center text-white font-bold text-sm shadow-sm ring-2 ring-transparent group-hover:ring-cyan-400/50 transition-all">
+                                    {{ request.user.username|make_list|first|upper }}
                                 </div>
-                             </div>
-                             <div class="my-2 border-t border-slate-200/60 mx-3"></div>
+                            </button>
 
-                             <!-- Footer Profile & Logout -->
-                             <div class="p-2 space-y-1">
-                                <a href="{% url 'user_profile' %}" class="flex items-center w-full gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-lg hover:text-slate-900 hover:bg-white transition-colors">
-                                    <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
-                                    Profile
-                                </a>
-                                <form method="post" action="{% url 'logout' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="flex items-center w-full gap-3 px-3 py-2.5 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors">
-                                        <i data-lucide="log-out" class="w-4 h-4"></i>
-                                        Sign Out
-                                    </button>
-                                </form>
+                             <!-- Dropdown Menu -->
+                            <div id="userDropdownMenu" class="absolute right-0 top-full mt-3 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 opacity-0 invisible scale-95 transition-all duration-200 transform origin-top-right overflow-hidden">
+                                <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                                    <p class="text-sm font-bold text-slate-800 truncate">{{ request.user.get_full_name|default:request.user.username }}</p>
+                                    <p class="text-xs text-slate-500 truncate">{{ request.user.email }}</p>
+                                </div>
+                                <div class="p-2">
+                                    <a href="{% url 'user_profile' %}" class="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-50 hover:text-cyan-700 transition-colors">
+                                        <i data-lucide="user" class="w-4 h-4"></i> Profile
+                                    </a>
+                                     <form method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors text-left">
+                                            <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {% else %}
-                        <!-- Guest Actions -->
-                        <div class="flex items-center gap-4">
-                            <a href="{% url 'login' %}" class="px-4 py-2 text-sm font-semibold text-white/90 hover:text-white transition-colors relative group">
-                                Log In
-                                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-                            </a>
-                            <a href="{% url 'register' %}" class="px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-300 hover:to-teal-400 rounded-full shadow-lg shadow-teal-500/20 hover:shadow-cyan-400/40 hover:-translate-y-0.5 transition-all duration-300 border border-white/10">
-                                Get Started
-                            </a>
-                        </div>
+                        <a href="{% url 'login' %}" class="text-sm font-semibold text-white/90 hover:text-white transition-colors">Log In</a>
+                        <a href="{% url 'plans' %}" class="px-5 py-2 text-sm font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 rounded-full shadow-lg shadow-cyan-500/20 transition-all hover:-translate-y-0.5">
+                            Get Started
+                        </a>
                     {% endif %}
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-white focus:outline-none p-1">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden hidden bg-slate-900 border-t border-slate-800 py-4 px-4 shadow-xl">
+                 <nav class="flex flex-col gap-4">
+                    <a href="{% url 'home' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">Home</a>
+                    <a href="{% url 'plans' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">Plans & Pricing</a>
+                    <a href="{% url 'about' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">About Us</a>
+                    <a href="{% url 'contact' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">Contact</a>
+                    
+                    {% if request.user.is_authenticated %}
+                         <a href="{% url 'user_profile' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800 flex items-center gap-2">
+                            <i data-lucide="user" class="w-4 h-4"></i> My Profile
+                        </a>
+                         <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full text-left text-red-400 hover:text-red-300 font-medium py-2 flex items-center gap-2">
+                                <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="flex flex-col gap-3 mt-2">
+                             <a href="{% url 'login' %}" class="text-slate-300 hover:text-white font-medium">Log In</a>
+                             <a href="{% url 'plans' %}" class="bg-cyan-500 text-white text-center py-2.5 rounded-lg font-bold shadow-lg">Get Started</a>
+                        </div>
+                    {% endif %}
+                </nav>
             </div>
         </header>
         {% endblock header %}
@@ -144,6 +159,16 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const dropdownToggle = document.getElementById('userDropdownToggle');
                 const dropdownMenu = document.getElementById('userDropdownMenu');
+
+                // Mobile Menu Logic
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                const mobileMenu = document.getElementById('mobileMenu');
+
+                if (mobileMenuBtn && mobileMenu) {
+                    mobileMenuBtn.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
                 
                 if(dropdownToggle && dropdownMenu) {
                     let isMenuOpen = false;

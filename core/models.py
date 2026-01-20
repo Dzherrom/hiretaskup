@@ -18,6 +18,8 @@ class CustomUser(AbstractUser):
     company_type = models.CharField(max_length=100, blank=True, null=True, help_text="Type of company/industry")
     va_tasks = models.TextField(blank=True, null=True, help_text="Tasks you want the VA to perform")
     time_zone = models.CharField(max_length=100, blank=True, null=True, help_text="Preferred Time Zone")
+    terms_accepted = models.BooleanField(default=False)
+    terms_accepted_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return self.first_name
@@ -31,6 +33,15 @@ class VirtualAssistant(models.Model):
 
     def __str__(self):
         return self.name
+
+class Plan(models.Model):
+    name = models.CharField(max_length=100)
+    price_cents = models.IntegerField(help_text="Price in cents (e.g., 500 for $5.00)")
+    stripe_price_id = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} - ${self.price_cents / 100}"
 
 #damn
 class Subscription(models.Model):

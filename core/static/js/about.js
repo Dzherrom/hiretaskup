@@ -15,17 +15,17 @@ const plansData = {
         iconName: "briefcase",
         description: "Streamline HR and finance operations with expert assistants for payroll, onboarding, and admin tasks.",
         plans: [
-            { title: "HR Assistant", desc: "Handles recruitment, onboarding, and HR documentation." },
-            { title: "Payroll Specialist", desc: "Manages payroll processing and compliance." }
+            { title: "HR Admin Assistant", desc: "Handles recruitment coordination, onboarding, and HR documentation." },
+            { title: "Payroll & Scheduling Support", desc: "Assists with payroll processing and compliance." }
         ]
     },
     sales: {
-        label: "Sales Development",
+        label: "Sales Support",
         iconName: "trending-up",
         description: "Boost your sales pipeline with assistants skilled in lead generation, outreach, and CRM management.",
         plans: [
-            { title: "Sales Development Rep", desc: "Generates leads and manages CRM updates." },
-            { title: "Account Executive", desc: "Supports your sales team with proposals and follow-ups." }
+            { title: "Sales Support Assistant", desc: "Generates leads and manages CRM updates." },
+            { title: "CRM & Follow-Up Assistant", desc: "Supports your sales team with proposals and follow-ups." }
         ]
     },
     marketing: {
@@ -33,8 +33,8 @@ const plansData = {
         iconName: "megaphone",
         description: "Drive marketing success with assistants who manage content creation, campaign execution, and performance analysis.",
         plans: [
-            { title: "Marketing Assistant", desc: "Assists with content creation, campaign execution, and analytics." },
-            { title: "Social Media Manager", desc: "Manages your brand’s social presence and engagement." }
+            { title: "Marketing Support Assistant", desc: "Assists with content creation, campaign execution, and analytics." },
+            { title: "Social Media Assistant", desc: "Manages your brand’s social presence and engagement." }
         ]
     },
     customer: {
@@ -51,16 +51,8 @@ const plansData = {
         iconName: "stethoscope",
         description: "Support your healthcare practice with assistants for appointment scheduling, billing, and patient follow-up.",
         plans: [
-            { title: "Healthcare Assistant", desc: "Helps with appointments, billing, and insurance filing." }
-        ]
-    },
-    software: {
-        label: "Software Developers",
-        iconName: "code-2",
-        description: "Accelerate your tech projects with skilled software developers for web, mobile, and backend solutions.",
-        plans: [
-            { title: "Web Developer", desc: "Builds and maintains your website or web app." },
-            { title: "Mobile App Developer", desc: "Creates mobile solutions for your business." }
+            { title: "Medical Admin Assistant", desc: "Helps with billing and insurance filing." },
+            { title: "Appointment Scheduling Assistant", desc: "Manages patient appointments, reminders, and follow-ups." }
         ]
     },
     industry: {
@@ -68,8 +60,8 @@ const plansData = {
         iconName: "building-2",
         description: "Find tailored solutions for your industry, from legal to logistics and everything in between.",
         plans: [
-            { title: "Legal Assistant", desc: "Supports legal professionals with research and documentation." },
-            { title: "Logistics Coordinator", desc: "Manages supply chain and logistics tasks." }
+            { title: "Legal Admin Support", desc: "Supports legal professionals with research and documentation." },
+            { title: "Logistics Support Assistant", desc: "Manages supply chain and logistics tasks." }
         ]
     },
     realestate: {
