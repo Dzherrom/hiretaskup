@@ -38,108 +38,98 @@
 
         {% block extra_css %}{% endblock extra_css %}
     </head>
-    <body class="bg-slate-50 min-h-screen flex flex-col">
+    <body class="min-h-screen flex flex-col">
         {% block header %}
-        <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
-            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-                
+        <header>
+            <div class="header-container">
                 <!-- Logo -->
                 <div class="logo">
                      <a href="{% url 'home' %}">
-                        <img src="{% static 'img/logo.png' %}" alt="TaskUp" class="h-10 hover:opacity-90 transition-opacity">
+                        <img src="{% static 'img/logo.png' %}" alt="TaskUp">
                     </a>
                 </div>
 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex gap-8">
-                    <a href="{% url 'home' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
-                        Home
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="{% url 'plans' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
-                        Plans & Pricing
-                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="{% url 'about' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
-                        About Us
-                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="{% url 'contact' %}" class="text-sm font-medium text-white/80 hover:text-white transition-colors relative group">
-                        Contact
-                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
-                    </a>
+                <!-- Nav -->
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'plans' %}">Plans & Pricing</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
                 </nav>
 
-                <!-- Desktop User Actions -->
-                <div class="hidden md:flex items-center gap-6">
+                <!-- Right Section -->
+                <div class="right-section desktop-only">
                     {% if request.user.is_authenticated %}
-                         <!-- User Profile Dropdown -->
-                        <div class="relative z-50 user-dropdown-container">
-                             <button id="userDropdownToggle" class="flex items-center gap-3 focus:outline-none group">
-                                <!-- Avatar -->
-                                <div class="w-9 h-9 rounded-full bg-cyan-600 border border-white/20 flex items-center justify-center text-white font-bold text-sm shadow-sm ring-2 ring-transparent group-hover:ring-cyan-400/50 transition-all">
+                         <div class="user-dropdown" style="position: relative;">
+                             <button id="userDropdownToggle" style="background: none; border: none; cursor: pointer;">
+                                <div style="width: 40px; height: 40px; background: #53b7b9; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 2px solid rgba(255,255,255,0.2);">
                                     {{ request.user.username|make_list|first|upper }}
                                 </div>
                             </button>
 
-                             <!-- Dropdown Menu -->
-                            <div id="userDropdownMenu" class="absolute right-0 top-full mt-3 w-64 bg-white rounded-xl shadow-2xl border border-slate-100 opacity-0 invisible scale-95 transition-all duration-200 transform origin-top-right overflow-hidden">
-                                <div class="p-4 border-b border-slate-100 bg-slate-50/50">
-                                    <p class="text-sm font-bold text-slate-800 truncate">{{ request.user.get_full_name|default:request.user.username }}</p>
-                                    <p class="text-xs text-slate-500 truncate">{{ request.user.email }}</p>
+                            <div id="userDropdownMenu" class="submenu" style="display: none; position: absolute; right: 0; top: 110%; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 220px; padding: 15px; z-index: 1000; overflow: hidden;">
+                                <div style="padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #f0f0f0;">
+                                    <p style="margin: 0; font-weight: 700; color: #333; font-size: 0.95rem;">{{ request.user.get_full_name|default:request.user.username }}</p>
+                                    <p style="margin: 0; font-size: 0.8rem; color: #888;">{{ request.user.email }}</p>
                                 </div>
-                                <div class="p-2">
-                                    <a href="{% url 'user_profile' %}" class="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 rounded-lg hover:bg-slate-50 hover:text-cyan-700 transition-colors">
-                                        <i data-lucide="user" class="w-4 h-4"></i> Profile
-                                    </a>
-                                     <form method="post" action="{% url 'logout' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors text-left">
-                                            <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
-                                        </button>
-                                    </form>
-                                </div>
+                                <a href="{% url 'user_profile' %}" style="display: flex; align-items: center; gap: 8px; padding: 10px; color: #555; text-decoration: none; border-radius: 8px; transition: background 0.2s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='transparent'">
+                                    <i data-lucide="user" style="width: 16px;"></i> Profile
+                                </a>
+                                 <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" style="width: 100%; text-align: left; background: none; border: none; padding: 10px; color: #e74c3c; cursor: pointer; display: flex; align-items: center; gap: 8px; border-radius: 8px; transition: background 0.2s;" onmouseover="this.style.background='#fff5f5'" onmouseout="this.style.background='transparent'">
+                                        <i data-lucide="log-out" style="width: 16px;"></i> Sign Out
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     {% else %}
-                        <a href="{% url 'login' %}" class="text-sm font-semibold text-white/90 hover:text-white transition-colors">Log In</a>
-                        <a href="{% url 'plans' %}" class="px-5 py-2 text-sm font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 rounded-full shadow-lg shadow-cyan-500/20 transition-all hover:-translate-y-0.5">
-                            Get Started
-                        </a>
+                        <a href="{% url 'login' %}" style="color: white; text-decoration: none; margin-right: 25px; font-weight: 600; font-size: 0.95rem;">Log In</a>
+                        <a href="{% url 'plans' %}" class="btn-header-pill">Get Started</a>
                     {% endif %}
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-white focus:outline-none p-1">
-                    <i data-lucide="menu" class="w-7 h-7"></i>
+                <!-- Mobile Toggle -->
+                <button id="mobileMenuToggle" class="mobile-toggle" style="display: none; background: none; border: none; color: white; cursor: pointer;">
+                    <i data-lucide="menu" width="32" height="32"></i>
                 </button>
             </div>
 
-            <!-- Mobile Menu -->
-            <div id="mobileMenu" class="md:hidden hidden bg-slate-900 border-t border-slate-800 py-4 px-4 shadow-xl">
-                 <nav class="flex flex-col gap-4">
-                    <a href="{% url 'home' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">Home</a>
-                    <a href="{% url 'plans' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">Plans & Pricing</a>
-                    <a href="{% url 'about' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">About Us</a>
-                    <a href="{% url 'contact' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800">Contact</a>
-                    
+            <!-- Mobile Menu Overlay -->
+            <div id="mobileMenuOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #15262c; z-index: 2000; padding: 20px; flex-direction: column;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                    <img src="{% static 'img/logo.png' %}" alt="TaskUp" style="height: 40px; filter: brightness(0) invert(1);">
+                    <button id="mobileMenuClose" style="background: none; border: none; color: white; cursor: pointer;">
+                         <i data-lucide="x" width="32" height="32"></i>
+                    </button>
+                </div>
+                
+                <nav style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+                    <a href="{% url 'home' %}" style="color: white; font-size: 1.2rem; font-weight: bold; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Home</a>
+                    <a href="{% url 'plans' %}" style="color: white; font-size: 1.2rem; font-weight: bold; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Plans & Pricing</a>
+                    <a href="{% url 'about' %}" style="color: white; font-size: 1.2rem; font-weight: bold; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">About Us</a>
+                    <a href="{% url 'contact' %}" style="color: white; font-size: 1.2rem; font-weight: bold; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Contact</a>
+                </nav>
+
+                <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;">
                     {% if request.user.is_authenticated %}
-                         <a href="{% url 'user_profile' %}" class="text-slate-300 hover:text-white font-medium py-2 border-b border-slate-800 flex items-center gap-2">
-                            <i data-lucide="user" class="w-4 h-4"></i> My Profile
+                        <a href="{% url 'user_profile' %}" style="display: flex; align-items: center; gap: 10px; color: white; text-decoration: none; font-size: 1.1rem; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
+                            <i data-lucide="user"></i> My Profile ({{ request.user.username }})
                         </a>
-                         <form method="post" action="{% url 'logout' %}">
+                        <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
-                            <button type="submit" class="w-full text-left text-red-400 hover:text-red-300 font-medium py-2 flex items-center gap-2">
-                                <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+                            <button type="submit" style="width: 100%; display: flex; align-items: center; gap: 10px; color: #ff6b6b; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: none; font-size: 1.1rem; cursor: pointer; text-align: left;">
+                                <i data-lucide="log-out"></i> Sign Out
                             </button>
                         </form>
                     {% else %}
-                        <div class="flex flex-col gap-3 mt-2">
-                             <a href="{% url 'login' %}" class="text-slate-300 hover:text-white font-medium">Log In</a>
-                             <a href="{% url 'plans' %}" class="bg-cyan-500 text-white text-center py-2.5 rounded-lg font-bold shadow-lg">Get Started</a>
-                        </div>
+                        <a href="{% url 'login' %}" style="text-align: center; color: white; text-decoration: none; font-weight: bold; padding: 12px; border: 2px solid white; border-radius: 50px;">Log In</a>
+                        <a href="{% url 'plans' %}" style="text-align: center; background: #53b7b9; color: white; text-decoration: none; font-weight: bold; padding: 14px; border-radius: 50px; text-transform: uppercase;">Get Started</a>
                     {% endif %}
-                </nav>
+                </div>
+            </div>
             </div>
         </header>
         {% endblock header %}
@@ -149,81 +139,10 @@
             {% endblock content %}
         </main>
 
+        <!-- Scripts -->
+        <script src="{% static 'js/dropdown.js' %}"></script>
         <script>
             // Initialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-            
-            // Enhanced Dropdown Interaction
-            document.addEventListener('DOMContentLoaded', () => {
-                const dropdownToggle = document.getElementById('userDropdownToggle');
-                const dropdownMenu = document.getElementById('userDropdownMenu');
-
-                // Mobile Menu Logic
-                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-                const mobileMenu = document.getElementById('mobileMenu');
-
-                if (mobileMenuBtn && mobileMenu) {
-                    mobileMenuBtn.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
-                }
-                
-                if(dropdownToggle && dropdownMenu) {
-                    let isMenuOpen = false;
-
-                    function openDropdown() {
-                        dropdownMenu.style.display = 'block';
-                        // Force reflow
-                        void dropdownMenu.offsetWidth;
-                        
-                        dropdownMenu.classList.remove('invisible', 'opacity-0', 'scale-95');
-                        dropdownMenu.classList.add('opacity-100', 'scale-100');
-                        isMenuOpen = true;
-                    }
-
-                    function closeDropdown() {
-                        dropdownMenu.classList.remove('opacity-100', 'scale-100');
-                        dropdownMenu.classList.add('opacity-0', 'scale-95');
-                        
-                        setTimeout(() => {
-                            if (!isMenuOpen) { // Check if it wasn't reopened
-                                dropdownMenu.classList.add('invisible');
-                                dropdownMenu.style.display = 'none';
-                            }
-                        }, 200); // Duration matches CSS duration-200
-                        isMenuOpen = false;
-                    }
-
-                    dropdownToggle.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (isMenuOpen) closeDropdown();
-                        else openDropdown();
-                    });
-
-                    // Close when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (isMenuOpen && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                            closeDropdown();
-                        }
-                    });
-
-                    // Close on Escape key
-                    document.addEventListener('keydown', (e) => {
-                        if (e.key === 'Escape' && isMenuOpen) {
-                            closeDropdown();
-                        }
-                    });
-                }
-            });
-        </script>
-        
-        <!-- Legacy scripts if needed, though we replaced dropdown.js logic above -->
-        <!-- <script src="{% static 'js/dropdown.js' %}"></script> -->
-
-        <script>
-            // Initialize Lucide Icons
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
@@ -235,7 +154,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
                     <div class="col-span-1 md:col-span-2">
                         <a href="#" class="block mb-6">
-                            <img src="{% static 'img/logo-footer2.png' %}" alt="TaskUp" class="h-8 opacity-80 grayscale hover:grayscale-0 transition-all">
+                            <img src="{% static 'img/logo-footer2.png' %}" alt="TaskUp" class="h-8 opacity-80 grayscale hover:grayscale-0 transition-all" style="height: 40px;">
                         </a>
                         <p class="text-slate-500 mb-2">The Right Hire. Right Now.</p>
                         <p class="text-sm text-slate-400">Virtual Assistants. Accounting Services. Marketing Assistants.</p>

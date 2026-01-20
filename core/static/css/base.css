@@ -1024,3 +1024,26 @@ body {
     font-size: 0.8rem;
     color: #546e7a;
 }
+
+/* Responsive Header */
+@media (max-width: 900px) {
+    /* Hide desktop elements */
+    header nav, 
+    .right-section.desktop-only {
+        display: none !important;
+    }
+
+    /* Show hamburger */
+    .mobile-toggle {
+        display: block !important;
+    }
+
+    /* Adjust header padding */
+    .header-container {
+        padding: 5px 20px;
+    }
+
+    .logo img {
+        width: 100px;
+    }
+}

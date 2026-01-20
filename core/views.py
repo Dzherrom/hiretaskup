@@ -261,12 +261,12 @@ def user_delete(request, id):
     return render(request, 'user/user_delete.html', {'user': user})
 
 ### ABOUT ###
-@login_required
+
 def about(request):
     return render(request, 'home/about.html', {'user_is_authenticated': request.user.is_authenticated})
 
 ### PLANS ###
-@login_required
+
 def plans(request):
     return render(request, 'plans/plans.html', {'user_is_authenticated': request.user.is_authenticated})
 
@@ -458,7 +458,7 @@ def onboarding_create_checkout(request):
     return redirect(checkout_session.url)
 
 ### CONTACT ###
-@login_required
+
 def contact(request):
     # RATE LIMITING: Check IP/Session cooldown (30 minutes)
     # Using session based limiting for simplicity as IP might be shared or behind proxy headers mess
