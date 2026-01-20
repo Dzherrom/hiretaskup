@@ -1025,8 +1025,13 @@ body {
     color: #546e7a;
 }
 
+/* Base styles for Mobile Overlay (Hidden by default on Desktop) */
+#mobileMenuOverlay {
+    display: none;
+}
+
 /* Responsive Header */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     /* Hide desktop elements */
     header nav, 
     .right-section.desktop-only {
@@ -1045,5 +1050,77 @@ body {
 
     .logo img {
         width: 100px;
+    }
+
+    /* Mobile Menu Overlay Styles */
+    #mobileMenuOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #15262c;
+        z-index: 2000;
+        padding: 20px 20px 40px 20px;
+        /* Re-enable display for mobile */
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        
+        /* Animation: Slide/Fade In */
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden; /* Ensure it doesn't block clicks when closed */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s;
+    }
+
+    #mobileMenuOverlay.open {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Mobile Nav Links - Exact match to desktop styles */
+    .mobile-nav-link {
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+        padding: 15px 0; /* Keep touch target size */
+        display: block;
+    }
+
+    .mobile-nav-link:hover {
+        color: #53b7b9;
+        /* No padding shift, just color change like desktop */
+    }
+
+    /* Footer Responsive Fixes */
+    footer .grid,
+    .footer-content .grid {
+        display: flex !important;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    footer .col-span-1, 
+    footer .col-span-2,
+    footer .grid > div {
+        width: 100% !important;
+        text-align: center;
+    }
+
+    footer, .bg-white.border-t {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+    
+    footer .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
 }

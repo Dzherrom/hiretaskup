@@ -15,18 +15,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileOverlay = document.getElementById('mobileMenuOverlay');
     const mobileClose = document.getElementById('mobileMenuClose');
 
+    const closeMenu = () => {
+        if (mobileOverlay) {
+            mobileOverlay.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+    };
+
     if (mobileToggle && mobileOverlay && mobileClose) {
         mobileToggle.addEventListener('click', () => {
-            mobileOverlay.style.display = 'flex';
+            // Add class instead of setting style to trigger CSS transition
+            mobileOverlay.classList.add('open'); 
             document.body.style.overflow = 'hidden'; // Prevent scrolling
             if (window.lucide) {
                 lucide.createIcons(); // Re-render icons if needed
             }
         });
 
-        mobileClose.addEventListener('click', () => {
-            mobileOverlay.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restore scrolling
+        mobileClose.addEventListener('click', closeMenu);
+
+        // Close menu if window is resized larger than 1000px
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1000) {
+                closeMenu();
+            }
         });
     }
 });
