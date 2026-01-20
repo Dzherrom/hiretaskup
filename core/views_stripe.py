@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from .models import Subscription, CustomUser
-from .utils import send_invoice_email # Import email utility
+from .utils import send_invoice_email, send_welcome_email # Import email utility
 import stripe
 import json
 
@@ -121,12 +121,13 @@ def stripe_webhook(request):
                         sub.start_date = timezone.now().date()
                         sub.save()
                     
-                    # --- POST-SALE: SEND INVOICE EMAIL ---
+                    # --- POST-SALE: SEND INVOICE EMAIL & WELCOME EMAIL ---
                     try:
                         amount_cents = session.get('amount_total', 0)
                         send_invoice_email(user, sub, plan_name, amount_cents)
+                        send_welcome_email(user.email, user.first_name)
                     except Exception as e:
-                        print(f"Failed to send invoice: {e}")
+                        print(f"Failed to send email: {e}")
 
         elif event_type == "setup_intent.created":
             # Example logic for setup_intent (from your Format 1 example)

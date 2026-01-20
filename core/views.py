@@ -3,6 +3,7 @@ from django.urls import reverse
 import requests
 import json
 import base64
+from .utils import send_welcome_email
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, PasswordResetRequestForm, PasswordResetVerifyForm, ContactForm
@@ -739,6 +740,7 @@ def paypal_return(request):
              if sub:
                  sub.active = True
                  sub.save()
+                 send_welcome_email(request.user.email, request.user.first_name)
              return redirect('payment_success')
         else:
              # Handle error or incomplete
@@ -789,6 +791,7 @@ def capture_paypal_order(request):
              sub = Subscription.objects.filter(user=request.user, active=False).last()
              if sub:
                  sub.active = True
+                 send_welcome_email(request.user.email, request.user.first_name)
                  sub.save()
                  
              return JsonResponse({'status': 'COMPLETED'})
