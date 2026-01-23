@@ -293,6 +293,12 @@ def accept_terms(request):
 
     return render(request, 'onboarding/accept_terms.html')
 
+def view_terms(request):
+    """
+    Allows users to view terms without acceptance logic.
+    """
+    return render(request, 'legal/view_terms.html')
+
 @login_required
 @require_http_methods(["GET"])
 def onboarding_checkout(request):

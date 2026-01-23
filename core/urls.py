@@ -8,6 +8,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('plans/', views.plans, name='plans'),
     path('legal/accept-terms/', views.accept_terms, name='accept_terms'),
+    path('legal/terms/', views.view_terms, name='view_terms'),
     path('onboarding/checkout/', views.onboarding_checkout, name='onboarding_checkout'),
     path('onboarding/create-checkout/', views.onboarding_create_checkout, name='onboarding_create_checkout'),
     path('paypal/create-order/', views.create_paypal_order, name='create_paypal_order'),
