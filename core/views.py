@@ -268,7 +268,19 @@ def about(request):
 ### PLANS ###
 
 def plans(request):
-    return render(request, 'plans/plans.html', {'user_is_authenticated': request.user.is_authenticated})
+    try:
+        full_time = Plan.objects.get(name="Full-Time Assistant")
+        part_time = Plan.objects.get(name="Part-Time Assistant")
+    except Plan.DoesNotExist:
+        full_time = None
+        part_time = None
+
+    return render(request, 'plans/plans.html', {
+        'user_is_authenticated': request.user.is_authenticated,
+        'full_time_plan': full_time,
+        'part_time_plan': part_time
+    })
+
 
 ## TERMS OF SERVICE ##
 @login_required
@@ -358,29 +370,42 @@ def onboarding_checkout(request):
 @require_http_methods(["POST"])
 @csrf_protect
 def onboarding_create_checkout(request):
-    # --- SECURITY: PLAN LIMIT CHECK ---
-    active_subs = Subscription.objects.filter(user=request.user, active=True).count()
-    if active_subs >= 3:
-         return render(request, 'onboarding/checkout.html', {
-             'error': "You cannot have more than 3 active plans. Please contact support or cancel an existing plan.",
-             'prefill': {}, # You might want to pass existing data back
-             'plan_name': 'Error' 
-         })
-
-    # --- SECURITY: DATA INTEGRITY ---
-    # Retrieve Plan ID from hidden field. DO NOT TRUST amount/name from POST.
+    # --- PREPARE DATA FOR POTENTIAL RE-RENDER ---
     plan_id = request.POST.get('plan_id')
-    plan = get_object_or_404(Plan, id=plan_id)
-    
-    # Use REAL price from DB
-    price_cents = plan.price_cents
-    plan_name = plan.name
-    
+    try:
+        plan = Plan.objects.get(id=plan_id)
+        plan_name = plan.name
+        price_cents = plan.price_cents
+    except Exception:
+        plan = None
+        plan_name = "Unknown Plan"
+        price_cents = 0
+
     try:
         qty = int(request.POST.get('quantity', '1'))
     except ValueError:
         qty = 1
     qty = max(1, qty)
+
+    # --- SECURITY: PLAN LIMIT CHECK ---
+    active_subs = Subscription.objects.filter(user=request.user, active=True).count()
+    if active_subs >= 3:
+         return render(request, 'onboarding/checkout.html', {
+             'error': "You cannot have more than 3 active plans. Please contact support or cancel an existing plan.",
+             'prefill': request.POST, 
+             'plan': plan,
+             'plan_name': plan_name,
+             'amount_cents': price_cents,
+             'amount_dollars': price_cents / 100 if price_cents else 0,
+             'qty': qty,
+             'paypal_client_id': settings.PAYPAL_CLIENT_ID
+         })
+
+    # --- SECURITY: DATA INTEGRITY ---
+    # Use REAL price from DB already fetched
+    if not plan:
+        return redirect('plans')
+
 
     # Collect other form data
     full_name = request.POST.get('full_name', '')
