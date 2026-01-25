@@ -53,98 +53,47 @@ def payment_cancel(request):
 
 
 @csrf_exempt
+@require_POST
 def stripe_webhook(request):
-    # Verify webhook signature if provided
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
     payload = request.body
-    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
-    webhook_secret = settings.STRIPE_WEBHOOK_SECRET
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None
 
     try:
-        # Standard signature verification works for both formats if the secret is correct.
-        # However, if using "Thin Events" (Format 2) without signature verification
-        # or if the signature fails unexpectedly, we might fall back or log it.
-        if webhook_secret and sig_header:
-            try:
-                event = stripe.Webhook.construct_event(
-                    payload, sig_header, webhook_secret
-                )
-            except ValueError:
-                return HttpResponse("Invalid payload", status=400)
-            except stripe.error.SignatureVerificationError:
-                return HttpResponse("Invalid signature", status=400)
-        else:
-            # Fallback for testing without validation/headers
-            event = json.loads(payload)
-    except Exception as e:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
         return HttpResponse(status=400)
 
-    # --- HANDLING DUAL FORMATS ---
-
-    # FORMAT 1: Classic ("object": "event")
-    if event.get("object") == "event":
-        event_type = event.get("type")
+    # Handle the event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        # TODO: Obtener el client_reference_id o email, buscar al usuario y activar su suscripción inicial
         
-        if event_type == "checkout.session.completed":
-            session = event.get("data", {}).get("object", {})
-            metadata = session.get("metadata", {}) or {}
-            user_id = metadata.get("user_id")
-            plan_name = metadata.get("plan_name", "Selected Plan")
-            
-            if user_id:
-                try:
-                    user = CustomUser.objects.get(id=int(user_id))
-                except Exception:
-                    pass # User not found, ignore
-                else:
-                    # Logic to activate subscription
-                    # 1. Try to find the pending subscription created in checkout view
-                    # 2. If not found, create one
-                    
-                    sub = Subscription.objects.filter(
-                        user=user, 
-                        plan_name=plan_name, 
-                        active=False
-                    ).first()
-                    
-                    if not sub:
-                        # Fallback: Create new active subscription
-                        sub = Subscription.objects.create(
-                            user=user,
-                            plan_name=plan_name,
-                            active=True,
-                            start_date=timezone.now().date()
-                        )
-                    else:
-                        # Activate existing pending subscription
-                        sub.active = True
-                        sub.start_date = timezone.now().date()
-                        sub.save()
-                    
-                    # --- POST-SALE: SEND INVOICE EMAIL & WELCOME EMAIL ---
-                    try:
-                        amount_cents = session.get('amount_total', 0)
-                        send_invoice_email(user, sub, plan_name, amount_cents)
-                        send_welcome_email(user.email, user.first_name)
-                    except Exception as e:
-                        print(f"Failed to send email: {e}")
-
-        elif event_type == "setup_intent.created":
-            # Example logic for setup_intent (from your Format 1 example)
-            # setup_intent = event.get("data", {}).get("object", {})
-            pass 
-
-    # FORMAT 2: V2 / Thin Events ("object": "v2.core.event")
-    elif event.get("object") == "v2.core.event":
-        event_type = event.get("type")
+    elif event['type'] == 'invoice.paid':
+        invoice = event['data']['object']
+        # TODO: Extender la fecha de validez de la suscripción del usuario
         
-        # Example logic: v1.billing.meter.error_report_triggered
-        if event_type == "v1.billing.meter.error_report_triggered":
-            related_object = event.get("related_object", {})
-            meter_id = related_object.get("id")
-            # Log error or notify admin about meter issue
-            print(f"Meter Error Triggered for ID: {meter_id}")
-            
-        # Add other V2 handlers here...
+    elif event['type'] == 'invoice.payment_failed':
+        invoice = event['data']['object']
+        # TODO: Notificar al usuario o marcar su cuenta como "pago pendiente"
+        
+    elif event['type'] == 'customer.subscription.updated':
+        subscription = event['data']['object']
+        # TODO: Actualizar base de datos si hubo cambio de plan o cancelación programada
+        
+    elif event['type'] == 'customer.subscription.deleted':
+        subscription = event['data']['object']
+        # TODO: Revocar acceso premium inmediatamente
+        
+    else:
+        print('Unhandled event type {}'.format(event['type']))
 
     return HttpResponse(status=200)
