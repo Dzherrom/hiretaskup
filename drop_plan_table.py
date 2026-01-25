@@ -6,5 +6,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hiretaskup.settings')
 django.setup()
 
 with connection.cursor() as cursor:
-    cursor.execute("DROP TABLE IF EXISTS core_plan CASCADE")
+    cursor.execute("DROP TABLE IF EXISTS core_plan")
     print("Table core_plan dropped.")
